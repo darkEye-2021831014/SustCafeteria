@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "daisyui";
 @theme {
   --font-tourney: "Tourney", sans-serif;
 }
