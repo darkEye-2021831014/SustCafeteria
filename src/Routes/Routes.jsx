@@ -13,7 +13,7 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element:<PrivateRoute><Home></Home></PrivateRoute> ,
+        element:<Home></Home> ,
       },
       {
         path:'/register',

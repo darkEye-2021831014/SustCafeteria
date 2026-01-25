@@ -1,7 +1,7 @@
 import React from 'react'
 import PillList from './PillList';
 import AuthPill from './AuthPill';
-import sustLogo from '../../assets/sustLogo.png'
+import sustLogo from '../../assets/sustlogo.png'
 
 const NavBar = ({ active = "Home", isAdmin = false, signedIn = true }) => {
 
@@ -10,12 +10,12 @@ const NavBar = ({ active = "Home", isAdmin = false, signedIn = true }) => {
         ["Home", "Menu", "Inventory", "Attendance", "Supplier"];
 
     return (
-        <div className='flex bg-[#E8B5BA] h-20 w-full
+        <div className='flex bg-[#f38e99] h-20 w-full
         items-center justify-between px-5 py-3'>
 
             <div className='flex items-center gap-4'>
                 <img src={sustLogo} alt="sustLogo"
-                    className='w-auto h-14' />
+                    className='w-auto h-14 rounded-[5px]' />
                 <div className='font-tourney text-[30px]'>Sust Cafeteria</div>
             </div>
 
