@@ -1,7 +1,8 @@
 import React from 'react'
 
-const HeaderPill = ({ name, isActive = false }) => {
+const HeaderPill = ({ name, isActive}) => {
     const bg = isActive ? "bg-white rounded-lg" : "bg-none";
+    console.log(isActive);
 
     return (
         <div className={`flex font-semibold text-[20px] w-auto h-auto ${bg} 

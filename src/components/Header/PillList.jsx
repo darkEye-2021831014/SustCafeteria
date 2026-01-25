@@ -2,7 +2,7 @@ import React from 'react'
 import HeaderPill from './HeaderPill'
 
 const PillList = ({ headerPillList, active }) => {
-
+    console.log("Active Pill:", active);
     const TabButtons = headerPillList.map((pill) => {
         return <HeaderPill key={pill} name={pill} isActive={pill === active} />
     });

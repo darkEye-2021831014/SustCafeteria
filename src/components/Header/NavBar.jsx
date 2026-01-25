@@ -3,7 +3,7 @@ import PillList from './PillList';
 import AuthPill from './AuthPill';
 import sustLogo from '../../assets/sustLogo.png'
 
-const NavBar = ({ active = "Home", isAdmin = false, signedIn = true }) => {
+const NavBar = ({ active = "Attendance", isAdmin = false, signedIn = true }) => {
 
     const headerPillList = isAdmin ?
         ["Home", "Menu", "Inventory", "Staff", "Supplier", "Report"] :
@@ -20,7 +20,7 @@ const NavBar = ({ active = "Home", isAdmin = false, signedIn = true }) => {
             </div>
 
             <div className='flex gap-12'>
-                <PillList headerPillList={headerPillList} active={active} />
+                <PillList headerPillList={headerPillList} active="Attendance" />
                 <AuthPill signedIn={signedIn} isActive={active === "Profile"} />
             </div>
         </div>
