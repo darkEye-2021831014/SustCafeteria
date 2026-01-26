@@ -11,7 +11,7 @@ const NavBar = ({ active = "Home", isAdmin = false, signedIn = true }) => {
 
     return (
         <div className='flex bg-[#E8B5BA] h-20 w-full
-        items-center justify-between px-5 py-3'>
+        items-center justify-between px-5 py-3 border-b-1 border-[#fa4a5c]'>
 
             <div className='flex items-center gap-4'>
                 <img src={sustLogo} alt="sustLogo"
