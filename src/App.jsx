@@ -1,12 +1,8 @@
-import NavBar from "./components/Header/NavBar"
+import NavBar from "./components/Header/NavBar";
 import SubNavBar from "./components/SubHeader/SubNavBar";
+import Menu from "./Pages/MenuPage/Menu";
 function App() {
-  return (
-    <>
-      <NavBar active="Inventory" />
-      <SubNavBar active="Breakfast" />
-    </>
-  );
+  return <Menu />;
 }
 
 export default App;
