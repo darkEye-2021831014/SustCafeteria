@@ -1,7 +1,10 @@
 import PlainRice from "../../assets/MenuItemImages/PlainRice.webp";
 import MenuItem from "./MenuItem";
+import { useOrderContext } from "../../contexts/OrderContext/OrderContext";
 
-const MenuItemList = ({ onClick }) => {
+const MenuItemList = () => {
+  const { addItem } = useOrderContext();
+
   let menuItemList = [];
   for (let i = 0; i < 3; i++) {
     let curItem = [];
@@ -9,7 +12,7 @@ const MenuItemList = ({ onClick }) => {
       curItem.push({
         id: j + 5 * i,
         name: "সাদা ভাত",
-        price: "২০.০০",
+        price: 20,
         image: PlainRice,
       });
     }
@@ -27,7 +30,7 @@ const MenuItemList = ({ onClick }) => {
           name={name}
           price={price}
           image={image}
-          handleClick={() => onClick({ id, name, price, image })}
+          handleClick={() => addItem({ id, name, price, image })}
         />
       ))}
     </div>

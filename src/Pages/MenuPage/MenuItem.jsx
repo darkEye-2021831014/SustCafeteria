@@ -1,6 +1,6 @@
 const MenuItem = ({ name, price, image, className = "", handleClick }) => {
   // const [price,setPrice] = useState(0);
-  const itemPrice = Number.isInteger(price) ? `${price}.০০` : price;
+  const itemPrice = Number.isInteger(price) ? `${price}.00` : price;
   // console.log(name);
   return (
     <div
