@@ -4,7 +4,7 @@ import AuthPill from "./AuthPill";
 import sustLogo from "../../assets/sustLogo.png";
 
 const NavBar = ({
-  active = "Home",
+  active = "Supplier",
   isAdmin = false,
   signedIn = true,
   className,
