@@ -1,10 +1,15 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { SupplierContext } from "../../contexts/SupplierContext/SupplierContext";
 import Card from "../../components/Table/Card";
 import TableHeader from "../../components/Table/TableHeader";
 import Table from "../../components/Table/Table";
 import TextIconButton from "../../components/Button/TextIconButton";
+import PurchaseItemModal from "./PurchaseItemModal";
+import Modal from "../../components/Modal/Modal";
+import FooterRow from "./FooterRow";
 const Supplier = () => {
+  const [isPurchaseModalOpen, setIsPurchaseModalOpen] = useState(false);
+
   const {
     activeType,
     setActiveType,
@@ -76,7 +81,7 @@ const Supplier = () => {
   };
 
   return (
-    <div className="px-15 py-5">
+    <div className="px-15 py-5 max-h-[90vh] overflow-y-auto">
       <div className="grid grid-cols-3 gap-40 mb-8 mt-8">
         {summary.map((item, index) => (
           <Card
@@ -101,31 +106,27 @@ const Supplier = () => {
           }}
           footerRow={
             activeType === "PENDING" && (
-              <tr className="bg-[#E8B5BA]/35 font-semibold">
-                <td
-                  colSpan={4}
-                  className="border border-gray-400 px-4 py-3 text-center"
-                >
-                  মোট খরচ (টাকা) :
-                </td>
-                <td
-                  colSpan={3}
-                  className="border border-gray-400 px-4 py-3 text-center font-bold"
-                >
-                  {getTableData().reduce((total, item) => total + item.cost, 0)}
-                </td>
-              </tr>
+              <FooterRow activeType={activeType} tableData={getTableData()} />
             )
           }
+          viewType={activeType}
         />
         {activeType === "CRITICAL" && (
           <div className="flex justify-end mt-5">
             <TextIconButton
               text="Create Purchase Order"
               className="px-6 py-4 bg-[#F54758]/70 text-black rounded-full font-bold text-xl"
+              onClick={() => setIsPurchaseModalOpen(true)}
             />
           </div>
         )}
+        
+        <Modal
+          isOpen={isPurchaseModalOpen}
+          onClose={() => setIsPurchaseModalOpen(false)}
+        >
+          <PurchaseItemModal onClose={() => setIsPurchaseModalOpen(false)} />
+        </Modal>
       </div>
     </div>
   );

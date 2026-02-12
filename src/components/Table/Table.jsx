@@ -1,8 +1,8 @@
 import React from "react";
 import TableRow from "./TableRow";
-const Table = ({ items, columns, tHeaders, statusStyle, footerRow }) => {
+const Table = ({ items, columns, tHeaders, statusStyle, isPurchaseModalOpen, footerRow, viewType }) => {
   return (
-    <table className="w-full border border-gray-500  table-fixed mt-8">
+    <table className="w-full  table-fixed border-gray-500 mt-8">
       <thead className="bg-[#E8B5BA]/35">
         <tr>
           {tHeaders.map((header, index) => (
@@ -19,6 +19,8 @@ const Table = ({ items, columns, tHeaders, statusStyle, footerRow }) => {
             item={item}
             columns={columns}
             statusStyle={statusStyle}
+            isPurchaseModalOpen={isPurchaseModalOpen}
+            viewType={viewType}
           />
         ))}
       </tbody>
