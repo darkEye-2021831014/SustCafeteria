@@ -1,7 +1,7 @@
+import React from 'react';
 import { format } from "date-fns";
-
-const AttendancePageHeader = ({ title }) => {
-  return (
+const PageHeader = ({ title }) => {
+    return (
     <div className="flex justify-between mb-6">
       <h1 className="text-[36px] font-semibold text-[#F54758]">
         {title}
@@ -14,4 +14,4 @@ const AttendancePageHeader = ({ title }) => {
   );
 };
 
-export default AttendancePageHeader;
+export default PageHeader;

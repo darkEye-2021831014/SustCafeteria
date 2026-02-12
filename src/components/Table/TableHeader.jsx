@@ -1,6 +1,8 @@
-const AttendanceTableHeader = ({ title, reportingTime }) => {
-  return (
-    <div className="flex justify-between mb-4">
+import React from 'react';
+
+const TableHeader = ({ title, reportingTime }) => {
+    return (
+        <div className="flex justify-between mb-4">
       <h2 className="text-[32px] text-[#F54758]">
         {title}
       </h2>
@@ -9,7 +11,7 @@ const AttendanceTableHeader = ({ title, reportingTime }) => {
         Reporting Time: {reportingTime}
       </p>
     </div>
-  );
+    );
 };
 
-export default AttendanceTableHeader;
+export default TableHeader;
