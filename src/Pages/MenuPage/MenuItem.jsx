@@ -1,10 +1,9 @@
 const MenuItem = ({ name, price, image, className = "", handleClick }) => {
-  // const [price,setPrice] = useState(0);
   const itemPrice = Number.isInteger(price) ? `${price}.00` : price;
-  // console.log(name);
   return (
     <div
-      className={`flex rounded-lg bg-white px-5 py-2.5 w-fit h-fit flex-col gap-1.25 leading-none shadow-md ${className}`}
+      className={`flex rounded-lg bg-white px-5 py-2.5 w-fit h-fit flex-col gap-1.25 leading-none shadow-md ${className} cursor-pointer 
+      hover:outline-2 hover:outline-cyan-500 hover:-outline-offset-2 hover:transition-outline hover:duration-100 hover:shadow-2xl`}
       onClick={handleClick}
     >
       <div className="flex flex-col w-full h-fit items-end">

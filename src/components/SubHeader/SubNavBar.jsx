@@ -5,9 +5,17 @@ const SubNavBar = ({
   pillList = ["All", "Breakfast", "Lunch", "Miscellaneous"],
   active = "All",
   className = "",
+  onTabClick = () => {},
 }) => {
   const subTabs = pillList.map((pill) => {
-    return <Pill key={pill} name={pill} isActive={active === pill} />;
+    return (
+      <Pill
+        key={pill}
+        name={pill}
+        isActive={active === pill}
+        onClick={() => onTabClick(pill)}
+      />
+    );
   });
   return (
     <div
