@@ -3,6 +3,7 @@ import React from "react";
 const TextIconButton = ({
   text = null,
   icon = null,
+  iconRight = null,
   className = "",
   onClick = null,
 }) => {
@@ -14,6 +15,7 @@ const TextIconButton = ({
     >
       {icon != null && icon}
       {text != null && <span>{text}</span>}
+      {iconRight != null && iconRight}
     </button>
   );
 };
