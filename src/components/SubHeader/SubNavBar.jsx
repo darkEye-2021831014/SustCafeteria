@@ -8,8 +8,14 @@ const SubNavBar = ({
   onTabClick = () => {},
 }) => {
   const subTabs = pillList.map((pill) => {
-    return <Pill key={pill} name={pill} isActive={active === pill}
-        onClick={() => onTabClick(pill)} />;
+    return (
+      <Pill
+        key={pill}
+        name={pill}
+        isActive={active === pill}
+        onClick={() => onTabClick(pill)}
+      />
+    );
   });
   return (
     <div
