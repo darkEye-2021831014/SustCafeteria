@@ -1,32 +1,34 @@
-import React from 'react'
-import PillList from './PillList';
-import AuthPill from './AuthPill';
-import sustLogo from '../../assets/sustLogo.png'
+import React from "react";
+import PillList from "./PillList";
+import AuthPill from "./AuthPill";
+import sustLogo from "../../assets/sustLogo.png";
 
-const NavBar = ({ active = "Home", isAdmin = false, signedIn = true }) => {
+const NavBar = ({
+  active = "Supplier",
+  isAdmin = false,
+  signedIn = true,
+  className,
+}) => {
+  const headerPillList = isAdmin
+    ? ["Home", "Menu", "Inventory", "Staff", "Supplier", "Report"]
+    : ["Home", "Menu", "Inventory", "Attendance", "Supplier"];
 
-    const headerPillList = isAdmin ?
-        ["Home", "Menu", "Inventory", "Staff", "Supplier", "Report"] :
-        ["Home", "Menu", "Inventory", "Attendance", "Supplier"];
+  return (
+    <div
+      className={`flex bg-[#E8B5BA] border border-[#F54758] h-20 w-full
+        items-center justify-between px-5 py-3 ${className}`}
+    >
+      <div className="flex items-center gap-4">
+        <img src={sustLogo} alt="sustLogo" className="w-auto h-14" />
+        <div className="font-tourney text-[30px]">Sust Cafeteria</div>
+      </div>
 
-    return (
-        <div className='flex bg-[#E8B5BA] h-20 w-full
-        items-center justify-between px-5 py-3 border-b-1 border-[#fa4a5c]'>
+      <div className="flex gap-12">
+        <PillList headerPillList={headerPillList} active={active} />
+        <AuthPill signedIn={signedIn} isActive={active === "Profile"} />
+      </div>
+    </div>
+  );
+};
 
-            <div className='flex items-center gap-4'>
-                <img src={sustLogo} alt="sustLogo"
-                    className='w-auto h-14' />
-                <div className='font-tourney text-[30px]'>Sust Cafeteria</div>
-            </div>
-
-            <div className='flex gap-12'>
-                <PillList headerPillList={headerPillList} active={active} />
-                <AuthPill signedIn={signedIn} isActive={active === "Profile"} />
-            </div>
-        </div>
-
-    )
-
-}
-
-export default NavBar
+export default NavBar;
