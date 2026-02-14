@@ -1,41 +1,29 @@
-import React, { useContext } from "react";
-import { SupplierContext } from "../../contexts/SupplierContext/SupplierContext";
-import { FaCheck } from "react-icons/fa6";
-import { CiCirclePlus } from "react-icons/ci";
-import { FaPlusCircle } from "react-icons/fa";
-import { RiArrowDropDownLine } from "react-icons/ri";
-import { MdDelete } from "react-icons/md";
-import ActionCell from "./ActionCell";
-import DataCell from "./DataCell";
-const TableRow = ({ item, columns, statusStyle, viewType }) => {
+const TableRow = ({ item, columns, statusStyle, viewType, columnOverrides }) => {
   return (
     <tr className="border-b text-center hover:bg-[#F54758]/5">
       {columns.map((col, index) => {
-        if (col.key === "action") {
+        const override = columnOverrides?.[col.key];
+        if (col.render) {
           return (
             <td key={index} className="border border-gray-400 px-4 py-3">
-              <ActionCell viewType={viewType} />
+              {col.render(item, viewType, override)}
             </td>
           );
         }
-        if (col.key === "supplier") {
-          return (
-            <td key={index} className="border border-gray-400 px-4 py-3">
-              <div className="w-full flex items-center justify-center text-[#FF8D28] font-semibold">
-                {item[col.key]}
-                <RiArrowDropDownLine className="text-4xl cursor-pointer" />
-              </div>
-            </td>
-          );
-        }
+
+        // const cellClass = col.dynamicClass ? col.dynamicClass(item) : "";
+        const cellClass =
+          col.dynamicClass
+            ? col.dynamicClass(item)
+            : col.className || "";
+
         return (
-          <td key={index} className="border border-gray-400 px-4 py-3">
-            <DataCell value={item[col.key]} statusStyle={statusStyle} />
+          <td key={index} className={`border border-gray-400 px-4 py-3 ${cellClass}`}>
+            {item[col.key]}
           </td>
         );
       })}
     </tr>
   );
 };
-
 export default TableRow;

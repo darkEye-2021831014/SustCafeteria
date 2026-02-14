@@ -3,12 +3,14 @@ const TextIconButton = ({
   text = null,
   icon = null,
   className,
-  onClick = null,
+  type,
+  onClick,
 }) => {
   return (
     <button
       className={`flex gap-1 justify-between px-5 py-2.5 ${className} items-center font-bold
       hover:cursor-pointer transition-colors duration-200`}
+      type={type}
       onClick={onClick}
     >
       {icon != null && icon}

@@ -1,6 +1,7 @@
 import React from 'react';
 
 const Card = ({ title, value, active, onClick }) => {
+  console.log(title, value, active);
     return (
         <div
       onClick={onClick}

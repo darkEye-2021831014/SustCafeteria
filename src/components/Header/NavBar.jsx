@@ -15,7 +15,7 @@ const NavBar = ({
 
   return (
     <div
-      className={`flex bg-[#E8B5BA] h-20 w-full
+      className={`flex bg-[#E8B5BA] border border-[#F54758] h-20 w-full
         items-center justify-between px-5 py-3 ${className}`}
     >
       <div className="flex items-center gap-4">

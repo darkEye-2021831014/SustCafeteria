@@ -5,13 +5,15 @@ const SubNavBar = ({
   pillList = ["All", "Breakfast", "Lunch", "Miscellaneous"],
   active = "All",
   className = "",
+  onTabClick = () => {},
 }) => {
   const subTabs = pillList.map((pill) => {
-    return <Pill key={pill} name={pill} isActive={active === pill} />;
+    return <Pill key={pill} name={pill} isActive={active === pill}
+        onClick={() => onTabClick(pill)} />;
   });
   return (
     <div
-      className={`flex bg-[#E8B5BA]/50  h-14 w-full items-center justify-start gap-10 px-5 py-3 ${className}`}
+      className={`flex bg-[#E8B5BA]/50 border-b border-[#34C759] h-14 w-full items-center justify-start gap-10 px-5 py-3 ${className}`}
     >
       {subTabs}
     </div>
