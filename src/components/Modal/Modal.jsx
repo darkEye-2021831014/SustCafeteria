@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const ModalWrapper = ({ isOpen, onClose, children,className }) => {
+const ModalWrapper = ({ isOpen, onClose, children, className }) => {
   const [showModal, setShowModal] = useState(false);
   useEffect(() => {
     if (isOpen) {

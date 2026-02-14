@@ -25,8 +25,6 @@ const Supplier = () => {
     isAdmin,
     summaryCards,
   } = useContext(SupplierContext);
-  console.log(summaryCards);
-
   const dataMap = {
     suppliersData,
     pendingOrdersData,
@@ -36,8 +34,10 @@ const Supplier = () => {
   const tableData = dataMap[TABLE_CONFIG[activeType]?.dataKey] || [];
 
   const columns = resolveColumns(activeType, {
-    exclude: isAdmin ? [] : ["maxDue"],
+    exclude: !isAdmin ? [] : ["maxDue"],
   });
+
+  console.log("Columns", columns);
   const tableTitle = TABLE_CONFIG[activeType]?.title;
 
   const actionColumnConfig = TABLE_CONFIG[activeType]?.actionColumnConfig || {

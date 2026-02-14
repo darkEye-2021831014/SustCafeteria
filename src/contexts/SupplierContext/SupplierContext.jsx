@@ -4,7 +4,7 @@ export const SupplierContext = createContext();
 
 const SupplierProvider = ({ children }) => {
   const [activeType, setActiveType] = useState("SUPPLIER");
-  const [isAdmin] = useState(true);
+  const [isAdmin] = useState(false);
 
   const [suppliersData, setSuppliersData] = useState(() => {
     const stored = localStorage.getItem("suppliersData");
@@ -37,7 +37,6 @@ const SupplierProvider = ({ children }) => {
       status: "Pending",
       action: "Mark Delivered",
     },
-    // ... baki data
   ]);
 
   // Critical stock
