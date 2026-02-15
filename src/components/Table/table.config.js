@@ -18,7 +18,7 @@ export const TABLE_CONFIG = {
         icon: React.createElement(FaCheck),
         color: "text-green-500 font-bold",
       },
-      
+
   },
 
   CRITICAL: {
@@ -31,7 +31,12 @@ export const TABLE_CONFIG = {
         color: "text-[#CB30E0] font-bold",
       },
   },
+  ITEM: {
+    title: "Current Inventory",
+    columns: ["product","unit","currentStock","minimumStock","description","action"],
+    dataKey: "ProductsData",
   
+},
 };
 
 export const resolveColumns = (type, options = {}) => {

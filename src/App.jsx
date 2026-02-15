@@ -5,14 +5,16 @@ import OrderReceipt from "./Pages/MenuPage/OrderReceipt";
 import Table from "./components/Table/Card";
 import Supplier from "./Pages/Supplier/Supplier";
 import Supplierprovider from "./contexts/SupplierContext/SupplierContext";
+import Inventory from "./Pages/Inventory/Inventory";
 function App() {
 
   return (
     <>
-      <NavBar active="Supplier" />
+      {/* <NavBar active="Supplier" />
       <Supplierprovider>
       <Supplier />  
-      </Supplierprovider>
+      </Supplierprovider> */}
+      <Inventory/>
       
     </>
   );

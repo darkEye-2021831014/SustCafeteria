@@ -5,9 +5,9 @@ const TextIconButton = ({
   iconRight = null,
   className = "",
   onClick = null,
-  className,
+  // className,
   type,
-  onClick,
+  // onClick,
 }) => {
   return (
     <button
