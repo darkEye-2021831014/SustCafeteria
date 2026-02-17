@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import TextIconButton from "../Button/TextIconButton";
 import { FaCheck, FaXmark } from "react-icons/fa6";
+import { InventoryContext } from "../../contexts/InventoryContext/InventoryContext";
 
 const Form = ({
   title,
@@ -9,8 +10,13 @@ const Form = ({
   onClose,
   submitText = "Submit",
   cancelText = "Cancel",
+  submitIcon,
+  cancelIcon,
+  submitColor = "bg-green-500",
+  cancelColor = "bg-red-500",
 }) => {
   return (
+
     <div>
       <h1 className="text-[22px] font-semibold text-[#F54758] text-center mb-6">
         {title}
@@ -56,16 +62,16 @@ const Form = ({
         <div className="flex justify-center items-center gap-10 mt-1 px-20 ">
           <TextIconButton
             text={cancelText}
-            icon={<FaXmark />}
-            className="w-[98px] h-[32px] bg-red-500 text-white rounded-full font-bold text-[12px]"
+            icon={cancelIcon || <FaXmark />}
+            className={`w-[98px] h-[32px] ${cancelColor} text-white rounded-full font-bold text-[12px]`}
             type="button"
             onClick={onClose}
           />
 
           <TextIconButton
             text={submitText}
-            icon={<FaCheck />}
-            className="w-[98px] h-[32px] bg-[#34C759] text-white rounded-full font-bold text-[12px]"
+            icon={submitIcon || <FaCheck />}
+            className={`w-[98px] h-[32px] ${submitColor} text-white rounded-full font-bold text-[12px]`}
             type="submit"
             // onClick={onClose}
           />

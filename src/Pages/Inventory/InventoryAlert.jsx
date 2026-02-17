@@ -5,7 +5,6 @@ import { InventoryContext } from "../../contexts/InventoryContext/InventoryConte
 const InventoryAlert = () => {
   const { ProductsData } = useContext(InventoryContext);
   const items = ProductsData;
-  console.log("Items", items);
   const lowStockItems = items.filter(
     (item) => Number(item.currentStock) < Number(item.minimumStock),
   );

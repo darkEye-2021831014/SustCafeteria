@@ -2,53 +2,52 @@ import React, { useContext } from "react";
 import { InventoryContext } from "../../contexts/InventoryContext/InventoryContext";
 import Form from "../../components/Form/Form";
 import DeleteAll from "../../components/Modal/DeleteAll";
-
+import { getInventoryFields } from "./InventoryHelper";
 const AddInventoryModal = ({
   onClose,
   selectedProduct,
   title,
-  submitText,
-  cancelText,
+  submitText = "Confirm",
+  cancelText = "Cancel",
+  submitIcon,
+  cancelIcon,
+  submitColor,
+  cancelColor,
   isRemoveAll,
+  className,
 }) => {
-  const { setProductsData } = useContext(InventoryContext);
+  const { isAdmin, setProductsData, activeTab } = useContext(InventoryContext);
   const [selectedProductName, setSelectedProductName] = React.useState(
     selectedProduct ? selectedProduct.name : "",
   );
-
-  const fields = [
-    { label: "পণ্যের নাম", name: "name", placeholder: "চাল (খিচুড়ি )" },
-    { label: "পরিমাপের একক ", name: "unit", placeholder: "কেজি" },
-    {
-      label: "বর্তমান মজুদ ",
-      name: "currentStock",
-      type: "number",
-      placeholder: "20",
-    },
-    {
-      label: "ন্যূনতম মজুদ",
-      name: "minimumStock",
-      type: "number",
-      placeholder: "90",
-    },
-    {
-      label: "পণ্যের বিবরণ",
-      name: "description",
-      placeholder: "বিস্তারিত বিবরণ লিখুন",
-    },
-  ];
+  const fields = getInventoryFields(selectedProduct, isAdmin, activeTab);
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData.entries());
-    if (selectedProduct) {
+
+    if (selectedProduct && isAdmin) {
       setProductsData((prev) =>
         prev.filter((product) => product.name !== selectedProductName),
+      );
+    } else if (selectedProduct && !isAdmin) {
+      setProductsData((prev) =>
+        prev.map((product) =>
+          product.name === selectedProductName
+            ? {
+                ...product,
+                name: data.name,
+                unit: data.unit,
+                currentStock: Number(data.currentStock),
+                minimumStock: Number(data.minimumStock),
+                description: data.description,
+              }
+            : product,
+        ),
       );
     } else {
       setProductsData((prev) => [...prev, data]);
     }
-    console.log("New Inventory Item:", data);
     onClose();
   };
   return (
@@ -62,10 +61,14 @@ const AddInventoryModal = ({
         ></DeleteAll>
       ) : (
         <Form
-          title="নতুন পণ্য যোগ করুন "
+          title={title}
           fields={fields}
-          submitText="Register"
-          cancelText="Cancel"
+          submitText={submitText}
+          cancelText={cancelText}
+          submitIcon={submitIcon}
+          cancelIcon={cancelIcon}
+          submitColor={submitColor}
+          cancelColor={cancelColor}
           onSubmit={handleSubmit}
           onClose={onClose}
         />

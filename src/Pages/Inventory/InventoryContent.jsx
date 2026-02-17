@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import SubNavBar from "../../components/SubHeader/SubNavBar";
 import { InventoryContext } from "../../contexts/InventoryContext/InventoryContext";
 import InventoryAlert from "./InventoryAlert";
-import Table from "../../components/Table/Table";
 import {
   resolveColumns,
   TABLE_CONFIG,
@@ -10,56 +9,30 @@ import {
 import { RiDeleteBin6Line } from "react-icons/ri";
 import TextIconButton from "../../components/Button/TextIconButton";
 import { GoPlusCircle } from "react-icons/go";
-import Modal from "../../components/Modal/Modal";
-import AddInventoryModal from "./InventoryModal";
-import DeleteSupplierModal from "../Supplier/DeleteSupplierModal";
 import TableHeader from "../../components/Table/TableHeader";
-
+import InventoryTable from "./InventoryTable";
+import InventoryModalManager from "./InventoryModalManager";
+import {
+  getDisplayedData,
+  getExcludeColumns,
+  getTableTitle,
+} from "./InventoryHelper";
 const InventoryContent = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const actionColumn = {
-    key: "action",
-    label: "Action",
-    render: (row) => (
-      <div
-        className="flex items-center justify-center gap-2 text-red-500 font-bold cursor-pointer"
-        onClick={() => {
-          setSelectedProduct(row);
-          setIsModalOpen(true);
-        }}
-      >
-        <RiDeleteBin6Line className="text-xl" />
-        <span>Remove</span>
-      </div>
-    ),
-  };
-  const { pillList, activeTab, onTabClick, ProductsData } =
-    useContext(InventoryContext);
-  console.log("InventoryContent context:", {
-    pillList,
-    activeTab,
-    ProductsData,
-  });
-  let excludeColumns = [];
 
-  excludeColumns.push("currentStock", "description", "action");
+  const [selectedProduct, setSelectedProduct] = useState(null);
+
+  const { isAdmin, pillList, activeTab, onTabClick, ProductsData } =
+    useContext(InventoryContext);
+  const displayedData = getDisplayedData(ProductsData, activeTab);
+
   const columns = resolveColumns("ITEM", {
-    exclude: excludeColumns,
+    exclude: getExcludeColumns(isAdmin, activeTab),
   });
-  if (activeTab === "Remove Item") {
-    columns.push(actionColumn);
-  }
+
+  const tableTitle = getTableTitle(activeTab);
+
   const isRemoveAll = activeTab === "Remove Item" && !selectedProduct;
-  const modalClass = isRemoveAll
-    ? "w-[630px] h-[320px]  py-[35px] bg-[#F2F2F7]"
-    : "bg-white w-[550px] h-[608px] p-[50px]";
-  const tableTitle =
-    activeTab === "Low Stock"
-      ? "Low Stock"
-      : activeTab === "Available Stock"
-        ? "Available Stock"
-        : "Current Inventory";
 
   return (
     <div>
@@ -69,58 +42,51 @@ const InventoryContent = () => {
         onTabClick={onTabClick}
       ></SubNavBar>
       <div className={`max-h-[90vh] overflow-y-auto px-15 py-5`}>
-        <InventoryAlert />
+        {!isAdmin && <InventoryAlert />}
+
         <div className="mt-15 p-20 rounded-xl shadow-[0_4px_15px_rgba(0,0,0,0.25)]">
           <TableHeader title={tableTitle} type={activeTab} />
-          <Table
-            items={ProductsData}
+          <InventoryTable
+            data={displayedData}
             columns={columns}
-            tHeaders={columns.map((c) => c.label)}
-            columnOverrides={{
-              action: {
-                color: "text-red-500",
-                icon: <RiDeleteBin6Line className="text-xl" />,
-              },
+            isAdmin={isAdmin}
+            onActionClick={(row) => {
+              setSelectedProduct(row);
+              setIsModalOpen(true);
             }}
           />
-          <div className="flex justify-end mt-5">
-            <TextIconButton
-              {...(activeTab === "Add Item"
-                ? {
-                    text: "Add Item",
-                    icon: <GoPlusCircle />,
-                    className:
-                      "px-6 py-4 bg-[#34C759] text-white rounded-full font-bold text-xl",
-                    onClick: () => setIsModalOpen(true),
-                  }
-                : {
-                    text: "Remove All Items",
-                    icon: <RiDeleteBin6Line />,
-                    className:
-                      "px-6 py-4 bg-[#DB2D30] text-white rounded-full font-bold text-xl",
-                    onClick: () => {
-                      setSelectedProduct(null);
-                      setIsModalOpen(true);
-                    },
-                  })}
-            />
-          </div>
-          <Modal
+          {isAdmin && (
+            <div className="flex justify-end mt-5">
+              <TextIconButton
+                {...(activeTab === "Add Item"
+                  ? {
+                      text: "Add Item",
+                      icon: <GoPlusCircle />,
+                      className:
+                        "px-6 py-4 bg-[#34C759] text-white rounded-full font-bold text-xl",
+                      onClick: () => setIsModalOpen(true),
+                    }
+                  : {
+                      text: "Remove All Items",
+                      icon: <RiDeleteBin6Line />,
+                      className:
+                        "px-6 py-4 bg-[#DB2D30] text-white rounded-full font-bold text-xl",
+                      onClick: () => {
+                        setSelectedProduct(null);
+                        setIsModalOpen(true);
+                      },
+                    })}
+              />
+            </div>
+          )}
+          <InventoryModalManager
             isOpen={isModalOpen}
             onClose={() => setIsModalOpen(false)}
-            className={modalClass}
-          >
-            {activeTab === "Add Item" && (
-              <AddInventoryModal onClose={() => setIsModalOpen(false)} />
-            )}
-            {activeTab === "Remove Item" && (
-              <AddInventoryModal
-                onClose={() => setIsModalOpen(false)}
-                selectedProduct={selectedProduct}
-                isRemoveAll={isRemoveAll}
-              />
-            )}
-          </Modal>
+            isAdmin={isAdmin}
+            activeTab={activeTab}
+            selectedProduct={selectedProduct}
+            isRemoveAll={isRemoveAll}
+          />
         </div>
       </div>
     </div>

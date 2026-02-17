@@ -56,14 +56,15 @@ export const BASE_COLUMNS = {
     label: "Action",
     render: (row, activeType, override) => {
       const cfg = override || {};
-      const text = cfg.text ||"";
+      const text = cfg.text || "";
       const color = cfg.color;
       const icon = cfg.icon;
-
+      const onClick = cfg.onClick ? () => cfg.onClick(row) : null;
       return React.createElement(
         "div",
         {
-          className: `flex items-center justify-center gap-2 ${color} font-semibold`,
+          className: `flex items-center justify-center gap-2 ${color} font-semibold cursor-pointer`,
+          onClick: onClick,
         },
         icon,
         React.createElement("span", null, text),
@@ -75,28 +76,22 @@ export const BASE_COLUMNS = {
     key: "status",
     label: "স্ট্যাটাস",
     render: (row) => {
-      const status = row.status?.toLowerCase() || "";
-      let colorClass = "text-gray-500";
-      let IconComponent = null;
-      
-      if (status.includes("active")) {
-        colorClass = "text-green-500";
-        IconComponent = React.createElement(FaCheck, { className: "text-green-500" });
-      } else if (status.includes("inactive")) {
-        colorClass = "text-red-500";
-        IconComponent = React.createElement(RiArrowDropDownLine, { className: "text-red-500" });
-      }
-      
+      const isLow = Number(row.currentStock) < Number(row.minimumStock);
+
       return React.createElement(
-        "div",
-        { className: `flex items-center gap-2 ${colorClass}` },
-        IconComponent,
-        React.createElement("span", null, row.status),
+        "span",
+        {
+          className: `font-semibold ${
+            isLow ? "text-red-500" : "text-green-600"
+          }`,
+        },
+        isLow ? "Low Stock" : "In Stock",
       );
     },
-  }, 
-  description:{
-    key:"description",
-    label:"পণ্যের বিবরণ"
-  } 
+  },
+
+  description: {
+    key: "description",
+    label: "পণ্যের বিবরণ",
+  },
 };

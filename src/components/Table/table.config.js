@@ -33,7 +33,7 @@ export const TABLE_CONFIG = {
   },
   ITEM: {
     title: "Current Inventory",
-    columns: ["product","unit","currentStock","minimumStock","description","action"],
+    columns: ["product","unit","currentStock","minimumStock","description","status","action"],
     dataKey: "ProductsData",
   
 },
