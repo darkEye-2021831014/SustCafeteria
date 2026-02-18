@@ -6,6 +6,7 @@ import Table from "./components/Table/Card";
 import Supplier from "./Pages/Supplier/Supplier";
 import Supplierprovider from "./contexts/SupplierContext/SupplierContext";
 import Inventory from "./Pages/Inventory/Inventory";
+import Staff from "./Pages/Staff/Staff";
 function App() {
 
   return (
@@ -14,7 +15,8 @@ function App() {
       <Supplierprovider>
       <Supplier />  
       </Supplierprovider> */}
-      <Inventory/>
+      {/* <Inventory/> */}
+      <Staff/>
       
     </>
   );

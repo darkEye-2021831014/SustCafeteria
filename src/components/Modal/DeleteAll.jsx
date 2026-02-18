@@ -2,7 +2,7 @@ import React from 'react';
 import { FaXmark } from "react-icons/fa6";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import TextIconButton from '../Button/TextIconButton';
-const DeleteAll = ({title,warning,onClose,setData}) => {
+const DeleteAll = ({title,warning,onClose,setData,submitText="RELEASE EVERYONE"}) => {
    
   return (
     <div>
@@ -24,7 +24,7 @@ const DeleteAll = ({title,warning,onClose,setData}) => {
         />
 
         <TextIconButton
-          text="RELEASE EVERYONE"
+          text={submitText}
           icon={<RiDeleteBin6Line />}
           className="w-[170px] h-[40px] bg-[#D83438] text-black rounded-full font-bold text-[12px]"
           type="submit"

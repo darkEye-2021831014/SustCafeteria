@@ -4,6 +4,8 @@ import { RiArrowDropDownLine } from "react-icons/ri";
 
 export const BASE_COLUMNS = {
   name: { key: "name", label: "Name" },
+  role:{key:"role",label:"পদবী"},
+  salary:{key:"salary",label:"মাসিক বেতন"},
   item: { key: "item", label: "Item" },
   price: { key: "price", label: "Price (Per Unit)" },
   maxDue: {

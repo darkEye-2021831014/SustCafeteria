@@ -25,7 +25,7 @@ const AddInventoryModal = ({
     e.preventDefault();
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData.entries());
-
+    
     if (selectedProduct && isAdmin) {
       setProductsData((prev) =>
         prev.filter((product) => product.name !== selectedProductName),

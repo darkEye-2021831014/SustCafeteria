@@ -37,6 +37,11 @@ export const TABLE_CONFIG = {
     dataKey: "ProductsData",
   
 },
+  STAFF:{
+    title: "Total Staff List",
+    columns: ["name","role","salary","action"],
+    dataKey: "StaffsData",
+  },
 };
 
 export const resolveColumns = (type, options = {}) => {
