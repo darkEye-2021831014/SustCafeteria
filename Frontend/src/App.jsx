@@ -8,7 +8,6 @@ import Supplierprovider from "./contexts/SupplierContext/SupplierContext";
 import Inventory from "./Pages/Inventory/Inventory";
 import Staff from "./Pages/Staff/Staff";
 function App() {
-
   return (
     <>
       {/* <NavBar active="Supplier" />
@@ -16,8 +15,8 @@ function App() {
       <Supplier />  
       </Supplierprovider> */}
       {/* <Inventory/> */}
-      <Staff/>
-      
+      <Staff />
+      {/* <Menu /> */}
     </>
   );
 }
