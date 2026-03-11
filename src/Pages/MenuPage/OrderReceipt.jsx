@@ -129,7 +129,7 @@ const ActionButtons = ({ onCancel, onConfirm }) => {
 
 const OrderReceiptModal = ({ onCancel, onConfirm }) => {
   return (
-    <div className="bg-gray-200 w-[700px] rounded-2xl p-10 shadow-xl">
+    <div className="bg-gray-200 w-175 rounded-2xl p-10 shadow-xl">
       {/* Title */}
       <h1 className="text-center text-xl text-orange-600 font-tourney font-semibold mb-6">
         Order Receipt
