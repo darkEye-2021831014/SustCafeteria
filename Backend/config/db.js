@@ -1,4 +1,5 @@
 import mysql from "mysql2/promise";
+import { createUserTable } from "../models/user.js";
 
 export const db = mysql.createPool({
     host: process.env.DB_HOST,
@@ -10,7 +11,7 @@ export const db = mysql.createPool({
     connectionLimit: 10,
 });
 
-export const testDB = async () => {
+export const setUpDB = async () => {
     try {
         const connection = await db.getConnection();
         console.log("MySQL connected successfully");
@@ -18,4 +19,6 @@ export const testDB = async () => {
     } catch (error) {
         console.error("MySQL connection failed:", error.message);
     }
+    // Database Schema
+    createUserTable();
 };
