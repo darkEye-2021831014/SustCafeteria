@@ -1,10 +1,20 @@
 import express from "express"
-import { createUser, loginUser } from "../controllers/user.js"
-import { upload, verifyEmail } from "../middlewares/user.js";
+import { createUser, loginUser, getAllUsers, getUserById, getUserInfo } from "../controllers/user.js"
+import { verifyEmail, restrictTo } from "../middlewares/auth.js";
 
 const router = express.Router();
 
-router.post("/", upload.single("image"), verifyEmail, createUser);
-router.post("/login", loginUser)
+router.route("/")
+    .post(verifyEmail, createUser)
+    .get(restrictTo(['ADMIN']), getAllUsers);
+
+
+router.route("/login")
+    .post(loginUser)
+    .get(getUserInfo);
+
+//Dynamic Routes Should Be Last in the execution order
+router.route("/:id")
+    .get(restrictTo(['ADMIN']), getUserById);
 
 export default router;
