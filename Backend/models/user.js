@@ -46,6 +46,11 @@ export const getAllUsers = async () => {
 export const getUserByEmail = async (email) => {
     const query = "SELECT * FROM users WHERE email = ?";
     const [rows] = await db.query(query, [email]);
-    // return null if user not found
     return rows.length > 0 ? rows[0] : null;
 };
+
+export const getUserById = async (id) => {
+    const query = "SELECT * FROM users WHERE id = ?";
+    const [rows] = await db.query(query, [id]);
+    return rows.length > 0 ? rows[0] : null;
+}

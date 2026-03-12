@@ -1,0 +1,68 @@
+summary: Create a new user
+requestBody:
+  required: true
+  content:
+    multipart/form-data:
+      schema:
+        type: object
+        required:
+          - name
+          - email
+          - password
+          - role
+          - contact
+          - join_date
+          - address
+          - image
+        properties:
+          name:
+            type: string
+            example: John Doe
+          email:
+            type: string
+            example: john@example.com
+          password:
+            type: string
+            example: mypassword123
+          role:
+            type: string
+            example: ADMIN
+          contact:
+            type: string
+            example: 017xxxxxxxx
+          join_date:
+            type: string
+            format: date
+            example: 2026-03-12
+          address:
+            type: string
+            example: 123 Street, City
+          image:
+            type: string
+            format: binary
+
+responses:
+  "201":
+    description: User created successfully
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            id:
+              type: string
+              example: "1234"
+            msg:
+              type: string
+              example: "User created"
+
+  "400":
+    description: Missing required fields
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: "Missing fields: email, password"

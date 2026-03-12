@@ -18,3 +18,11 @@ export const validateUser = async (email, password) => {
     const token = setUser(user); // pass the user object
     return token;
 };
+
+export const getAllUsers = async () => {
+    return await User.getAllUsers();
+}
+
+export const getUserById = async (id) => {
+    return await User.getUserById(id);
+}
