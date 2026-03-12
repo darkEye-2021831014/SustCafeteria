@@ -11,7 +11,7 @@ export const getStaffFields = (selectedStaff, activeTab) => {
     },
 
     {
-      label: "role",
+      label: "Role",
       name: "role",
       placeholder: "Manager",
       defaultValue: selectedStaff?.role,
@@ -49,3 +49,12 @@ export const getStaffFields = (selectedStaff, activeTab) => {
     },
   ];
 };
+
+export const getTitle=(activeTab)=>{
+  if(activeTab==="Register Staff") return "Register New Staff";
+  if(activeTab==="Release Staff") return "Do You Want To Release This Staff?";
+  return "";
+}
+export const getImageUpload=(activeTab)=>{
+  return activeTab==="Register Staff";
+}

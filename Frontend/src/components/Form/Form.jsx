@@ -1,8 +1,7 @@
 import React, { useContext } from "react";
 import TextIconButton from "../Button/TextIconButton";
 import { FaCheck, FaXmark } from "react-icons/fa6";
-import { InventoryContext } from "../../contexts/InventoryContext/InventoryContext";
-
+import ImageUpload from "./ImageUpload";
 const Form = ({
   title,
   fields = [],
@@ -14,13 +13,35 @@ const Form = ({
   cancelIcon,
   submitColor = "bg-green-500",
   cancelColor = "bg-red-500",
+  showImageUpload = false,
+  onImageChange,
+  preview,
 }) => {
   return (
-
     <div>
-      <h1 className="text-[22px] font-semibold text-[#F54758] text-center mb-6">
-        {title}
-      </h1>
+      <div
+        className={`grid items-center  ${showImageUpload ? "grid-cols-3 mb-2" : "grid-cols-1 mb-6"}`}
+      >
+        <div></div>
+        <h1
+          className="font-bold text-[#F54758]"
+          style={{
+            gridColumn: showImageUpload ? "1 / span 2" : "1 / -1",
+            fontSize: "24px",
+            marginLeft: showImageUpload ? "90px" : "0px",
+          }}
+        >
+          {title}
+        </h1>
+
+        {/* image upload */}
+        {showImageUpload && (
+          <div className="flex justify-end">
+            <ImageUpload preview={preview} onChange={onImageChange} />
+          </div>
+        )}
+      </div>
+
       <form onSubmit={onSubmit} className="flex flex-col gap-4">
         {fields.map((field, index) => (
           <div key={index} className="flex flex-col gap-1">

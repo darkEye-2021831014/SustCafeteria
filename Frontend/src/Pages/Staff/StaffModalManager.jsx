@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { getStaffFields } from "./StaffHelper";
+import React, { useContext, useState } from "react";
+import { getStaffFields,getTitle ,getImageUpload} from "./StaffHelper";
 import Form from "../../components/Form/Form";
 import Modal from "../../components/Modal/Modal";
 import DeleteAll from "../../components/Modal/DeleteAll";
@@ -18,9 +18,11 @@ const StaffModalManager = ({
 }) => {
   const fields = getStaffFields(selectedStaff, activeTab);
   const { setStaffsData } = useContext(StaffContext);
+  const [preview, setPreview] = useState(null);
+
   const modalClass = isRemoveAll
     ? "w-[630px] h-[320px]  py-[35px] bg-[#F2F2F7]"
-    : "bg-white w-[550px] h-[700px] p-[50px]";
+    : "bg-white w-[550px] h-[730px] p-[50px]";
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
@@ -32,10 +34,22 @@ const StaffModalManager = ({
     } else {
       setStaffsData((prev) => [...prev, data]);
     }
-
+    setPreview(null);
     onClose();
   };
-  console.log("selected staff", selectedStaff);
+  const handleClose = () => {
+    setPreview(null);
+    onClose();
+  };
+  const handleImage = (e) => {
+    const file = e.target.files[0];
+
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setPreview(url);
+    }
+  };
+
   return (
     <div>
       <Modal isOpen={isOpen} onClose={onClose} className={modalClass}>
@@ -50,14 +64,17 @@ const StaffModalManager = ({
             ></DeleteAll>
           ) : (
             <Form
-              title="Total Staff List"
+              title={getTitle(activeTab)}
               fields={fields}
               submitText={submitText}
               submitIcon={submitIcon}
               submitColor={submitColor}
               cancelColor={cancelColor}
               onSubmit={handleSubmit}
-              onClose={onClose}
+              onClose={handleClose}
+              showImageUpload={getImageUpload(activeTab)}
+              onImageChange={handleImage}
+              preview={preview}
             />
           )}
         </div>
