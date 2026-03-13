@@ -3,7 +3,7 @@ import cors from "cors"
 import express from "express"
 import swaggerUi from "swagger-ui-express"
 import home from "./controllers/home.js"
-import { verifyUser } from "./middlewares/auth.js"
+import { loginRequired, verifyUser } from "./middlewares/auth.js"
 import inventory from "./routes/inventory.js"
 import { upload } from "./middlewares/user.js"
 import user from "./routes/user.js"
@@ -19,7 +19,7 @@ app.use(verifyUser);
 
 app.get("/", home);
 app.use("/user", user);
-app.use("/inventory", inventory);
+app.use("/inventory", loginRequired, inventory);
 app.use("/uploads", express.static("uploads"));
 
 
