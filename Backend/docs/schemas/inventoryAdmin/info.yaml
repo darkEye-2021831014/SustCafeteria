@@ -1,0 +1,60 @@
+summary: Update inventory item information
+tags:
+  - Inventory
+security:
+  - cookieAuth: []
+parameters:
+  - name: id
+    in: path
+    required: true
+    schema:
+      type: integer
+    example: 1
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - name
+          - unit
+        properties:
+          name:
+            type: string
+            example: "Updated Rice"
+          category:
+            type: string
+            example: "Grains"
+          unit:
+            type: string
+            example: "kg"
+          minimum_stock:
+            type: number
+            format: float
+            example: 15.0
+responses:
+  "200":
+    description: Item info updated successfully
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Item info updated successfully"
+  "400":
+    description: Bad request
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Name and unit are required"
+  "403":
+    description: Unauthorized
+  "500":
+    description: Server error

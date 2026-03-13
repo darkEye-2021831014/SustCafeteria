@@ -5,27 +5,29 @@ import {
     getInventory,
     getLowStock,
     getAvailableStock,
-    updateItemStock,
+    getItemById,
+    updateQuantity,
+    updateStockItemInfo,
     deleteItem
 } from "../controllers/inventory.js";
 
 const router = express.Router();
 
 
-//router.post( "/", verifyUser, restrictTo(["ADMIN"]), createItem );
-//router.get("/available", verifyUser, getAvailableStock);
+router.post( "/", restrictTo(["ADMIN"]), createItem ); 
+//router.post( "/", createItem );  //temp
 
 
-router.post( "/", createItem );  //temp
-
-router.get( "/", getInventory );
+router.get( "/", getInventory );  //all
 router.get( "/low-stock", getLowStock );
 router.get("/available",  getAvailableStock);
+router.get("/:id", getItemById);  // get single item
 
 
 //update
-router.put( "/:id", verifyUser, restrictTo(["ADMIN"]), updateItemStock );
-router.delete( "/:id", verifyUser, restrictTo(["ADMIN"]), deleteItem );
+router.put( "/:id/quantity", restrictTo(["ADMIN"]), updateQuantity ); // quantity update
+router.put( "/:id/info", restrictTo(["ADMIN"]), updateStockItemInfo );  //item's information update
+router.delete( "/:id", restrictTo(["ADMIN"]), deleteItem );
 
 
 export default router;
