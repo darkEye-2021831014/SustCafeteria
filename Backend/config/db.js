@@ -1,7 +1,7 @@
 import mysql from "mysql2/promise";
 import { createUserTable } from "../models/user.js";
 import { createInventoryTable } from "../models/inventory.js";
-
+import { createStaffTable } from "../models/staff.js";
 export const db = mysql.createPool({
     host: process.env.DB_HOST,
     port: process.env.DB_PORT || 3306,
@@ -27,4 +27,5 @@ export const setUpDB = async () => {
     // Database Schema
     createUserTable();
     createInventoryTable();
+    createStaffTable();
 };
