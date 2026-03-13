@@ -2,7 +2,7 @@ import * as User from "../services/user.js";
 
 export const createUser = async (req, res) => {
     const body = req.body;
-    if (req.file) body.image = req.file.path;
+    if (req.file) body.image = "/" + req.file.path;
 
     const { name, email, password, role, contact, join_date, address, image } = body;
 
