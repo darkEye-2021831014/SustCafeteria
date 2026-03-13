@@ -66,6 +66,19 @@ export const getLowStock = async (req, res) => {
 
 
 
+export const getAvailableStock = async (req, res) => {
+
+    try {
+        const items = await fetchAvailableStock();
+        res.json(items);
+    } catch (error) {
+        res.status(500).json({
+            message: "Server error"
+        });
+    }
+};
+
+
 export const updateItemStock = async (req, res) => {
 
     try {

@@ -4,6 +4,7 @@ import {
     createItem,
     getInventory,
     getLowStock,
+    getAvailableStock,
     updateItemStock,
     deleteItem
 } from "../controllers/inventory.js";
@@ -12,14 +13,18 @@ const router = express.Router();
 
 
 //router.post( "/", verifyUser, restrictTo(["ADMIN"]), createItem );
-router.post( "/", createItem );  //temp
-router.get( "/", getInventory );
+//router.get("/available", verifyUser, getAvailableStock);
 
+
+router.post( "/", createItem );  //temp
+
+router.get( "/", getInventory );
 router.get( "/low-stock", getLowStock );
+router.get("/available",  getAvailableStock);
+
 
 //update
 router.put( "/:id", verifyUser, restrictTo(["ADMIN"]), updateItemStock );
-
 router.delete( "/:id", verifyUser, restrictTo(["ADMIN"]), deleteItem );
 
 

@@ -84,6 +84,25 @@ export const getLowStockItems = async () => {
 };
 
 
+export const getAvailableStockItems = async () => {
+
+    const query = `
+        SELECT *,
+        CASE
+            WHEN current_stock <= minimum_stock THEN 'Low Stock'
+            ELSE 'Available'
+        END AS status
+        FROM stock_item
+        WHERE current_stock > 0
+    `;
+
+    const [rows] = await db.query(query);
+
+    return rows;
+
+};
+
+
 
 export const updateStock = async (id, quantity) => {
 

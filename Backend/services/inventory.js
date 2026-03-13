@@ -2,6 +2,7 @@ import {
     addStockItem,
     getAllStockItems,
     getLowStockItems,
+    getAvailableStockItems,
     updateStock,
     deleteStockItem
 } from "../models/inventory.js";
@@ -19,6 +20,10 @@ export const fetchAllInventory = async () => {
 
 export const fetchLowStockItems = async () => {
     return await getLowStockItems();
+};
+
+export const fetchAvailableStock = async () => {
+    return await getAvailableStockItems();
 };
 
 

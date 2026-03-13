@@ -3,6 +3,7 @@ import cors from "cors"
 import home from "./controllers/home.js"
 import user from "./routes/user.js"
 import { verifyUser } from "./middlewares/auth.js"
+import inventory from "./routes/inventory.js"
 
 
 const app = express();
@@ -14,5 +15,6 @@ app.use(verifyUser);
 app.get("/", home)
 
 app.use("/user", user);
+app.use("/inventory", inventory);
 
 export default app;
