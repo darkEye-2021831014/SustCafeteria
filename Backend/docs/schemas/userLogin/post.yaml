@@ -1,0 +1,67 @@
+summary: Login a user
+tags:
+  - User
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - email
+          - password
+        properties:
+          email:
+            type: string
+            format: email
+            example: "john@example.com"
+          password:
+            type: string
+            example: "mypassword123"
+responses:
+  "200":
+    description: Login successful
+    headers:
+      Set-Cookie:
+        description: Authentication token cookie
+        schema:
+          type: string
+          example: "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: "Login Successful"
+  "400":
+    description: Missing required fields
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: "Missing required fields"
+  "401":
+    description: Invalid credentials
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: "Login Failed! Invalid credentials"
+  "500":
+    description: Internal server error
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: "Something went wrong"

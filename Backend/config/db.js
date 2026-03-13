@@ -1,5 +1,7 @@
 import mysql from "mysql2/promise";
 import { createUserTable } from "../models/user.js";
+import { createInventoryTable } from "../models/inventory.js";
+
 
 export const db = mysql.createPool({
     host: process.env.DB_HOST,
@@ -19,6 +21,8 @@ export const setUpDB = async () => {
     } catch (error) {
         console.error("MySQL connection failed:", error.message);
     }
+    
     // Database Schema
     createUserTable();
+    createInventoryTable();
 };

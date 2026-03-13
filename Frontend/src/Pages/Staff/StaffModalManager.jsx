@@ -57,7 +57,7 @@ const StaffModalManager = ({
           {isRemoveAll ? (
             <DeleteAll
               title="Are You Sure You Want To Release Everyone ?"
-              warning="ALL STAFF IN THE STAFF TAVLE WILL BE RELEASED AFTER PERFORMING THIS ACTION!!!!"
+              warning="ALL STAFF IN THE STAFF TABLE WILL BE RELEASED AFTER PERFORMING THIS ACTION!!!!"
               onClose={onClose}
               setData={setStaffsData}
               submitText="RELEASE EVERYONE"

@@ -22,7 +22,7 @@ const StaffContent = () => {
     exclude: getExcludeColumns(activeTab),
   });
   const isRemoveAll = activeTab === "Release Staff" && !selectedStaff;
-  console.log(isRemoveAll)
+  console.log(isRemoveAll);
   let submitText, submitColor, submitIcon, cancelColor;
 
   if (activeTab === "Register Staff") {

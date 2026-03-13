@@ -3,10 +3,12 @@ import HeaderPill from "./HeaderPill";
 import profilePicture from "../../assets/profilePicture.png";
 
 const AuthPill = ({ signedIn = true, isActive = false }) => {
-  const bg = isActive ? "bg-white rounded-lg py-2" : "bg-none";
+  const bg = isActive ? "bg-white" : "bg-none hover:bg-white/50";
 
   return signedIn ? (
-    <div className={`w-auto h-auto px-3.75 ${bg}`}>
+    <div
+      className={`w-auto h-auto px-3.75 ${bg} rounded-lg py-2 h-fit cursor-pointer`}
+    >
       <img
         src={profilePicture}
         alt="Profile Image"

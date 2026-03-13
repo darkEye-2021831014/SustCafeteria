@@ -1,0 +1,85 @@
+summary: Get user by ID (ADMIN only)
+tags:
+  - User
+parameters:
+  - name: id
+    in: path
+    required: true
+    description: ID of the user to retrieve
+    schema:
+      type: string
+      example: "123"
+responses:
+  "200":
+    description: User found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            id:
+              type: string
+              example: "123"
+            name:
+              type: string
+              example: "John Doe"
+            email:
+              type: string
+              example: "john@example.com"
+            role:
+              type: string
+              example: "ADMIN"
+            contact:
+              type: string
+              example: "017xxxxxxxx"
+            join_date:
+              type: string
+              format: date
+              example: "2026-03-12"
+            address:
+              type: string
+              example: "123 Street, City"
+            image:
+              type: string
+              format: binary
+              example: "filePath"
+  "400":
+    description: Bad request - ID not provided
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: "Id Required!"
+  "404":
+    description: User not found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: "User not found"
+  "401":
+    description: Unauthorized (not ADMIN)
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: "Unauthorized"
+  "500":
+    description: Internal server error
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: "Something went wrong"
