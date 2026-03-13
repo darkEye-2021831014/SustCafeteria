@@ -27,7 +27,7 @@ export const fetchAvailableStock = async () => {
 };
 
 
-export const updateStockItem = async (id, quantity) => {
+export const updateQuantity = async (id, quantity) => {
     return await updateStock(id, quantity);
 };
 

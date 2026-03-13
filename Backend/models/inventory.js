@@ -72,7 +72,11 @@ export const getAllStockItems = async () => {
 export const getLowStockItems = async () => {
 
     const query = `
-        SELECT *
+        SELECT *,
+        CASE
+            WHEN current_stock <= minimum_stock THEN 'Low Stock'
+            ELSE 'Available'
+        END AS status
         FROM stock_item
         WHERE current_stock <= minimum_stock
     `;

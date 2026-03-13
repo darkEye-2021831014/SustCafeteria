@@ -79,7 +79,7 @@ export const getAvailableStock = async (req, res) => {
 };
 
 
-export const updateItemStock = async (req, res) => {
+export const updateQuantity = async (req, res) => {
 
     try {
 
@@ -93,7 +93,7 @@ export const updateItemStock = async (req, res) => {
             });
         }
 
-        await Stock.updateStockItem(id, quantity);
+        await Stock.updateQuantity(id, quantity);
 
         res.json({
             message: "Stock updated successfully"
