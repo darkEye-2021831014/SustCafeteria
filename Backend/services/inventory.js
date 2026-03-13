@@ -3,7 +3,9 @@ import {
     getAllStockItems,
     getLowStockItems,
     getAvailableStockItems,
-    updateStock,
+    getStockItemById,
+    updateStockQuantity,
+    updateInfo,
     deleteStockItem
 } from "../models/inventory.js";
 
@@ -27,8 +29,17 @@ export const fetchAvailableStock = async () => {
 };
 
 
+export const fetchStockItemById = async (id) => {
+    return await getStockItemById(id);
+};
+
+
 export const updateQuantity = async (id, quantity) => {
-    return await updateStock(id, quantity);
+    return await updateStockQuantity(id, quantity);
+};
+
+export const updateItemInfo = async (id, data) => {
+    return await updateInfo(id, data);
 };
 
 
