@@ -4,6 +4,7 @@ import express from "express"
 import swaggerUi from "swagger-ui-express"
 import home from "./controllers/home.js"
 import { verifyUser } from "./middlewares/auth.js"
+import inventory from "./routes/inventory.js"
 import { upload } from "./middlewares/user.js"
 import user from "./routes/user.js"
 import SwaggerParser from "@apidevtools/swagger-parser"
@@ -18,6 +19,7 @@ app.use(verifyUser);
 
 app.get("/", home);
 app.use("/user", user);
+app.use("/inventory", inventory);
 app.use("/uploads", express.static("uploads"));
 
 
