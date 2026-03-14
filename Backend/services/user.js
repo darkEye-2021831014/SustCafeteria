@@ -26,3 +26,7 @@ export const getAllUsers = async () => {
 export const getUserById = async (id) => {
     return await User.getUserById(id);
 }
+
+export const verifyUser = async (email) => {
+    return await User.getUserByEmail(email);
+}
