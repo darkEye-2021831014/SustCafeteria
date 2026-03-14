@@ -43,6 +43,20 @@ paths:
   /inventory/{id}/info:
     put:
       $ref: "./schemas/inventoryAdmin/info.yaml"
+
+      # ------------Supplier----------------
+  /supplier:
+    post:
+      $ref: "./schemas/supplier/post.yaml"
+    get:
+      $ref: "./schemas/supplier/get.yaml"
+    delete:
+      $ref: "./schemas/supplier/delete-all.yaml"
+  /supplier/{id}:
+    get:
+      $ref: "./schemas/supplier/get-id.yaml"
+    delete:
+      $ref: "./schemas/supplier/delete.yaml"
 components:
   securitySchemes:
     cookieAuth:

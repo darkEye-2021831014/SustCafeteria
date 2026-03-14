@@ -142,6 +142,21 @@ export const updateStockQuantity = async (id, quantity) => {
 };
 
 
+export const updateStock = async (id, quantity) => {
+
+    const query = `
+        UPDATE stock_item
+        SET current_stock = current_stock + ?
+        WHERE id = ?
+    `;
+
+    const [result] = await db.query(query,[quantity,id]);
+
+    return result;
+
+};
+
+
 export const updateInfo = async (id, item) => {
 
     const { name, category, unit, minimum_stock } = item;
