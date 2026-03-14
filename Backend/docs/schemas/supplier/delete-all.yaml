@@ -1,0 +1,23 @@
+summary: Delete all suppliers
+tags:
+  - Supplier
+responses:
+  "200":
+    description: All suppliers deleted
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: All suppliers deleted
+  "500":
+    description: Internal server error
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
