@@ -1,0 +1,29 @@
+summary: Delete a staff member
+tags:
+  - Staff
+
+security:
+  - cookieAuth: []
+
+parameters:
+  - in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+    description: Staff ID
+
+responses:
+  "200":
+    description: Staff deleted successfully
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: Staff deleted
+
+  "404":
+    description: Staff not found

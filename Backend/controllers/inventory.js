@@ -69,7 +69,7 @@ export const getLowStock = async (req, res) => {
 export const getAvailableStock = async (req, res) => {
 
     try {
-        const items = await fetchAvailableStock();
+        const items = await Stock.fetchAvailableStock();
         res.json(items);
     } catch (error) {
         res.status(500).json({
@@ -79,7 +79,26 @@ export const getAvailableStock = async (req, res) => {
 };
 
 
-export const updateItemStock = async (req, res) => {
+export const getItemById = async (req, res) => {
+
+    try {
+        const { id } = req.params;
+        const item = await Stock.fetchStockItemById(id);
+        if (!item) {
+            return res.status(404).json({
+                message: "Item not found"
+            });
+        }
+        res.json(item);
+    } catch (error) {
+        res.status(500).json({
+            message: "Server error"
+        });
+    }
+};
+
+
+export const updateQuantity = async (req, res) => {
 
     try {
 
@@ -93,10 +112,40 @@ export const updateItemStock = async (req, res) => {
             });
         }
 
-        await Stock.updateStockItem(id, quantity);
+        await Stock.updateQuantity(id, quantity);
 
         res.json({
             message: "Stock updated successfully"
+        });
+
+    } catch (error) {
+
+        res.status(500).json({
+            message: "Server error"
+        });
+
+    }
+
+};
+
+
+export const updateStockItemInfo = async (req, res) => {
+
+    try {
+
+        const { id } = req.params;
+        const { name, category, unit, minimum_stock } = req.body;
+
+        if (!name || !unit) {
+            return res.status(400).json({
+                message: "Name and unit are required"
+            });
+        }
+
+        await Stock.updateItemInfo(id, { name, category, unit, minimum_stock });
+
+        res.json({
+            message: "Item info updated successfully"
         });
 
     } catch (error) {

@@ -1,6 +1,10 @@
 import mysql from "mysql2/promise";
 import { createUserTable } from "../models/user.js";
 import { createInventoryTable } from "../models/inventory.js";
+import { createSupplierTable } from "../models/supplier.js";
+import { createItemSupplierTable } from "../models/item_supplier.js";
+import { createPurchaseOrderTable } from "../models/purchase_order.js";
+
 import { createStaffTable } from "../models/staff.js";
 export const db = mysql.createPool({
     host: process.env.DB_HOST,
@@ -10,7 +14,7 @@ export const db = mysql.createPool({
     database: process.env.DB_NAME,
     waitForConnections: true,
     connectionLimit: 10,
-    ssl: {
+     ssl: {
         rejectUnauthorized: true
     }
 });
@@ -26,6 +30,10 @@ export const setUpDB = async () => {
 
     // Database Schema
     createUserTable();
-    createInventoryTable();
-    createStaffTable();
+    await createInventoryTable();
+    await createSupplierTable();
+    await createItemSupplierTable();
+    await createPurchaseOrderTable();
+    await createStaffTable();
 };
+
