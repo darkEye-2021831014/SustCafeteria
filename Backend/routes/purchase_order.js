@@ -6,16 +6,16 @@ const router = express.Router();
 
 router.route("/")
     .post(restrictTo(['ADMIN']), createPurchaseOrder)
-    .get(restrictTo(['ADMIN']), getAllPurchaseOrders);
+    .get(getAllPurchaseOrders);
 
 router.route("/pending")
-    .get(restrictTo(['ADMIN']), getPendingPurchaseOrders);
+    .get(getPendingPurchaseOrders);
 
 router.route("/low-stock")
-    .get(restrictTo(['ADMIN']), getLowStockItems);
+    .get( getLowStockItems);
 
 router.route("/:id")
-    .get(restrictTo(['ADMIN']), getPurchaseOrderById);
+    .get(getPurchaseOrderById);
 
 router.route("/:id/deliver")
     .put(restrictTo(['ADMIN']), markOrderDelivered);

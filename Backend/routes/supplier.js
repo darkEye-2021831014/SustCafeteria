@@ -10,7 +10,7 @@ router.route("/")
     .delete(restrictTo(['ADMIN']), deleteAllSuppliers);
 
 router.route("/:id")
-    .get(restrictTo(['ADMIN']), getSupplierById)
+    .get( getSupplierById)
     .delete(restrictTo(['ADMIN']), deleteSupplierById);
 
 export default router;

@@ -23,6 +23,11 @@ app.use(verifyUser);
 app.get("/", home);
 app.use("/user", user);
 app.use("/inventory", loginRequired, inventory);
+app.use("/supplier",loginRequired, supplier);
+app.use("/itemSupplier",loginRequired, itemSupplier);
+app.use("/purchaseOrder",loginRequired, purchaseOrder);
+
+
 app.use("/uploads", express.static("uploads"));
 
 

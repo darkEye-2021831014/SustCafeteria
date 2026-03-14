@@ -8,10 +8,10 @@ router.route("/")
     .post(restrictTo(['ADMIN']), createItemSupplier);
 
 router.route("/supplier/:supplier_id")
-    .get(restrictTo(['ADMIN']), getItemSuppliersBySupplier);
+    .get( getItemSuppliersBySupplier);
 
 router.route("/item/:stock_item_id")
-    .get(restrictTo(['ADMIN']), getSuppliersByItem);
+    .get(getSuppliersByItem);
 
 router.route("/:supplier_id/:stock_item_id")
     .delete(restrictTo(['ADMIN']), deleteItemSupplier);
