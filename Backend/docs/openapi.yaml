@@ -10,14 +10,22 @@ paths:
       $ref: "./schemas/user/post.yaml"
     get:
       $ref: "./schemas/user/get.yaml"
+    delete:
+      $ref: "./schemas/user/delete.yaml"
+    patch:
+      $ref: "./schemas/user/patch.yaml"
   /user/{id}:
     get:
       $ref: "./schemas/userId/get.yaml"
+    delete:
+      $ref: "./schemas/userId/delete.yaml"
   /user/login:
     post:
       $ref: "./schemas/userLogin/post.yaml"
     get:
       $ref: "./schemas/userLogin/get.yaml"
+    patch:
+      $ref: "./schemas/userLogin/patch.yaml"
 
       # ------------Inventory----------------
   /inventory:

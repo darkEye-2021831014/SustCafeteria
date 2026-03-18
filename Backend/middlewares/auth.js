@@ -1,4 +1,22 @@
 import { getUser } from "../services/auth.js"
+import { getUserByEmail } from "../models/user.js";
+
+//Duplicate Email
+export const verifyEmail = async (req, res, next) => {
+    try {
+        const { email } = req.body;
+        if (!email)
+            return res.status(400).json({ msg: "Email is required" });
+
+        const user = await getUserByEmail(email);
+        if (user)
+            return res.status(409).json({ msg: "User Already Exists!" });
+
+        next();
+    } catch (err) {
+        res.status(500).json({ msg: `Error in email Verification: ${err.message}` });
+    }
+};
 
 //Authentication
 export const verifyUser = async (req, res, next) => {
@@ -22,3 +40,5 @@ export const restrictTo = (roles) => {
 };
 
 export const loginRequired = restrictTo(['NORMAL', 'ADMIN']);
+
+export const adminOnly = restrictTo(['ADMIN']);
