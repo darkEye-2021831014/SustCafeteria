@@ -41,12 +41,19 @@ export const getStaffFields = (selectedStaff, activeTab) => {
       disabled: isRemove,
     },
     {
-      label: "Location",
-      name: "location",
-      placeholder: "01776830203",
-      defaultValue: selectedStaff?.location,
+      label: "Address",
+      name: "address",
+      placeholder: "123 Main St",
+      defaultValue: selectedStaff?.address,
       disabled: isRemove,
     },
+    {
+      label:"Joining Date",
+      name:"join_date",
+      type:"date",
+      defaultValue:selectedStaff?.joiningDate?.split("T")[0],
+      disabled:isRemove,
+    }
   ];
 };
 

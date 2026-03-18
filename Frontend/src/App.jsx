@@ -15,8 +15,8 @@ function App() {
       <Supplier />  
       </Supplierprovider> */}
       {/* <Inventory/> */}
-      {/* <Staff /> */}
-      <Menu />
+      <Staff />
+      {/* <Menu /> */}
     </>
   );
 }

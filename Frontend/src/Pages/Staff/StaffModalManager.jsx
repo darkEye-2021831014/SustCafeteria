@@ -22,7 +22,7 @@ const StaffModalManager = ({
 
   const modalClass = isRemoveAll
     ? "w-[630px] h-[320px]  py-[35px] bg-[#F2F2F7]"
-    : "bg-white w-[550px] h-[730px] p-[50px]";
+    : "bg-white w-[550px] h-[810px] p-[50px]";
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);

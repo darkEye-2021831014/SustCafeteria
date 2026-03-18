@@ -1,20 +1,29 @@
 import { createContext, useEffect, useState } from "react";
 
 export const StaffContext = createContext();
-
+const BASE_URL = "http://localhost:8000";
 const StaffProvider = ({ children }) => {
   const pillList = ["Register Staff", "Release Staff"];
   const [activeTab, setActiveTab] = useState(pillList[0]);
 
   const onTabClick = (tab) => setActiveTab(tab);
+  const [StaffsData, setStaffsData] = useState([]);
+  const fetchStaffs = async () => {
+    try {
+      const res = await fetch(`${BASE_URL}/user`, {
+        credentials: "include",
+      });
+      const data = await res.json();
+      setStaffsData(data.staffs);
+    } catch (error) {
+      console.error("Error fetching staff:", error);
+    }
+  };
 
-  const [StaffsData, setStaffsData] = useState(() => {
-    const stored = localStorage.getItem("StaffsData");
-    return stored ? JSON.parse(stored) : [];
-  });
+  // 🔽 load data on first render
   useEffect(() => {
-    localStorage.setItem("StaffsData", JSON.stringify(StaffsData));
-  }, [StaffsData]);
+    fetchStaffs();
+  }, []);
 console.log("Staff added",StaffsData)
   return (
     <StaffContext.Provider
@@ -24,6 +33,8 @@ console.log("Staff added",StaffsData)
         onTabClick,
         StaffsData,
         setStaffsData,
+        fetchStaffs
+
       }}
     >
       {children}
