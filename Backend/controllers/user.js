@@ -2,7 +2,18 @@ import * as User from "../services/user.js";
 
 export const createUser = async (req, res) => {
     const body = req.body;
-    if (req.file) body.image = req.file.path;
+
+    //Handle image (from memory)
+    if (req.file) {
+        const ext = path.extname(req.file.originalname);
+        const fileName = Date.now() + ext;
+
+        const uploadDir = path.join("uploads");
+        const filePath = path.join(uploadDir, fileName);
+
+        await fs.promises.writeFile(filePath, req.file.buffer);
+        body.image = filePath;
+    }
 
     const { name, email, password, role, contact, join_date, address, image } = body;
 

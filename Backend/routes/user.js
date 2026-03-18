@@ -1,13 +1,13 @@
 import express from "express"
 import { createUser, loginUser, getAllUsers, getUserById, getUserInfo } from "../controllers/user.js"
 import { verifyEmail, restrictTo } from "../middlewares/auth.js";
+import { upload } from "../middlewares/user.js";
 
 const router = express.Router();
 
 router.route("/")
-    .post(verifyEmail, createUser)
+    .post(upload.single("image"), verifyEmail, createUser)
     .get(restrictTo(['ADMIN']), getAllUsers);
-
 
 router.route("/login")
     .post(loginUser)

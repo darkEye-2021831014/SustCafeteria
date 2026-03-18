@@ -4,7 +4,6 @@ import express from "express"
 import swaggerUi from "swagger-ui-express"
 import home from "./controllers/home.js"
 import { verifyUser } from "./middlewares/auth.js"
-import { upload } from "./middlewares/user.js"
 import user from "./routes/user.js"
 import SwaggerParser from "@apidevtools/swagger-parser"
 
@@ -13,7 +12,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
-app.use(upload.single("image"));
 app.use(verifyUser);
 
 app.get("/", home);
