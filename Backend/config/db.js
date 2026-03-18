@@ -14,7 +14,7 @@ export const db = mysql.createPool({
     database: process.env.DB_NAME,
     waitForConnections: true,
     connectionLimit: 10,
-     ssl: {
+    ssl: {
         rejectUnauthorized: true
     }
 });
@@ -29,7 +29,7 @@ export const setUpDB = async () => {
     }
 
     // Database Schema
-    createUserTable();
+    await createUserTable();
     await createInventoryTable();
     await createSupplierTable();
     await createItemSupplierTable();
