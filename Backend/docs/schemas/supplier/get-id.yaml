@@ -1,0 +1,56 @@
+summary: Get supplier by ID
+tags:
+  - Supplier
+parameters:
+  - name: id
+    in: path
+    required: true
+    schema:
+      type: integer
+    description: Supplier ID
+responses:
+  "200":
+    description: Supplier details
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            name:
+              type: string
+              example: Golam Mustofa
+            item:
+              type: string
+              example: Rice
+            price:
+              type: number
+              format: float
+              example: 90.00
+            created_at:
+              type: string
+              format: date-time
+            updated_at:
+              type: string
+              format: date-time
+  "404":
+    description: Supplier not found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: Supplier not found
+  "500":
+    description: Internal server error
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string

@@ -1,8 +1,9 @@
 import * as User from "../services/user.js";
+import fs from "fs"
 
 export const createUser = async (req, res) => {
     const body = req.body;
-    if (req.file) body.image = req.file.path;
+    if (req.file) body.image = "/" + req.file.path;
 
     const { name, email, password, role, contact, join_date, address, image } = body;
 
@@ -14,6 +15,21 @@ export const createUser = async (req, res) => {
 
     if (missingFields.length > 0) {
         return res.status(400).json({ msg: `Missing fields: ${missingFields.join(", ")}` });
+    }
+
+    //check if email already exists
+    try {
+        const user = await User.verifyUser(email);
+        if (user) {
+            // Delete uploaded file if exists
+            if (req.file) fs.unlinkSync(req.file.path);
+
+            return res.status(409).json({ msg: "User Already Exists!" });
+        }
+    } catch (err) {
+        // Delete uploaded file in case of error
+        if (req.file) fs.unlinkSync(req.file.path);
+        res.status(500).json({ msg: `Error in email Verification: ${err.message}` });
     }
 
     try {

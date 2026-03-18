@@ -1,0 +1,40 @@
+summary: Delete supplier by ID
+tags:
+  - Supplier
+parameters:
+  - name: id
+    in: path
+    required: true
+    schema:
+      type: integer
+    description: Supplier ID
+responses:
+  "200":
+    description: Supplier deleted
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: Supplier deleted
+  "404":
+    description: Supplier not found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: Supplier not found
+  "500":
+    description: Internal server error
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string

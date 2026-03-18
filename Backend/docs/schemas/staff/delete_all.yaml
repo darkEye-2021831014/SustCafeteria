@@ -1,0 +1,18 @@
+summary: Delete all staff members
+tags:
+  - Staff
+
+security:
+  - cookieAuth: []
+
+responses:
+  "200":
+    description: All staff deleted
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: All staff deleted

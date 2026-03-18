@@ -72,7 +72,11 @@ export const getAllStockItems = async () => {
 export const getLowStockItems = async () => {
 
     const query = `
-        SELECT *
+        SELECT *,
+        CASE
+            WHEN current_stock <= minimum_stock THEN 'Low Stock'
+            ELSE 'Available'
+        END AS status
         FROM stock_item
         WHERE current_stock <= minimum_stock
     `;
@@ -103,8 +107,27 @@ export const getAvailableStockItems = async () => {
 };
 
 
+export const getStockItemById = async (id) => {
 
-export const updateStock = async (id, quantity) => {
+    const query = `
+        SELECT *,
+        CASE
+            WHEN current_stock <= minimum_stock THEN 'Low Stock'
+            ELSE 'Available'
+        END AS status
+        FROM stock_item
+        WHERE id = ?
+    `;
+
+    const [rows] = await db.query(query, [id]);
+
+    return rows[0];
+
+};
+
+
+
+export const updateStockQuantity = async (id, quantity) => {
 
     const query = `
         UPDATE stock_item
@@ -118,6 +141,41 @@ export const updateStock = async (id, quantity) => {
 
 };
 
+
+export const updateStock = async (id, quantity) => {
+
+    const query = `
+        UPDATE stock_item
+        SET current_stock = current_stock + ?
+        WHERE id = ?
+    `;
+
+    const [result] = await db.query(query,[quantity,id]);
+
+    return result;
+
+};
+
+
+export const updateInfo = async (id, item) => {
+
+    const { name, category, unit, minimum_stock } = item;
+
+    const query = `
+        UPDATE stock_item
+        SET
+            name = ?,
+            category = ?,
+            unit = ?,
+            minimum_stock = ?
+        WHERE id = ?
+    `;
+
+    const [result] = await db.query(query, [ name, category, unit, minimum_stock, id ]);
+
+    return result;
+
+};
 
 
 export const deleteStockItem = async (id) => {

@@ -1,11 +1,11 @@
 import express from "express"
 import { createUser, loginUser, getAllUsers, getUserById, getUserInfo } from "../controllers/user.js"
-import { verifyEmail, restrictTo } from "../middlewares/auth.js";
+import { restrictTo } from "../middlewares/auth.js";
 
 const router = express.Router();
 
 router.route("/")
-    .post(verifyEmail, createUser)
+    .post(createUser)
     .get(restrictTo(['ADMIN']), getAllUsers);
 
 

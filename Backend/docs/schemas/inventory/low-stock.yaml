@@ -1,0 +1,38 @@
+summary: Get low stock items
+tags:
+  - Inventory
+responses:
+  "200":
+    description: List of low stock items
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 1
+              name:
+                type: string
+                example: "Rice"
+              category:
+                type: string
+                example: "Grains"
+              unit:
+                type: string
+                example: "kg"
+              minimum_stock:
+                type: number
+                format: float
+                example: 10.0
+              current_stock:
+                type: number
+                format: float
+                example: 5.0
+              status:
+                type: string
+                example: "Low Stock"
+  "500":
+    description: Server error

@@ -1,0 +1,57 @@
+summary: Create a new supplier
+tags:
+  - Supplier
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - name
+          - item
+          - price
+        properties:
+          name:
+            type: string
+            example: Golam Mustofa
+          item:
+            type: string
+            example: Rice
+          price:
+            type: number
+            format: float
+            example: 90.00
+responses:
+  "201":
+    description: Supplier created successfully
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: Supplier created
+            id:
+              type: integer
+              example: 1
+  "400":
+    description: Bad request
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: Missing required fields
+  "500":
+    description: Internal server error
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
