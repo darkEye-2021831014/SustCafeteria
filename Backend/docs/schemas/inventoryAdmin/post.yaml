@@ -1,0 +1,65 @@
+summary: Create a new inventory item
+tags:
+  - Inventory
+security:
+  - cookieAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - name
+          - unit
+        properties:
+          name:
+            type: string
+            example: "Rice"
+          category:
+            type: string
+            example: "Grains"
+          unit:
+            type: string
+            example: "kg"
+          minimum_stock:
+            type: number
+            format: float
+            example: 10.0
+          current_stock:
+            type: number
+            format: float
+            example: 50.0
+responses:
+  "201":
+    description: Item created successfully
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Inventory item created successfully"
+  "400":
+    description: Bad request
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Name and unit are required"
+  "403":
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: "Unauthorized"
+  "500":
+    description: Server error

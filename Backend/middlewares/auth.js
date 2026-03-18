@@ -21,12 +21,12 @@ export const verifyEmail = async (req, res, next) => {
 
 
 //Authentication
-export const verifyUser = (req, res, next) => {
+export const verifyUser = async (req, res, next) => {
     const token = req.cookies?.token;
     req.user = null;
     if (!token) return next();
 
-    const user = getUser(token);
+    const user = await getUser(token);
     req.user = user;
     return next();
 }
@@ -40,3 +40,5 @@ export const restrictTo = (roles) => {
         next();
     };
 };
+
+export const loginRequired = restrictTo(['NORMAL', 'ADMIN']);
