@@ -57,6 +57,24 @@ paths:
       $ref: "./schemas/supplier/get-id.yaml"
     delete:
       $ref: "./schemas/supplier/delete.yaml"
+  # -----------Staff----------------
+
+  /staff:
+    post:
+      $ref: "./schemas/staff/post.yaml"
+
+    get:
+      $ref: "./schemas/staff/get_all.yaml"
+
+    delete:
+      $ref: "./schemas/staff/delete_all.yaml"
+
+  /staff/{id}:
+    get:
+      $ref: "./schemas/staff/get.yaml"
+
+    delete:
+      $ref: "./schemas/staff/delete.yaml"
 components:
   securitySchemes:
     cookieAuth:
