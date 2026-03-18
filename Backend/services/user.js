@@ -1,6 +1,7 @@
 import * as User from "../models/user.js"
 import { verifyPassword, hashPassword } from "../utils/auth.js"
 import { setUser } from "./auth.js";
+import fs from "fs";
 
 export const addUser = async (user) => {
     user.password = await hashPassword(user.password);
@@ -59,3 +60,34 @@ export const updateUserById = async (id, updates) => {
     const updated = await User.updateUserById(id, fieldsToUpdate);
     return updated;
 };
+
+export const deleteUserById = async (userId) => {
+    const user = await User.getUserById(userId);
+    if (!user) throw new Error("User not found");
+
+    // Delete image if exists
+    if (user.image) {
+        try {
+            await fs.promises.unlink(user.image);
+        } catch (err) {
+            console.log("Error deleting image:", err.message);
+        }
+    }
+
+    const deleted = await User.deleteUserById(userId);
+    return deleted;
+};
+
+export const updateUserRole = async (id, role) => {
+    const allowedRoles = ["ADMIN", "NORMAL"];
+    if (!allowedRoles.includes(role)) {
+        throw new Error("Invalid role");
+    }
+    const updated = await User.updateUserRole(id, role);
+
+    if (!updated) {
+        throw new Error("User not found");
+    }
+
+    return true;
+}

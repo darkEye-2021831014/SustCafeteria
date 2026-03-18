@@ -150,3 +150,53 @@ export const updateUserInfo = async (req, res) => {
         res.status(500).json({ msg: err.message });
     }
 };
+
+export const deleteUserById = async (req, res) => {
+    try {
+        const currentUserId = req.user.id;
+        const userIdToDelete = parseInt(req.params.id);
+
+        if (!userIdToDelete) {
+            return res.status(400).json({ msg: "User ID required" });
+        }
+
+        if (userIdToDelete === currentUserId) {
+            return res.status(400).json({ msg: "You cannot delete yourself" });
+        }
+
+        await User.deleteUserById(userIdToDelete);
+
+        res.status(200).json({ msg: "User deleted successfully" });
+    } catch (err) {
+        res.status(500).json({ msg: err.message });
+    }
+}
+
+export const updateUserRole = async (req, res) => {
+    try {
+        const { id, role } = req.body;
+        if (!id || !role)
+            return res.status(400).json({ msg: "User Id and Role is Required" });
+        if (parseInt(id) === req.user.id) {
+            return res.status(400).json({ msg: "You cannot change your own role" });
+        }
+
+        const updated = await User.updateUserRole(id, role);
+        if (!updated) {
+            return res.status(404).json({ msg: "User not found" });
+        }
+
+        res.status(200).json({ msg: "Role Updated Successfully" })
+    }
+    catch (err) {
+        if (err.message === "Invalid role") {
+            return res.status(400).json({ msg: err.message });
+        }
+
+        if (err.message === "User not found") {
+            return res.status(404).json({ msg: err.message });
+        }
+
+        res.status(500).json({ msg: err.message });
+    }
+}

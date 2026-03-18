@@ -76,3 +76,15 @@ export const updateUserById = async (id, fields) => {
 
     return result.affectedRows > 0;
 };
+
+export const deleteUserById = async (id) => {
+    const query = "DELETE FROM users WHERE id = ?";
+    const [result] = await db.execute(query, [id]);
+    return result.affectedRows > 0;
+};
+
+export const updateUserRole = async (id, role) => {
+    const query = "UPDATE users SET role = ? WHERE id = ?";
+    const [result] = await db.execute(query, [role, id]);
+    return result.affectedRows > 0;
+}

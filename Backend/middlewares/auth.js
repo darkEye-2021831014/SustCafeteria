@@ -40,3 +40,5 @@ export const restrictTo = (roles) => {
 };
 
 export const loginRequired = restrictTo(['NORMAL', 'ADMIN']);
+
+export const adminOnly = restrictTo(['ADMIN']);

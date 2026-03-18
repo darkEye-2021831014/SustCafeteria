@@ -1,14 +1,15 @@
 import express from "express"
-import { createUser, loginUser, getAllUsers, getUserById, getUserInfo, deleteAllUsers, updateUserInfo } from "../controllers/user.js"
-import { verifyEmail, restrictTo, loginRequired } from "../middlewares/auth.js";
+import { createUser, loginUser, getAllUsers, getUserById, getUserInfo, deleteAllUsers, updateUserInfo, deleteUserById, updateUserRole } from "../controllers/user.js"
+import { verifyEmail, loginRequired, adminOnly } from "../middlewares/auth.js";
 import { upload } from "../middlewares/user.js";
 
 const router = express.Router();
 
 router.route("/")
     .post(upload.single("image"), verifyEmail, createUser)
-    .get(restrictTo(['ADMIN']), getAllUsers)
-    .delete(restrictTo(['ADMIN']), deleteAllUsers);
+    .get(adminOnly, getAllUsers)
+    .delete(adminOnly, deleteAllUsers)
+    .patch(adminOnly, updateUserRole);
 
 router.route("/login")
     .post(loginUser)
@@ -17,6 +18,7 @@ router.route("/login")
 
 //Dynamic Routes Should Be Last in the execution order
 router.route("/:id")
-    .get(restrictTo(['ADMIN']), getUserById);
+    .get(adminOnly, getUserById)
+    .delete(adminOnly, deleteUserById);
 
 export default router;

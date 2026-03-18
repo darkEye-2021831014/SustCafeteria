@@ -1,0 +1,95 @@
+summary: Update user role
+description: >
+  Updates the role of a specific user.  
+  Requires both `id` and `role` in the request body.  
+  The authenticated user cannot change their own role.
+tags:
+  - User
+security:
+  - bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - id
+          - role
+        properties:
+          id:
+            type: integer
+            description: ID of the user whose role will be updated
+            example: 2
+          role:
+            type: string
+            description: New role to assign to the user
+            enum: [ADMIN, NORMAL]
+            example: ADMIN
+responses:
+  "200":
+    description: Role updated successfully
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: Role Updated Successfully
+  "400":
+    description: Bad request – missing fields, invalid role, or self-role change attempt
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              examples:
+                missing:
+                  value: User Id and Role is Required
+                invalidRole:
+                  value: Invalid role
+                selfChange:
+                  value: You cannot change your own role
+  "401":
+    description: Unauthorized – user not authenticated
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: Unauthorized
+  "403":
+    description: Forbidden – only admins can update roles
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: Forbidden
+  "404":
+    description: User not found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: User not found
+  "500":
+    description: Internal server error
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: Internal server error
