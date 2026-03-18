@@ -9,13 +9,11 @@ export const addUser = async (user) => {
 }
 
 export const validateUser = async (email, password) => {
-    const user = await User.getUserByEmail(email); // await here
-    if (!user) return null;
-
-    const isValid = await verifyPassword(password, user.password); // await here
+    const isValid = await verifyPassword(email, password);
     if (!isValid) return null;
 
-    const token = setUser(user); // pass the user object
+    const user = await User.getUserByEmail(email);
+    const token = setUser(user);
     return token;
 };
 
@@ -27,6 +25,37 @@ export const getUserById = async (id) => {
     return await User.getUserById(id);
 }
 
-export const verifyUser = async (email) => {
+export const getUserByEmail = async (email) => {
     return await User.getUserByEmail(email);
 }
+
+export const deleteAllUsersExcept = async (id) => {
+    return await User.deleteAllUsersExcept(id);
+}
+
+export const getAllUsersExcept = async (id) => {
+    return await User.getAllUsersExcept(id);
+}
+
+export const updateUserById = async (id, updates) => {
+    const fieldsToUpdate = {};
+
+    // Handle password update
+    if (updates.oldPassword && updates.newPassword) {
+        const user = await User.getUserById(id);
+
+        const valid = await verifyPassword(user.email, updates.oldPassword);
+        if (!valid) throw new Error("Old password is incorrect");
+
+        fieldsToUpdate.password = await hashPassword(updates.newPassword);
+    } else if (updates.oldPassword || updates.newPassword) {
+        throw new Error("Both oldPassword and newPassword must be provided");
+    }
+
+    if (updates.name) fieldsToUpdate.name = updates.name;
+    if (updates.contact) fieldsToUpdate.contact = updates.contact;
+    if (updates.address) fieldsToUpdate.address = updates.address;
+
+    const updated = await User.updateUserById(id, fieldsToUpdate);
+    return updated;
+};

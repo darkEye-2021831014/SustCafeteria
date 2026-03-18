@@ -1,0 +1,82 @@
+summary: Update current user's information
+description: >
+  Updates the authenticated user's information. 
+  Only the fields provided in the request body will be updated (partial update supported).
+tags:
+  - User
+security:
+  - bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          password:
+            type: string
+            description: New password for the user
+            example: "newpassword123"
+          name:
+            type: string
+            description: New full name of the user
+            example: "John Doe"
+          contact:
+            type: string
+            description: New contact number
+            example: "+880123456789"
+          address:
+            type: string
+            description: New address
+            example: "123 Street, City, Country"
+responses:
+  "200":
+    description: User information updated successfully
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: User info updated successfully
+  "400":
+    description: Bad request – no fields provided to update
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: No fields provided to update
+  "401":
+    description: Unauthorized – user not authenticated
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: Unauthorized
+  "404":
+    description: User not found or nothing updated
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: User not found or nothing updated
+  "500":
+    description: Internal server error
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: Internal server error

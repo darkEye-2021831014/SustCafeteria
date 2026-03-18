@@ -1,5 +1,6 @@
 import * as User from "../services/user.js";
 import fs from "fs"
+import path from "path"
 
 export const createUser = async (req, res) => {
     const body = req.body;
@@ -26,21 +27,6 @@ export const createUser = async (req, res) => {
 
     if (missingFields.length > 0) {
         return res.status(400).json({ msg: `Missing fields: ${missingFields.join(", ")}` });
-    }
-
-    //check if email already exists
-    try {
-        const user = await User.verifyUser(email);
-        if (user) {
-            // Delete uploaded file if exists
-            if (req.file) fs.unlinkSync(req.file.path);
-
-            return res.status(409).json({ msg: "User Already Exists!" });
-        }
-    } catch (err) {
-        // Delete uploaded file in case of error
-        if (req.file) fs.unlinkSync(req.file.path);
-        res.status(500).json({ msg: `Error in email Verification: ${err.message}` });
     }
 
     try {
@@ -107,10 +93,6 @@ export const getUserById = async (req, res) => {
 
 export const getUserInfo = async (req, res) => {
     try {
-        if (!req.user) {
-            return res.status(401).json({ msg: "Unauthorized" });
-        }
-
         const user = await User.getUserById(req.user.id);
         if (!user) {
             return res.status(404).json({ msg: "User not found" });
@@ -118,6 +100,53 @@ export const getUserInfo = async (req, res) => {
 
         res.status(200).json(user);
     } catch (err) {
+        res.status(500).json({ msg: err.message });
+    }
+};
+
+export const deleteAllUsers = async (req, res) => {
+    try {
+        const currentUserId = req.user.id;
+        const users = await User.getAllUsersExcept(currentUserId);
+
+        await User.deleteAllUsersExcept(currentUserId);
+
+        for (const user of users) {
+            if (user.image) {
+                try {
+                    await fs.promises.unlink(user.image);
+                } catch (err) {
+                    console.log("File delete error:", err.message);
+                }
+            }
+        }
+
+        res.json({ msg: "All users deleted except current user" });
+
+    } catch (err) {
+        res.status(500).json({ msg: err.message });
+    }
+};
+
+export const updateUserInfo = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const { oldPassword, newPassword, name, contact, address } = req.body;
+
+        if (!oldPassword && !newPassword && !name && !contact && !address) {
+            return res.status(400).json({ msg: "No fields provided to update" });
+        }
+
+        const updates = { oldPassword, newPassword, name, contact, address };
+
+        await User.updateUserById(userId, updates);
+
+        const user = await User.getUserById(userId);
+        res.status(200).json(user);
+    } catch (err) {
+        if (err.message.includes("Old password")) {
+            return res.status(400).json({ msg: err.message });
+        }
         res.status(500).json({ msg: err.message });
     }
 };

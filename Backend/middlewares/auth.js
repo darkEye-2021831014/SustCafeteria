@@ -18,8 +18,6 @@ export const verifyEmail = async (req, res, next) => {
     }
 };
 
-
-
 //Authentication
 export const verifyUser = async (req, res, next) => {
     const token = req.cookies?.token;
