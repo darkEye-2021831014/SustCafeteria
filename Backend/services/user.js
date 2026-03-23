@@ -79,10 +79,10 @@ export const deleteUserById = async (userId) => {
 };
 
 export const updateUserRole = async (id, role) => {
-    const allowedRoles = ["ADMIN", "NORMAL"];
-    if (!allowedRoles.includes(role)) {
-        throw new Error("Invalid role");
-    }
+    // const allowedRoles = ["ADMIN", "NORMAL"];
+    // if (!allowedRoles.includes(role)) {
+    //     throw new Error("Invalid role");
+    // }
     const updated = await User.updateUserRole(id, role);
 
     if (!updated) {

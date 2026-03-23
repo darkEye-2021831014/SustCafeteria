@@ -28,7 +28,7 @@ requestBody:
             example: mypassword123
           role:
             type: string
-            example: ADMIN
+            example: manager
           contact:
             type: string
             example: 017xxxxxxxx

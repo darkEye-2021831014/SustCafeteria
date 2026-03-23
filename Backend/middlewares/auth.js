@@ -32,13 +32,23 @@ export const verifyUser = async (req, res, next) => {
 // Authrization
 export const restrictTo = (roles) => {
     return (req, res, next) => {
-        if (!req.user || !roles.includes(req.user.role)) {
+        if (!req.user) {
+            return res.status(403).json({ msg: "Unauthorized" });
+        }
+
+        const userRole = req.user.role?.toUpperCase();
+        if (!roles.map(r => r.toUpperCase()).includes(userRole)) {
             return res.status(403).json({ msg: "Unauthorized" });
         }
         next();
     };
 };
 
-export const loginRequired = restrictTo(['NORMAL', 'ADMIN']);
+export const loginRequired = (req, res, next) => {
+    if (!req.user) {
+        return res.status(403).json({ msg: "Unauthorized" });
+    }
+    next();
+}
 
-export const adminOnly = restrictTo(['ADMIN']);
+export const adminOnly = restrictTo(['MANAGER']);
