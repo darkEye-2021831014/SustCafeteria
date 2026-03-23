@@ -1,7 +1,6 @@
 import React from "react";
 import { format } from "date-fns";
 const TableHeader = ({ title, reportingTime, type }) => {
-  console.log(title, reportingTime, type);
   let headerContent;
   if (reportingTime) {
     headerContent = (

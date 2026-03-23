@@ -1,5 +1,4 @@
 export const getStaffFields = (selectedStaff, activeTab) => {
-  console.log("selected Staff", selectedStaff);
   const isRemove = activeTab === "Release Staff";
   return [
     {
@@ -17,15 +16,18 @@ export const getStaffFields = (selectedStaff, activeTab) => {
       defaultValue: selectedStaff?.role,
       disabled: isRemove,
     },
-    {
-      label: "Salary(In Taka)",
-      name: "salary",
-      type: "number",
-      placeholder: "14000",
-      defaultValue: selectedStaff?.salary,
-      disabled: isRemove,
-    },
-
+    ...(activeTab === "Register Staff"
+      ? [
+          {
+            label: "Password",
+            name: "password",
+            placeholder: "Enter password",
+            defaultValue: "",
+            disabled: false,
+            type: "password",
+          },
+        ]
+      : []),
     {
       label: "Contuct Number",
       name: "contact",
@@ -48,20 +50,24 @@ export const getStaffFields = (selectedStaff, activeTab) => {
       disabled: isRemove,
     },
     {
-      label:"Joining Date",
-      name:"join_date",
-      type:"date",
-      defaultValue:selectedStaff?.joiningDate?.split("T")[0],
-      disabled:isRemove,
-    }
+      label: "Joining Date",
+      name: "join_date",
+      type: "date",
+      defaultValue: selectedStaff?.join_date
+        ? selectedStaff.join_date.split("T")[0]
+        : "",
+      disabled: isRemove,
+    },
   ];
+  
 };
 
-export const getTitle=(activeTab)=>{
-  if(activeTab==="Register Staff") return "Register New Staff";
-  if(activeTab==="Release Staff") return "Do You Want To Release This Staff?";
+export const getTitle = (activeTab) => {
+  if (activeTab === "Register Staff") return "Register New Staff";
+  if (activeTab === "Release Staff")
+    return "Do You Want To Release This Staff?";
   return "";
-}
-export const getImageUpload=(activeTab)=>{
-  return activeTab==="Register Staff";
-}
+};
+export const getImageUpload = (activeTab) => {
+  return activeTab === "Register Staff";
+};

@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import TextIconButton from "../Button/TextIconButton";
 import { FaCheck, FaXmark } from "react-icons/fa6";
 import ImageUpload from "./ImageUpload";
+import PasswordInput from "./PasswordInput";
 const Form = ({
   title,
   fields = [],
@@ -65,6 +66,8 @@ const Form = ({
                   </option>
                 ))}
               </select>
+            ) : field.type === "password" ? (
+              <PasswordInput field={field} />
             ) : (
               <input
                 type={field.type || "text"}
@@ -94,7 +97,6 @@ const Form = ({
             icon={submitIcon || <FaCheck />}
             className={`w-[98px] h-[32px] ${submitColor} text-white rounded-full font-bold text-[12px]`}
             type="submit"
-            // onClick={onClose}
           />
         </div>
       </form>
