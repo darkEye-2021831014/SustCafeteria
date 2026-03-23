@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import * as User from "../models/user.js"
 
 // Hash a plain password
 export const hashPassword = async (password) => {
@@ -8,6 +9,9 @@ export const hashPassword = async (password) => {
 };
 
 // Compare plain password with hashed password
-export const verifyPassword = async (password, hashedPassword) => {
-    return await bcrypt.compare(password, hashedPassword);
+export const verifyPassword = async (email, password) => {
+    const user = await User.getUserByEmail(email);
+    if (!user) return false;
+
+    return await bcrypt.compare(password, user.password);
 };

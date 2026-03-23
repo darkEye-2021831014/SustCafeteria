@@ -1,16 +1,16 @@
 import express from "express";
 import { createSupplier, getAllSuppliers, getSupplierById, deleteSupplierById, deleteAllSuppliers } from "../controllers/supplier.js";
-import { restrictTo } from "../middlewares/auth.js";
+import { adminOnly, restrictTo } from "../middlewares/auth.js";
 
 const router = express.Router();
 
 router.route("/")
-    .post(restrictTo(['ADMIN']), createSupplier)
-    .get( getAllSuppliers)
-    .delete(restrictTo(['ADMIN']), deleteAllSuppliers);
+    .post(adminOnly, createSupplier)
+    .get(getAllSuppliers)
+    .delete(adminOnly, deleteAllSuppliers);
 
 router.route("/:id")
-    .get( getSupplierById)
-    .delete(restrictTo(['ADMIN']), deleteSupplierById);
+    .get(getSupplierById)
+    .delete(adminOnly, deleteSupplierById);
 
 export default router;
