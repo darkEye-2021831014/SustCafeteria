@@ -22,7 +22,6 @@ const StaffContent = () => {
     exclude: getExcludeColumns(activeTab),
   });
   const isRemoveAll = activeTab === "Release Staff" && !selectedStaff;
-  console.log(isRemoveAll);
   let submitText, submitColor, submitIcon, cancelColor;
 
   if (activeTab === "Register Staff") {
@@ -32,8 +31,7 @@ const StaffContent = () => {
     submitColor = "bg-red-500";
     submitIcon = <RiDeleteBin6Line />;
     cancelColor = "bg-green-500";
-  }
-
+  }   
   return (
     <div>
       <SubNavBar

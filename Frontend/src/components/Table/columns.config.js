@@ -3,7 +3,7 @@ import { FaCheck, FaPlusCircle } from "react-icons/fa";
 import { RiArrowDropDownLine } from "react-icons/ri";
 
 export const BASE_COLUMNS = {
-  name: { key: "name", label: "Name" },
+  name: { key: "name", label: "নাম" },
   role:{key:"role",label:"পদবী"},
   salary:{key:"salary",label:"মাসিক বেতন"},
   item: { key: "item", label: "Item" },
