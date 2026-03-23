@@ -11,7 +11,7 @@ import supplier from "./routes/supplier.js"
 import itemSupplier from "./routes/item_supplier.js"
 import purchaseOrder from "./routes/purchase_order.js"
 import SwaggerParser from "@apidevtools/swagger-parser"
-
+import attendance from "./routes/attendance.js";
 const app = express();
 
 app.use(cors());
@@ -27,6 +27,7 @@ app.use("/supplier",loginRequired, supplier);
 app.use("/itemSupplier",loginRequired, itemSupplier);
 app.use("/purchaseOrder",loginRequired, purchaseOrder);
 
+app.use("/attendance", loginRequired, attendance);
 
 app.use("/uploads", express.static("uploads"));
 

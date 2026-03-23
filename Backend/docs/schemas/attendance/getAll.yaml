@@ -1,0 +1,76 @@
+summary: Get all attendance
+tags:
+  - Attendance
+
+parameters:
+  - in: query
+    name: date
+    schema:
+      type: string
+    example: "2026-03-20"
+
+  - in: query
+    name: status
+    schema:
+      type: string
+      enum: [All, Present, Absent, Late]
+    example: Present
+
+responses:
+  200:
+    description: List of attendance records
+    content:
+      application/json:
+        examples:
+          allPresent:
+            summary: All Present users
+            value:
+              - id: 1
+                name: "Shikha"
+                role: "staff"
+                image: "shikha.jpg"
+                status: "Present"
+                time: "10:30:00"
+                date: "2026-03-20"
+              - id: 2
+                name: "Rafi"
+                role: "staff"
+                image: "rafi.jpg"
+                status: "Present"
+                time: "10:35:00"
+                date: "2026-03-20"
+          mixed:
+            summary: Mixed attendance
+            value:
+              - id: 1
+                name: "Shikha"
+                role: "staff"
+                image: "shikha.jpg"
+                status: "Present"
+                time: "10:30:00"
+                date: "2026-03-20"
+              - id: 2
+                name: "Rafi"
+                role: "staff"
+                image: "rafi.jpg"
+                status: "Late"
+                time: "10:45:00"
+                date: "2026-03-20"
+  400:
+    description: Bad Request
+    content:
+      application/json:
+        examples:
+          invalidDate:
+            summary: Invalid date format
+            value:
+              message: "Date format should be YYYY-MM-DD"
+  500:
+    description: Server Error
+    content:
+      application/json:
+        examples:
+          error:
+            summary: Internal server error
+            value:
+              message: "Something went wrong"
