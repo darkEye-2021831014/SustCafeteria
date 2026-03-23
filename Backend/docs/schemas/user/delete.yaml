@@ -1,0 +1,36 @@
+summary: Delete all users except the current user (ADMIN only)
+tags:
+  - User
+security:
+  - bearerAuth: []
+responses:
+  "200":
+    description: All other users deleted successfully
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: All users deleted except current user
+  "401":
+    description: Unauthorized - user not authenticated
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: Unauthorized
+  "500":
+    description: Internal server error
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: Internal server error

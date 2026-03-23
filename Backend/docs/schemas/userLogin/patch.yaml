@@ -1,0 +1,113 @@
+summary: Update current user's information
+description: >
+  Updates the authenticated user's information. 
+  Only the fields provided in the request body will be updated (partial update supported).  
+  To update the password, both `oldPassword` and `newPassword` must be provided.  
+  Returns the updated user object (excluding password, created_at, updated_at).
+tags:
+  - User
+security:
+  - bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          oldPassword:
+            type: string
+            description: Current password of the user (required when updating password)
+            example: "currentpassword123"
+          newPassword:
+            type: string
+            description: New password for the user (required when updating password)
+            example: "newpassword123"
+          name:
+            type: string
+            description: New full name of the user
+            example: "John Doe"
+          contact:
+            type: string
+            description: New contact number
+            example: "+880123456789"
+          address:
+            type: string
+            description: New address
+            example: "123 Street, City, Country"
+responses:
+  "200":
+    description: Updated user information
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            user:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  example: 1
+                name:
+                  type: string
+                  example: "John Doe"
+                email:
+                  type: string
+                  example: "john@example.com"
+                role:
+                  type: string
+                  example: "NORMAL"
+                contact:
+                  type: string
+                  example: "+880123456789"
+                join_date:
+                  type: string
+                  format: date
+                  example: "2026-03-18"
+                address:
+                  type: string
+                  example: "123 Street, City, Country"
+                image:
+                  type: string
+                  example: "uploads/168x123.png"
+  "400":
+    description: Bad request – no fields provided or incorrect password update
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: No fields provided to update
+  "401":
+    description: Unauthorized – user not authenticated
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: Unauthorized
+  "404":
+    description: User not found or nothing updated
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: User not found or nothing updated
+  "500":
+    description: Internal server error
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: Internal server error

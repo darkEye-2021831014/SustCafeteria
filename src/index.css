@@ -1,7 +1,0 @@
-@import "tailwindcss";
-@theme {
-  --font-tourney: "Tourney", sans-serif;
-}
-body{
-  background: rgba(232, 181, 186, 0.2);
-}

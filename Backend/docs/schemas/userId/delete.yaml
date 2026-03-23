@@ -1,0 +1,74 @@
+summary: Delete a user by ID
+description: >
+  Deletes a user specified by the `id` path parameter.  
+  The authenticated user **cannot delete themselves**.  
+  If the user has an image, it will be removed from the server.
+tags:
+  - User
+security:
+  - bearerAuth: []
+parameters:
+  - in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+      example: 2
+    description: ID of the user to delete
+responses:
+  "200":
+    description: User deleted successfully
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: User deleted successfully
+  "400":
+    description: Bad request – missing ID or attempting to delete self
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: You cannot delete yourself
+  "401":
+    description: Unauthorized – user not authenticated
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: Unauthorized
+  "404":
+    description: User not found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: User not found
+  "500":
+    description: Internal server error
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: Internal server error
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

@@ -1,0 +1,41 @@
+summary: Get all suppliers
+tags:
+  - Supplier
+responses:
+  "200":
+    description: List of suppliers
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 1
+              name:
+                type: string
+                example: Golam Mustofa
+              item:
+                type: string
+                example: Rice
+              price:
+                type: number
+                format: float
+                example: 90.00
+              created_at:
+                type: string
+                format: date-time
+              updated_at:
+                type: string
+                format: date-time
+  "500":
+    description: Internal server error
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
