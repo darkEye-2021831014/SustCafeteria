@@ -34,5 +34,6 @@ export const setUpDB = async () => {
     await createSupplierTable();
     await createItemSupplierTable();
     await createPurchaseOrderTable();
+    await createAttendanceTable();
 };
 
