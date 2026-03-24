@@ -4,7 +4,7 @@ const TableHeader = ({ title, reportingTime, type }) => {
   let headerContent;
   if (reportingTime) {
     headerContent = (
-      <p>
+      <p className="text-[#F54758] text-[32px]">
         Reporting Time: <span>{reportingTime}</span>
       </p>
     );

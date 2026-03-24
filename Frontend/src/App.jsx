@@ -7,6 +7,7 @@ import Supplier from "./Pages/Supplier/Supplier";
 import Supplierprovider from "./contexts/SupplierContext/SupplierContext";
 import Inventory from "./Pages/Inventory/Inventory";
 import Staff from "./Pages/Staff/Staff";
+import Attendance from "./Pages/Attendance/Attendance";
 function App() {
   return (
     <>
@@ -15,8 +16,9 @@ function App() {
       <Supplier />  
       </Supplierprovider> */}
       {/* <Inventory/> */}
-      <Staff />
+      {/* <Staff /> */}
       {/* <Menu /> */}
+      <Attendance />
     </>
   );
 }
