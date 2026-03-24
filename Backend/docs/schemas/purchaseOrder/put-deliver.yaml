@@ -1,0 +1,42 @@
+summary: Mark purchase order as delivered
+description: Update a purchase order status to delivered and update inventory stock
+tags:
+  - Purchase Order
+security:
+  - cookieAuth: []
+parameters:
+  - name: id
+    in: path
+    required: true
+    schema:
+      type: integer
+    description: ID of the purchase order to mark as delivered
+responses:
+  '200':
+    description: Order marked as delivered successfully
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: "Order marked as delivered and stock updated"
+  '404':
+    description: Purchase order not found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+  '500':
+    description: Internal server error
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string

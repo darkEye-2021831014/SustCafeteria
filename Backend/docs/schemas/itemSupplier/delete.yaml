@@ -1,0 +1,49 @@
+summary: Delete item-supplier mapping
+description: Remove the mapping between a supplier and a stock item
+tags:
+  - Item Supplier
+security:
+  - cookieAuth: []
+parameters:
+  - name: supplier_id
+    in: path
+    required: true
+    schema:
+      type: integer
+    description: ID of the supplier
+  - name: stock_item_id
+    in: path
+    required: true
+    schema:
+      type: integer
+    description: ID of the stock item
+responses:
+  '200':
+    description: Item supplier mapping deleted successfully
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: "Item supplier mapping deleted"
+  '404':
+    description: Mapping not found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: "Mapping not found"
+  '500':
+    description: Internal server error
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
