@@ -73,6 +73,39 @@ paths:
     get:
       $ref: "./schemas/attendance/getAll.yaml"
  
+      # ------------Item Supplier----------------
+  /itemSupplier:
+    post:
+      $ref: "./schemas/itemSupplier/post.yaml"
+  /itemSupplier/supplier/{supplier_id}:
+    get:
+      $ref: "./schemas/itemSupplier/get-supplier.yaml"
+  /itemSupplier/item/{stock_item_id}:
+    get:
+      $ref: "./schemas/itemSupplier/get-item.yaml"
+  /itemSupplier/{supplier_id}/{stock_item_id}:
+    delete:
+      $ref: "./schemas/itemSupplier/delete.yaml"
+
+      # ------------Purchase Order----------------
+  /purchaseOrder:
+    post:
+      $ref: "./schemas/purchaseOrder/post.yaml"
+    get:
+      $ref: "./schemas/purchaseOrder/get.yaml"
+  /purchaseOrder/pending:
+    get:
+      $ref: "./schemas/purchaseOrder/get-pending.yaml"
+  /purchaseOrder/low-stock:
+    get:
+      $ref: "./schemas/purchaseOrder/get-low-stock.yaml"
+  /purchaseOrder/{id}:
+    get:
+      $ref: "./schemas/purchaseOrder/get-id.yaml"
+  /purchaseOrder/{id}/deliver:
+    put:
+      $ref: "./schemas/purchaseOrder/put-deliver.yaml"
+ 
 components:
   securitySchemes:
     cookieAuth:

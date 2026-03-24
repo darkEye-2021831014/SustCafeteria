@@ -1,0 +1,49 @@
+summary: Get suppliers for a stock item
+description: Retrieve all suppliers that provide a specific stock item
+tags:
+  - Item Supplier
+security:
+  - cookieAuth: []
+parameters:
+  - name: stock_item_id
+    in: path
+    required: true
+    schema:
+      type: integer
+    description: ID of the stock item
+responses:
+  '200':
+    description: List of suppliers for the item
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              supplier_id:
+                type: integer
+              stock_item_id:
+                type: integer
+              price_per_unit:
+                type: number
+                format: float
+              notes:
+                type: string
+              supplier_name:
+                type: string
+              contact:
+                type: string
+              email:
+                type: string
+              address:
+                type: string
+  '500':
+    description: Internal server error
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
