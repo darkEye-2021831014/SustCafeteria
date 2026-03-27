@@ -14,7 +14,7 @@ const InventoryModalManager = ({
 }) => {
   const modalClass = isRemoveAll
     ? "w-[630px] h-[320px]  py-[35px] bg-[#F2F2F7]"
-    : "bg-white w-[550px] h-[608px] p-[50px]";
+    : "bg-white w-[550px] h-[630px] p-[50px]";
   return (
 
     <Modal isOpen={isOpen} onClose={onClose} className={modalClass}> 
@@ -24,6 +24,7 @@ const InventoryModalManager = ({
         <AddInventoryModal
           onClose={onClose}
           selectedProduct={selectedProduct}
+          title="পণ্য আপডেট করুন"
         />
 
       )}
@@ -42,6 +43,7 @@ const InventoryModalManager = ({
         <AddInventoryModal
           onClose={onClose}
           selectedProduct={selectedProduct}
+          title="আপনি নিশ্চিত পণ্যটি মুছে ফেলবেন ?"
           submitIcon={<RiDeleteBin6Line />}
           cancelIcon={<FaXmark />}
           isRemoveAll={isRemoveAll}

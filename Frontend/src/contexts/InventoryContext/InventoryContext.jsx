@@ -1,24 +1,140 @@
-import { createContext, useState, useEffect } from "react";
+import { useContext, createContext, useState, useEffect } from "react";
+import { AuthContext } from "../AuthContext/Authcontext";
+import { useLocation, useNavigate } from "react-router";
 
 export const InventoryContext = createContext();
 
+const BASE_URL = "http://localhost:8000";
+
 const InventoryProvider = ({ children }) => {
-  const [isAdmin, setIsAdmin] = useState(true);
+  const { user } = useContext(AuthContext);
+  const isAdmin = user?.role?.toLowerCase() === "manager";
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const [loading, setLoading] = useState(false);
+  const [products, setProducts] = useState([]);
+  const [lowStockCount, setLowStockCount] = useState(0);
+
   const pillList = isAdmin
     ? ["Add Item", "Remove Item"]
-    : ["Add Item", "Low Stock", "Available Stock"];
+    : ["All Item", "Low Stock", "Available Stock"];
+
   const [activeTab, setActiveTab] = useState(pillList[0]);
-  const [ProductsData, setProductsData] = useState(() => {
-    const stored = localStorage.getItem("ProductsData");
-    return stored ? JSON.parse(stored) : [];
-  });
+
+  // ✅ Common Fetch Handler (DRY)
+  const fetchData = async (url, setter) => {
+    setLoading(true);
+    const res = await fetch(url, { credentials: "include" });
+    const data = await res.json();
+    setter(data);
+    setLoading(false);
+  };
+
+  // ✅ Inventory APIs
+  const fetchAllItems = () => {
+    fetchData(`${BASE_URL}/inventory`, setProducts);
+  };
+
+  const fetchLowStock = () => {
+    fetchData(`${BASE_URL}/inventory/low-stock`, setProducts);
+  };
+
+  const fetchAvailableStock = () => {
+    fetchData(`${BASE_URL}/inventory/available`, setProducts);
+  };
+
+  // ✅ Low Stock Count (no loading here ❗)
+  const fetchLowStockCount = async () => {
+    const res = await fetch(`${BASE_URL}/inventory/low-stock`, {
+      credentials: "include",
+    });
+    const data = await res.json();
+    setLowStockCount(data.length);
+  };
+
+  // ✅ Create
+  const createItem = async (item) => {
+    await fetch(`${BASE_URL}/inventory`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(item),
+      credentials: "include",
+    });
+
+    refreshData();
+  };
+
+  // ✅ Delete
+  const deleteItem = async (id) => {
+    await fetch(`${BASE_URL}/inventory/${id}`, {
+      method: "DELETE",
+      credentials: "include",
+    });
+
+    refreshData();
+  };
+
+  // ✅ Update Quantity
+  const updateQuantity = async (id, quantity) => {
+    await fetch(`${BASE_URL}/inventory/${id}/quantity`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ quantity }),
+      credentials: "include",
+    });
+
+    refreshData();
+  };
+
+  // ✅ Smart Refresh (🔥 important)
+  const refreshData = () => {
+    if (location.pathname.includes("low-stock")) {
+      fetchLowStock();
+    } else if (location.pathname.includes("available")) {
+      fetchAvailableStock();
+    } else {
+      fetchAllItems();
+    }
+
+    fetchLowStockCount(); // alert update
+  };
+
+  // ✅ Navigation
+  const onTabClick = (tab) => {
+    if (tab === "Low Stock") {
+      navigate("/inventory/low-stock");
+    } else if (tab === "Available Stock") {
+      navigate("/inventory/available");
+    } else if (tab === "Remove Item") {
+      navigate("/inventory/remove-item");
+    } else if (tab === "Add Item") {
+      navigate("/inventory/add-item");
+    } else {
+      navigate("/inventory");
+    }
+  };
+
+  // ✅ Route ভিত্তিক data load
   useEffect(() => {
-    localStorage.setItem("ProductsData", JSON.stringify(ProductsData));
-  }, [ProductsData]);
+    refreshData();
+  }, [location.pathname]);
+
+  // ✅ Initial low stock count
+  useEffect(() => {
+    fetchLowStockCount();
+  }, []);
+
+  // ✅ Reset tab when role changes
   useEffect(() => {
     setActiveTab(pillList[0]);
-  }, [pillList]);
-  const onTabClick = (tab) => setActiveTab(tab);
+  }, [isAdmin]);
+
   return (
     <InventoryContext.Provider
       value={{
@@ -26,8 +142,12 @@ const InventoryProvider = ({ children }) => {
         pillList,
         activeTab,
         onTabClick,
-        ProductsData,
-        setProductsData,
+        products,
+        createItem,
+        deleteItem,
+        updateQuantity,
+        loading,
+        lowStockCount,
       }}
     >
       {children}

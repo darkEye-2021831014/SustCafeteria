@@ -1,21 +1,4 @@
-export const getDisplayedData = (ProductsData, activeTab) => {
-  if (activeTab === "Low Stock") {
-    return ProductsData.filter(
-      (item) => Number(item.currentStock) < Number(item.minimumStock)
-    );
-  }
-
-  if (activeTab === "Available Stock") {
-    return ProductsData.filter(
-      (item) => Number(item.currentStock) >= Number(item.minimumStock)
-    );
-  }
-
-  return ProductsData;
-};
-
 export const getExcludeColumns = (isAdmin, activeTab) => {
-
   if (!isAdmin) return ["description"];
 
   if (activeTab === "Add Item")
@@ -25,28 +8,17 @@ export const getExcludeColumns = (isAdmin, activeTab) => {
 };
 
 export const getTableTitle = (activeTab) => {
-
   if (activeTab === "Low Stock") return "Low Stock";
 
   if (activeTab === "Available Stock") return "Available Stock";
 
   return "Current Inventory";
-
 };
 
-// ✅ fields generator
-
-export const getInventoryFields = (
-  selectedProduct,
-  isAdmin,
-  activeTab
-) => {
-
-  const isRemove =
-    isAdmin && activeTab === "Remove Item";
+export const getInventoryFields = (selectedProduct, isAdmin, activeTab) => {
+  const isRemove = isAdmin && activeTab === "Remove Item";
 
   return [
-
     {
       label: "পণ্যের নাম",
       name: "name",
@@ -68,7 +40,7 @@ export const getInventoryFields = (
       name: "currentStock",
       type: "number",
       placeholder: "20",
-      defaultValue: selectedProduct?.currentStock,
+      defaultValue: selectedProduct?.current_stock,
       disabled: isRemove,
     },
 
@@ -77,7 +49,7 @@ export const getInventoryFields = (
       name: "minimumStock",
       type: "number",
       placeholder: "90",
-      defaultValue: selectedProduct?.minimumStock,
+      defaultValue: selectedProduct?.minimum_stock,
       disabled: isRemove,
     },
 
@@ -88,8 +60,5 @@ export const getInventoryFields = (
       defaultValue: selectedProduct?.description,
       disabled: isRemove,
     },
-
   ];
-
 };
-

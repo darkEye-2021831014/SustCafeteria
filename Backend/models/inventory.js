@@ -97,7 +97,7 @@ export const getAvailableStockItems = async () => {
             ELSE 'Available'
         END AS status
         FROM stock_item
-        WHERE current_stock > 0
+        WHERE current_stock > minimum_stock
     `;
 
     const [rows] = await db.query(query);

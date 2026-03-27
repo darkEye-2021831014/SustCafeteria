@@ -12,19 +12,30 @@ import { GoPlusCircle } from "react-icons/go";
 import TableHeader from "../../components/Table/TableHeader";
 import InventoryTable from "./InventoryTable";
 import InventoryModalManager from "./InventoryModalManager";
-import {
-  getDisplayedData,
-  getExcludeColumns,
-  getTableTitle,
-} from "./InventoryHelper";
+import { getExcludeColumns, getTableTitle } from "./InventoryHelper";
+import { useLocation } from "react-router";
+import InventoryFoundMessage from "./InventoryFoundMessage";
+
 const InventoryContent = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const location = useLocation();
   const [selectedProduct, setSelectedProduct] = useState(null);
-
-  const { isAdmin, pillList, activeTab, onTabClick, ProductsData } =
+  const { isAdmin, pillList, onTabClick, products, loading } =
     useContext(InventoryContext);
-  const displayedData = getDisplayedData(ProductsData, activeTab);
+
+  let activeTab = "All Item";
+
+  if (location.pathname.includes("low-stock")) {
+    activeTab = "Low Stock";
+  } else if (location.pathname.includes("available")) {
+    activeTab = "Available Stock";
+  }else if(location.pathname.includes("remove-item")){
+    activeTab = "Remove Item";
+  } else if(location.pathname.includes("add-item")){
+    activeTab = "Add Item";
+  }
+
+  const displayedData = products;
 
   const columns = resolveColumns("ITEM", {
     exclude: getExcludeColumns(isAdmin, activeTab),
@@ -34,6 +45,9 @@ const InventoryContent = () => {
 
   const isRemoveAll = activeTab === "Remove Item" && !selectedProduct;
 
+  if (loading) {
+    return <div className="p-10 text-xl text-center">Loading inventory...</div>;
+  }
   return (
     <div>
       <SubNavBar
@@ -45,17 +59,28 @@ const InventoryContent = () => {
         {!isAdmin && <InventoryAlert />}
 
         <div className="mt-15 p-20 rounded-xl shadow-[0_4px_15px_rgba(0,0,0,0.25)]">
-          <TableHeader title={tableTitle} type={activeTab} />
-          <InventoryTable
-            data={displayedData}
-            columns={columns}
-            isAdmin={isAdmin}
-            onActionClick={(row) => {
-              setSelectedProduct(row);
-              setIsModalOpen(true);
-            }}
-          />
-          {isAdmin && (
+          <InventoryFoundMessage
+            products={displayedData}
+            loading={loading}
+            activeTab={activeTab}
+          >
+            {displayedData.length > 0 && (
+              <>
+                <TableHeader title={tableTitle} type={activeTab} />
+                <InventoryTable
+                  data={displayedData}
+                  columns={columns}
+                  isAdmin={isAdmin}
+                  onActionClick={(row) => {
+                    setSelectedProduct(row);
+                    setIsModalOpen(true);
+                  }}
+                />
+              </>
+            )}
+          </InventoryFoundMessage>
+
+          {isAdmin && displayedData.length > 0 && (
             <div className="flex justify-end mt-5">
               <TextIconButton
                 {...(activeTab === "Add Item"
@@ -79,6 +104,7 @@ const InventoryContent = () => {
               />
             </div>
           )}
+
           <InventoryModalManager
             isOpen={isModalOpen}
             onClose={() => setIsModalOpen(false)}

@@ -4,8 +4,8 @@ import { RiArrowDropDownLine } from "react-icons/ri";
 
 export const BASE_COLUMNS = {
   name: { key: "name", label: "নাম" },
-  role:{key:"role",label:"পদবী"},
-  salary:{key:"salary",label:"মাসিক বেতন"},
+  role: { key: "role", label: "পদবী" },
+  salary: { key: "salary", label: "মাসিক বেতন" },
   item: { key: "item", label: "Item" },
   price: { key: "price", label: "Price (Per Unit)" },
   maxDue: {
@@ -22,7 +22,7 @@ export const BASE_COLUMNS = {
   product: { key: "name", label: "পণ্যের নাম" },
   cost: { key: "cost", label: "খরচ (টাকা)" },
   currentStock: {
-    key: "currentStock",
+    key: "current_stock",
     label: "বর্তমান মজুদ",
     dynamicClass: (row) =>
       row.currentStock < 10 ? "text-red-500 font-bold" : "text-green-600",
@@ -73,12 +73,13 @@ export const BASE_COLUMNS = {
       );
     },
   },
-  minimumStock: { key: "minimumStock", label: "ন্যূনতম মজুদ" },
+  minimumStock: { key: "minimum_stock", label: "ন্যূনতম মজুদ" },
+
   status: {
     key: "status",
     label: "স্ট্যাটাস",
     render: (row) => {
-      const isLow = Number(row.currentStock) < Number(row.minimumStock);
+      const isLow = row.status === "Low Stock";
 
       return React.createElement(
         "span",
@@ -87,11 +88,10 @@ export const BASE_COLUMNS = {
             isLow ? "text-red-500" : "text-green-600"
           }`,
         },
-        isLow ? "Low Stock" : "In Stock",
+        row.status,
       );
     },
   },
-
   description: {
     key: "description",
     label: "পণ্যের বিবরণ",

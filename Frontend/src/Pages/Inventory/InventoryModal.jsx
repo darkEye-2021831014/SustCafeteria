@@ -16,40 +16,39 @@ const AddInventoryModal = ({
   isRemoveAll,
   className,
 }) => {
-  const { isAdmin, setProductsData, activeTab } = useContext(InventoryContext);
-  const [selectedProductName, setSelectedProductName] = React.useState(
-    selectedProduct ? selectedProduct.name : "",
-  );
+  const { isAdmin, activeTab, createItem, deleteItem, updateQuantity } =
+    useContext(InventoryContext);
+
   const fields = getInventoryFields(selectedProduct, isAdmin, activeTab);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData.entries());
-    
-    if (selectedProduct && isAdmin) {
-      setProductsData((prev) =>
-        prev.filter((product) => product.name !== selectedProductName),
-      );
-    } else if (selectedProduct && !isAdmin) {
-      setProductsData((prev) =>
-        prev.map((product) =>
-          product.name === selectedProductName
-            ? {
-                ...product,
-                name: data.name,
-                unit: data.unit,
-                currentStock: Number(data.currentStock),
-                minimumStock: Number(data.minimumStock),
-                description: data.description,
-              }
-            : product,
-        ),
-      );
-    } else {
-      setProductsData((prev) => [...prev, data]);
+    try {
+      if (!selectedProduct && isAdmin) {
+        createItem({
+          ...data,
+          minimum_stock: Number(data.minimumStock),
+          current_stock: Number(data.currentStock),
+        });
+      } else if (selectedProduct && isAdmin && location.pathname.includes("remove-item")) {
+        
+        deleteItem(selectedProduct.id);
+      } else if (selectedProduct && !isAdmin) {
+        updateQuantity(selectedProduct.id, Number(data.currentStock));
+      }
+      onClose();
+    } catch (err) {
+      console.error(err);
     }
+  };
+
+  const handleDeleteAll = async () => {
+    alert("Delete all এখনও backend এ করা হয়নি। এই ফিচারটি implement করতে হবে।");
     onClose();
   };
+
   return (
     <div className=" text-center">
       {isRemoveAll ? (
@@ -57,7 +56,7 @@ const AddInventoryModal = ({
           title="Are You Sure You Want To Remove Everything ?"
           warning="ALL ITEMS IN THE INVENTORYWILL BE REMOVED AFTER PERFORMING THIS ACTION!!!!"
           onClose={onClose}
-          setData={setProductsData}
+          onConfirm={handleDeleteAll}
         ></DeleteAll>
       ) : (
         <Form
