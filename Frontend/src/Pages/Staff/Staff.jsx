@@ -7,7 +7,7 @@ import StaffContent from "./StaffContent";
 const Staff = () => {
   return (
     <div>
-      <NavBar active="Staff" isAdmin={true}></NavBar>
+      {/* <NavBar active="Staff" isAdmin={true}></NavBar> */}
       <StaffProvider>
         <StaffContent />
       </StaffProvider>
