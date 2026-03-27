@@ -14,3 +14,4 @@ const PillList = ({ headerPillList, active }) => {
 };
 
 export default PillList;
+

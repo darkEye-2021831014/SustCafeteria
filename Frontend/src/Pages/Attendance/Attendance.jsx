@@ -6,7 +6,7 @@ import AttendanceContent from './AttendanceContent';
 const Attendance = () => {
     return (
         <div>
-            <NavBar active="Attendance" isAdmin={false} />
+            {/* <NavBar active="Attendance" isAdmin={false} /> */}
             <AttendanceProvider>
                 <AttendanceContent />
             </AttendanceProvider>
