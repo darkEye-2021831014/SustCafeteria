@@ -7,21 +7,18 @@ import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext/Authcontext";
 
 const NavBar = ({
-  // active = "Supplier",
-  // isAdmin = false,
   signedIn = true,
   className,
 }) => {
   const location = useLocation();
-  const { user } = useContext(AuthContext);
+  const { user, loading } = useContext(AuthContext);
+  if (loading) return <div>Loading...</div>;
   const isAdmin = user?.role?.toLowerCase() === "manager";
-  console.log("User in NavBar:", user);
-  console.log("Is Admin in NavBar:", isAdmin);
   const getActive = () => {
     if (location.pathname === "/") return "Home";
     if (location.pathname === "/attendance") return "Attendance";
     if (location.pathname === "/menu") return "Menu";
-    if (location.pathname === "/inventory") return "Inventory";
+    if (location.pathname.startsWith("/inventory")) return "Inventory";
     if (location.pathname === "/supplier") return "Supplier";
     if (location.pathname === "/staff") return "Staff";
     if (location.pathname === "/report") return "Report";

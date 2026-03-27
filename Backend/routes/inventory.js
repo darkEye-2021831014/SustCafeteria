@@ -25,7 +25,7 @@ router.get("/:id", getItemById);  // get single item
 
 
 //update
-router.put("/:id/quantity", adminOnly, updateQuantity); // quantity update
+router.put("/:id/quantity",updateQuantity); // quantity update
 router.put("/:id/info", adminOnly, updateStockItemInfo);  //item's information update
 router.delete("/:id", adminOnly, deleteItem);
 

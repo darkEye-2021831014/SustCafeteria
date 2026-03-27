@@ -4,7 +4,7 @@ import InventoryContent from "./InventoryContent";
 const Inventory = () => {
   return (
     <div>
-      <NavBar></NavBar>
+      {/* <NavBar></NavBar> */}
       <InventoryProvider>
         <InventoryContent />
       </InventoryProvider>

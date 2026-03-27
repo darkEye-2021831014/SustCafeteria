@@ -4,6 +4,7 @@ export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch("http://localhost:8000/user/login", {
@@ -11,12 +12,18 @@ const AuthProvider = ({ children }) => {
       credentials: "include",
     })
       .then((res) => res.json())
-      .then((data) => setUser(data))
-      .catch(console.log);
+      .then((data) => {
+        setUser(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching user data:", error);
+        setLoading(false);
+      });
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ user, loading }}>{children}</AuthContext.Provider>
   );
 };
 

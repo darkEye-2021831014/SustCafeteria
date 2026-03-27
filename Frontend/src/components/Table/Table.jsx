@@ -1,7 +1,6 @@
 import React from "react";
 import TableRow from "./TableRow";
 const Table = ({ items, columns, tHeaders, statusStyle, isPurchaseModalOpen, footerRow, viewType,columnOverrides }) => {
-  console.log("Table items:", statusStyle);
   return (
     <table className="w-full  table-fixed border-gray-500 mt-8">
       <thead className="bg-[#E8B5BA]/35">
