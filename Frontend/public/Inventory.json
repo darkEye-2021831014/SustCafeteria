@@ -1,0 +1,58 @@
+[
+  {
+    "id": 1,
+    "name": "চাল (বাসমতি)",
+    "unit": "কেজি",
+    "quantity": 120,
+    "minQuantity": 100
+  },
+  {
+    "id": 2,
+    "name": "চাল (জিরা)",
+    "unit": "কেজি",
+    "quantity": 20,
+    "minQuantity": 50
+  },
+  {
+    "id": 3,
+    "name": "ডাল (মুসুর)",
+    "unit": "কেজি",
+    "quantity": 10,
+    "minQuantity": 20
+  },
+  {
+    "id": 4,
+    "name": "ডাল (মুগ)",
+    "unit": "কেজি",
+    "quantity": 55,
+    "minQuantity": 30
+  },
+  {
+    "id": 5,
+    "name": "তেল (সয়াবিন)",
+    "unit": "লিটার",
+    "quantity": 8,
+    "minQuantity": 20
+  },
+  {
+    "id": 6,
+    "name": "পেঁয়াজ",
+    "unit": "কেজি",
+    "quantity": 15,
+    "minQuantity": 10
+  },
+  {
+    "id": 7,
+    "name": "রসুন",
+    "unit": "কেজি",
+    "quantity": 4,
+    "minQuantity": 8
+  },
+  {
+    "id": 8,
+    "name": "আলু",
+    "unit": "কেজি",
+    "quantity": 20,
+    "minQuantity": 40
+  }
+]

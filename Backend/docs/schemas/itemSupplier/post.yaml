@@ -1,0 +1,60 @@
+summary: Create or update item-supplier mapping
+description: Create a new mapping between a supplier and a stock item with pricing information
+tags:
+  - Item Supplier
+security:
+  - cookieAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - supplier_id
+          - stock_item_id
+          - price_per_unit
+        properties:
+          supplier_id:
+            type: integer
+            description: ID of the supplier
+          stock_item_id:
+            type: integer
+            description: ID of the stock item
+          price_per_unit:
+            type: number
+            format: float
+            description: Price per unit for this item from this supplier
+          notes:
+            type: string
+            description: Optional notes about the supplier-item relationship
+responses:
+  '201':
+    description: Item supplier mapping created/updated successfully
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: "Item supplier mapping created/updated"
+  '400':
+    description: Missing required fields
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: "Missing required fields: supplier_id, stock_item_id, price_per_unit"
+  '500':
+    description: Internal server error
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string

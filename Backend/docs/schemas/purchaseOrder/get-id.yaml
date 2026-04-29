@@ -1,0 +1,63 @@
+summary: Get purchase order by ID
+description: Retrieve a specific purchase order with full details
+tags:
+  - Purchase Order
+security:
+  - cookieAuth: []
+parameters:
+  - name: id
+    in: path
+    required: true
+    schema:
+      type: integer
+    description: ID of the purchase order
+responses:
+  '200':
+    description: Purchase order details
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            id:
+              type: integer
+            stock_item_id:
+              type: integer
+            supplier_id:
+              type: integer
+            order_quantity:
+              type: integer
+            expected_delivery:
+              type: string
+              format: date
+            status:
+              type: string
+              enum: [PENDING, DELIVERED]
+            created_at:
+              type: string
+              format: date-time
+            item_name:
+              type: string
+            unit:
+              type: string
+            supplier_name:
+              type: string
+  '404':
+    description: Purchase order not found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: "Purchase order not found"
+  '500':
+    description: Internal server error
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string

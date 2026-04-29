@@ -1,0 +1,68 @@
+summary: Get current user's profile
+tags:
+  - User
+security:
+  - cookieAuth: []
+responses:
+  "200":
+    description: User profile retrieved successfully
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            id:
+              type: string
+              example: "123"
+            name:
+              type: string
+              example: "John Doe"
+            email:
+              type: string
+              example: "john@example.com"
+            role:
+              type: string
+              example: "ADMIN"
+            contact:
+              type: string
+              example: "017xxxxxxxx"
+            join_date:
+              type: string
+              format: date
+              example: "2026-03-12"
+            address:
+              type: string
+              example: "123 Street, City"
+            image:
+              type: string
+              format: binary
+  "401":
+    description: Unauthorized - no valid token
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: "Unauthorized"
+  "404":
+    description: User not found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: "User not found"
+  "500":
+    description: Internal server error
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: "Something went wrong"

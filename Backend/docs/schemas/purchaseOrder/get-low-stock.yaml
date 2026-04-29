@@ -1,0 +1,40 @@
+summary: Get low stock items
+description: Retrieve stock items that are below minimum stock levels
+tags:
+  - Purchase Order
+security:
+  - cookieAuth: []
+responses:
+  '200':
+    description: List of low stock items with available suppliers
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+              name:
+                type: string
+              category:
+                type: string
+              unit:
+                type: string
+              current_stock:
+                type: integer
+              minimum_stock:
+                type: integer
+              suppliers:
+                type: string
+                description: Comma-separated list of supplier names
+  '500':
+    description: Internal server error
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string

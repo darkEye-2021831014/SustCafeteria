@@ -1,0 +1,61 @@
+summary: Add attendance
+tags:
+  - Attendance
+
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - user_id
+          - status
+        properties:
+          user_id:
+            type: integer
+            example: 1
+          status:
+            type: string
+            enum: [Present, Absent, Late]
+            example: Present
+          time:
+            type: string
+            example: "10:30:00"
+          date:
+            type: string
+            example: "2026-03-20"
+
+responses:
+  200:
+    description: Attendance added successfully
+    content:
+      application/json:
+        examples:
+          success:
+            summary: Attendance added
+            value:
+              message: "Attendance added"
+              id: 5
+          duplicate:
+            summary: Attendance already exists for user/date
+            value:
+              message: "Attendance already exists for this user on this date"
+  400:
+    description: Bad Request
+    content:
+      application/json:
+        examples:
+          missingField:
+            summary: Missing required fields
+            value:
+              message: "user_id or status is missing"
+  500:
+    description: Server Error
+    content:
+      application/json:
+        examples:
+          error:
+            summary: Internal server error
+            value:
+              message: "Something went wrong"

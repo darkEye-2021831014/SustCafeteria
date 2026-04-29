@@ -1,0 +1,114 @@
+openapi: 3.0.0
+info:
+  title: SustCafeteria API
+  version: 1.0.0
+servers:
+  - url: http://localhost:8000
+paths:
+  /user:
+    post:
+      $ref: "./schemas/user/post.yaml"
+    get:
+      $ref: "./schemas/user/get.yaml"
+    delete:
+      $ref: "./schemas/user/delete.yaml"
+    patch:
+      $ref: "./schemas/user/patch.yaml"
+  /user/{id}:
+    get:
+      $ref: "./schemas/userId/get.yaml"
+    delete:
+      $ref: "./schemas/userId/delete.yaml"
+  /user/login:
+    post:
+      $ref: "./schemas/userLogin/post.yaml"
+    get:
+      $ref: "./schemas/userLogin/get.yaml"
+    patch:
+      $ref: "./schemas/userLogin/patch.yaml"
+
+      # ------------Inventory----------------
+  /inventory:
+    post:
+      $ref: "./schemas/inventoryAdmin/post.yaml"
+    get:
+      $ref: "./schemas/inventory/get.yaml"
+  /inventory/low-stock:
+    get:
+      $ref: "./schemas/inventory/low-stock.yaml"
+  /inventory/available:
+    get:
+      $ref: "./schemas/inventory/available.yaml"
+  /inventory/{id}:
+    get:
+      $ref: "./schemas/inventory/get-id.yaml"
+    delete:
+      $ref: "./schemas/inventoryAdmin/delete.yaml"
+  /inventory/{id}/quantity:
+    put:
+      $ref: "./schemas/inventoryAdmin/quantity.yaml"
+  /inventory/{id}/info:
+    put:
+      $ref: "./schemas/inventoryAdmin/info.yaml"
+
+      # ------------Supplier----------------
+  /supplier:
+    post:
+      $ref: "./schemas/supplier/post.yaml"
+    get:
+      $ref: "./schemas/supplier/get.yaml"
+    delete:
+      $ref: "./schemas/supplier/delete-all.yaml"
+  /supplier/{id}:
+    get:
+      $ref: "./schemas/supplier/get-id.yaml"
+    delete:
+      $ref: "./schemas/supplier/delete.yaml"
+  # -----------Attendance----------------
+  /attendance/add:
+    post:
+      $ref: "./schemas/attendance/post.yaml"
+
+  /attendance/all:
+    get:
+      $ref: "./schemas/attendance/getAll.yaml"
+ 
+      # ------------Item Supplier----------------
+  /itemSupplier:
+    post:
+      $ref: "./schemas/itemSupplier/post.yaml"
+  /itemSupplier/supplier/{supplier_id}:
+    get:
+      $ref: "./schemas/itemSupplier/get-supplier.yaml"
+  /itemSupplier/item/{stock_item_id}:
+    get:
+      $ref: "./schemas/itemSupplier/get-item.yaml"
+  /itemSupplier/{supplier_id}/{stock_item_id}:
+    delete:
+      $ref: "./schemas/itemSupplier/delete.yaml"
+
+      # ------------Purchase Order----------------
+  /purchaseOrder:
+    post:
+      $ref: "./schemas/purchaseOrder/post.yaml"
+    get:
+      $ref: "./schemas/purchaseOrder/get.yaml"
+  /purchaseOrder/pending:
+    get:
+      $ref: "./schemas/purchaseOrder/get-pending.yaml"
+  /purchaseOrder/low-stock:
+    get:
+      $ref: "./schemas/purchaseOrder/get-low-stock.yaml"
+  /purchaseOrder/{id}:
+    get:
+      $ref: "./schemas/purchaseOrder/get-id.yaml"
+  /purchaseOrder/{id}/deliver:
+    put:
+      $ref: "./schemas/purchaseOrder/put-deliver.yaml"
+ 
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: token

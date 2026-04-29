@@ -1,0 +1,10 @@
+[
+  { "name": "চাল (ভাত)", "unit": "কেজি", "minQuantity": 100 },
+  { "name": "চাল (খিচুড়ি)", "unit": "কেজি", "minQuantity": 50 },
+  { "name": "চাল (পোলাও)", "unit": "কেজি", "minQuantity": 50 },
+  { "name": "ভাল (মসুর)", "unit": "কেজি", "minQuantity": 20 },
+  { "name": "ভাল (মুগ)", "unit": "কেজি", "minQuantity": 10 },
+  { "name": "ভাল (বুট)", "unit": "কেজি", "minQuantity": 10 },
+  { "name": "তেল (সয়াবিন)", "unit": "লিটার", "minQuantity": 20 },
+  { "name": "পেঁয়াজ", "unit": "কেজি", "minQuantity": 10 }
+]
