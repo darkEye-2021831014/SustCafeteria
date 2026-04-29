@@ -13,13 +13,23 @@ import SwaggerParser from "@apidevtools/swagger-parser"
 import attendance from "./routes/attendance.js";
 const app = express();
 
-// app.use(cors());
+app.use((req, res, next) => {
+  console.log("Before CORS:", req.method, req.url);
+  next();
+});
+
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: process.env.CLIENT_URL,
     credentials: true,
   })
 );
+app.use((req, res, next) => {
+  console.log("After CORS:", req.method, req.url);
+  next();
+});
+
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(verifyUser);
@@ -37,8 +47,8 @@ app.use("/uploads", express.static("uploads"));
 
 
 async function setupSwagger() {
-    const api = await SwaggerParser.dereference("./docs/openapi.yaml");
-    app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(api));
+  const api = await SwaggerParser.dereference("./docs/openapi.yaml");
+  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(api));
 }
 setupSwagger();
 
