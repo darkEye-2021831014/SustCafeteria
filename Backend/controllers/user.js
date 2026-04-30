@@ -200,3 +200,37 @@ export const updateUserRole = async (req, res) => {
         res.status(500).json({ msg: err.message });
     }
 }
+
+export const updateUserImage = async (req, res) => {
+    try {
+        const userId = req.user.id;
+
+        if (!req.file) {
+            return res.status(400).json({ msg: "No image provided" });
+        }
+
+        const ext = path.extname(req.file.originalname);
+        const fileName = Date.now() + ext;
+
+        const uploadDir = path.join("uploads");
+        const filePath = path.join(uploadDir, fileName);
+
+        await fs.promises.writeFile(filePath, req.file.buffer);
+
+        const imagePath = filePath;
+
+        await User.updateUserImageById(userId, imagePath);
+
+        const user = await User.getUserById(userId);
+
+        res.status(200).json(user);
+    } catch (err) {
+        res.status(500).json({ msg: err.message });
+    }
+};
+
+export const logout = (req, res) => {
+    res.clearCookie("token", { path: "/" });
+
+    return res.json({ msg: "Logged out" });
+};

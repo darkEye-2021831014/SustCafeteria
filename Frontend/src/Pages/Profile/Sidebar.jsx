@@ -62,7 +62,7 @@ const Sidebar = ({
   };
 
   const handleLogOut = () => {
-    setActiveItem("logout");
+    // setActiveItem("logout");
     onLogOut?.();
   };
 
@@ -212,14 +212,13 @@ const Sidebar = ({
         </svg>
       </button>
 
-      {/* ── 3. Log Out — 26px gap below My Profile ── */}
+      {/* ── 3. Log Out ---- */}
       <button
         onClick={handleLogOut}
         disabled={isLoading}
-        className="flex items-center gap-3 w-full px-4 py-3 rounded-[8px] transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed hover:cursor-pointer"
+        className="flex items-center gap-3 w-full px-4 py-3 rounded-[8px] transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed hover:cursor-pointer hover:bg-[#F54758]/10"
         style={{
           marginTop: "26px",
-          backgroundColor: activeItem === "logout" ? activeBg : "transparent",
           color: "#1C2B3A",
         }}
       >

@@ -91,3 +91,14 @@ export const updateUserRole = async (id, role) => {
 
     return true;
 }
+
+export const updateUserImageById = async (id, imagePath) => {
+    if (!imagePath) throw new Error("Image is required");
+
+    const fields = {
+        image: imagePath,
+    };
+
+    const updated = await User.updateUserById(id, fields);
+    return updated;
+};

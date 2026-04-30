@@ -39,3 +39,30 @@ export const useUpdateProfile = () => {
         }
     });
 };
+
+export const useUpdateImage = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: async (payload) => {
+            const res = await userService.updateUserImage(payload);
+            return res.data;
+        },
+        onSuccess: (data) => {
+            queryClient.setQueryData(["auth-user"], data);
+            queryClient.invalidateQueries(["auth-user"]);
+        }
+    });
+}
+
+export const useLogout = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: async () => {
+            const res = await userService.logoutUser();
+            return res.data;
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries(["auth-user"]);
+        }
+    });
+};
