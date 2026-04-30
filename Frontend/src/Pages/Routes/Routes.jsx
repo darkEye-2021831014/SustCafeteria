@@ -6,6 +6,7 @@ import { createBrowserRouter } from "react-router";
 import Staff from "../Staff/Staff";
 import Inventory from "../Inventory/Inventory";
 import Menu from "../Menu/Menu";
+import Profile from "../Profile/Profile";
 
 export const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ export const router = createBrowserRouter([
       {
         path: "menu",
         element: <Menu />,
+      },
+      {
+        path: "profile",
+        element: <Profile />,
       },
       {
         path: "attendance",
