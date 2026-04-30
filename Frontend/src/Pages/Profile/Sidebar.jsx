@@ -13,7 +13,7 @@ const AvatarPlaceholder = ({ name }) => {
 
   return (
     <div
-      className="w-[72px] h-[72px] rounded-full flex-shrink-0 flex items-center justify-center text-[22px] font-semibold select-none"
+      className="w-18 h-18 rounded-full shrink-0 flex items-center justify-center text-[22px] font-semibold select-none"
       style={{
         backgroundColor: "rgba(74, 44, 53, 0.18)",
         color: "#4A2C35",
