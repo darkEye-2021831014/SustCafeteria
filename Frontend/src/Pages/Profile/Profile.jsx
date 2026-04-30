@@ -8,7 +8,7 @@ import {
 } from "../../hooks/useUser";
 import { ENV } from "../../config/env";
 import { useState } from "react";
-import ChangePassword from "./ChangePassWord";
+import ChangePassword from "./ChangePassword";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
 
