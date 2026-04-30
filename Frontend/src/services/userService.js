@@ -4,4 +4,5 @@ import { ENDPOINTS } from "../api/endpoints";
 export const userService = {
     loginUser: (credentials) => apiClient.post(`${ENDPOINTS.USER}/login`, credentials),
     getUser: () => apiClient.get(`${ENDPOINTS.USER}/login`),
+    updateUser: (payload) => apiClient.patch(`${ENDPOINTS.USER}/login`, payload),
 };

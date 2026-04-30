@@ -11,14 +11,11 @@ export const useLogin = () => {
         },
         onSuccess: () => {
             queryClient.invalidateQueries(["auth-user"]);
-        },
-        onError: (err) => {
-            console.log("mutation error:", err);
-        },
+        }
     });
 };
 
-export const useUser = () => {
+export const useProfile = () => {
     return useQuery({
         queryKey: ["auth-user"],
         queryFn: async () => {
@@ -26,5 +23,19 @@ export const useUser = () => {
             return res.data;
         },
         retry: false,
+    });
+};
+
+export const useUpdateProfile = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: async (payload) => {
+            const res = await userService.updateUser(payload);
+            return res.data;
+        },
+        onSuccess: (data) => {
+            queryClient.setQueryData(["auth-user"], data);
+            queryClient.invalidateQueries(["auth-user"]);
+        }
     });
 };

@@ -48,12 +48,17 @@ const Sidebar = ({
   isLoading = false,
   onMyProfile,
   onLogOut,
+  onChangePassword,
+  activeItem = "profile",
+  setActiveItem,
 }) => {
-  const [activeItem, setActiveItem] = useState("profile");
-
   const handleProfile = () => {
     setActiveItem("profile");
     onMyProfile?.();
+  };
+  const handlePassword = () => {
+    setActiveItem("password");
+    onChangePassword?.();
   };
 
   const handleLogOut = () => {
@@ -97,18 +102,16 @@ const Sidebar = ({
           ) : (
             <>
               <span
-                className="text-[18px] font-bold leading-tight truncate"
-                style={{ color: "#1C2B3A" }}
+                className="text-[20px] font-bold leading-tight truncate"
+                style={{ color: "#1F2937" }}
                 title={name}
               >
                 {name}
               </span>
               <span
-                className="text-[13px] font-medium px-3 py-1 rounded-md w-fit max-w-full truncate"
+                className="text-[14px] font-medium px-3.5 py-1 rounded-full w-fit max-w-full truncate bg-[#F54758]/10 shadow"
                 style={{
-                  backgroundColor: "rgba(232, 181, 186, 0.6)",
-                  color: "#4A2C35",
-                  border: "1px solid rgba(74, 44, 53, 0.2)",
+                  color: "#6B7280",
                 }}
                 title={role}
               >
@@ -152,6 +155,48 @@ const Sidebar = ({
             <circle cx="12" cy="7" r="4" />
           </svg>
           <span className="text-[15px] font-medium">My Profile</span>
+        </div>
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#1C2B3A"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M9 18l6-6-6-6" />
+        </svg>
+      </button>
+
+      {/* Change Password */}
+      <button
+        onClick={handlePassword}
+        disabled={isLoading}
+        className="flex items-center justify-between w-full px-4 py-3 rounded-[8px] transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed hover:cursor-pointer"
+        style={{
+          marginTop: "26px",
+          backgroundColor: activeItem === "password" ? activeBg : "transparent",
+          color: "#1C2B3A",
+        }}
+      >
+        <div className="flex items-center gap-3">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#1C2B3A"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <rect x="3" y="11" width="18" height="11" rx="2" />
+            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+            <circle cx="12" cy="16" r="1" />
+          </svg>
+          <span className="text-[15px] font-medium">Change Password</span>
         </div>
         <svg
           width="16"

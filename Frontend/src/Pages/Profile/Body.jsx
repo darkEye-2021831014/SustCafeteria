@@ -153,7 +153,7 @@ const Body = ({
 
   const handleConfirm = () => {
     setShowConfirm(false);
-    onSave?.({ ...user, ...form });
+    onSave?.(form);
   };
 
   // Initials fallback
@@ -188,10 +188,7 @@ const Body = ({
           <div className="flex items-center gap-5">
             {/* Avatar */}
             <div className="relative" style={{ width: 110, height: 110 }}>
-              <div
-                className="w-full h-full rounded-full overflow-hidden"
-                style={{ border: "3px solid rgba(232,181,186,0.5)" }}
-              >
+              <div className="w-full h-full rounded-full overflow-hidden border border-[#F54758]/20">
                 {avatarPreview ? (
                   <img
                     src={avatarPreview}
@@ -245,11 +242,9 @@ const Body = ({
                 {form.name}
               </span>
               <span
-                className="text-[13px] font-medium px-4 py-1.5 rounded-[8px] w-fit"
+                className="text-[14px] font-medium px-4 py-1.5 rounded-full w-fit bg-[#F54758]/10 shadow"
                 style={{
-                  backgroundColor: "rgba(232,181,186,0.4)",
-                  color: "#7B3F4E",
-                  border: "1px solid rgba(232,181,186,0.6)",
+                  color: "#6B7280",
                 }}
               >
                 {user.role}
@@ -289,12 +284,7 @@ const Body = ({
             value={form.name}
             onChange={handleField("name")}
           />
-          <EditableField
-            label="Email"
-            value={form.email}
-            onChange={handleField("email")}
-            type="email"
-          />
+          <EditableField label="Email" value={user.email} readOnly />
           <EditableField
             label="Mobile Number"
             value={form.mobile}
