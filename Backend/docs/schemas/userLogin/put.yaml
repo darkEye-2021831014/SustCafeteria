@@ -1,0 +1,108 @@
+summary: Update user profile image
+description: >
+  Updates the profile image of the authenticated user.  
+  The image must be sent as `multipart/form-data` using the field name `image`.  
+  The old image is replaced by the new one, and the file is stored in the local `uploads/` directory.
+tags:
+  - User
+security:
+  - bearerAuth: []
+
+requestBody:
+  required: true
+  content:
+    multipart/form-data:
+      schema:
+        type: object
+        required:
+          - image
+        properties:
+          image:
+            type: string
+            format: binary
+            description: Profile image file (jpg, png, jpeg, etc.)
+            example: (binary file upload)
+
+responses:
+  "200":
+    description: Image updated successfully
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            name:
+              type: string
+              example: John Doe
+            email:
+              type: string
+              example: john@example.com
+            contact:
+              type: string
+              example: "017xxxxxxxx"
+            address:
+              type: string
+              example: Sylhet
+            image:
+              type: string
+              example: uploads/17123456789.png
+
+  "400":
+    description: Bad request – missing image file
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              examples:
+                missingImage:
+                  value: No image provided
+
+  "401":
+    description: Unauthorized – user not authenticated
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: Unauthorized
+
+  "413":
+    description: File too large (max 5MB)
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: File size exceeds limit
+
+  "415":
+    description: Unsupported media type – non-image file uploaded
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: Only image files are allowed
+
+  "500":
+    description: Internal server error
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: Internal server error

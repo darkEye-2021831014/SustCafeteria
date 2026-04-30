@@ -1,10 +1,10 @@
 import { createContext } from "react";
-import { useUser } from "../../hooks/useUser";
+import { useProfile } from "../../hooks/useUser";
 
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-  const { data: user, isLoading, isError } = useUser();
+  const { data: user, isLoading, isError } = useProfile();
 
   return (
     <AuthContext.Provider

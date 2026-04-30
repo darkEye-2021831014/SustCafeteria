@@ -18,6 +18,8 @@ const HeaderPill = ({ name, isActive = false }) => {
         return "/staff";
       case "Report":
         return "/report";
+      case "Profile":
+        return "/profile";
       default:
         return "/";
     }

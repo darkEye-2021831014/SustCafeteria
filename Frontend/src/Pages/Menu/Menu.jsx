@@ -3,7 +3,6 @@ import SubNavBar from "../../components/SubHeader/SubNavBar";
 import OrderState from "../../contexts/OrderContext/OrderState";
 import MenuItemList from "./MenuItemList";
 import Order from "./Order";
-import { useLogin } from "../../hooks/useUser";
 
 const Menu = () => {
   const [activeTab, setActiveTab] = useState("All");

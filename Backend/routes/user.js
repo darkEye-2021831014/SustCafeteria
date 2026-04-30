@@ -1,5 +1,5 @@
 import express from "express"
-import { createUser, loginUser, getAllUsers, getUserById, getUserInfo, deleteAllUsers, updateUserInfo, deleteUserById, updateUserRole } from "../controllers/user.js"
+import { createUser, loginUser, getAllUsers, getUserById, getUserInfo, deleteAllUsers, updateUserInfo, deleteUserById, updateUserRole, updateUserImage, logout } from "../controllers/user.js"
 import { verifyEmail, loginRequired, adminOnly } from "../middlewares/auth.js";
 import { upload } from "../middlewares/user.js";
 
@@ -14,7 +14,9 @@ router.route("/")
 router.route("/login")
     .post(loginUser)
     .get(loginRequired, getUserInfo)
-    .patch(loginRequired, updateUserInfo);
+    .patch(loginRequired, updateUserInfo)
+    .put(loginRequired, upload.single("image"), updateUserImage);
+router.post("/logout", loginRequired, logout);
 
 //Dynamic Routes Should Be Last in the execution order
 router.route("/:id")
