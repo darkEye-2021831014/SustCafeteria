@@ -108,6 +108,13 @@ paths:
     put:
       $ref: "./schemas/purchaseOrder/put-deliver.yaml"
 
+      # ------------Menu----------------
+  /menu:
+    post:
+      $ref: "./schemas/menu/post.yaml"
+    get:
+      $ref: "./schemas/menu/get.yaml"
+
 components:
   securitySchemes:
     cookieAuth:

@@ -5,6 +5,7 @@ import { createSupplierTable } from "../models/supplier.js";
 import { createItemSupplierTable } from "../models/item_supplier.js";
 import { createPurchaseOrderTable } from "../models/purchase_order.js";
 import { createAttendanceTable } from "../models/attendance.js";
+import { createMenuItemTable } from "../models/menu.js";
 import { createUsageItemsTable } from "../models/stock_usage.js";
 
 export const db = mysql.createPool({
@@ -36,6 +37,7 @@ export const setUpDB = async () => {
     await createItemSupplierTable();
     await createPurchaseOrderTable();
     await createAttendanceTable();
+    await createMenuItemTable();
     await createUsageItemsTable();
 };
 
