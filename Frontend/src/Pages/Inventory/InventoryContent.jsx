@@ -15,7 +15,6 @@ import InventoryModalManager from "./InventoryModalManager";
 import { getExcludeColumns, getTableTitle } from "./InventoryHelper";
 import { useLocation } from "react-router";
 import InventoryFoundMessage from "./InventoryFoundMessage";
-
 const InventoryContent = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const location = useLocation();

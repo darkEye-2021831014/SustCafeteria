@@ -84,8 +84,8 @@ export const getInventoryFields = (selectedProduct, isAdmin, activeTab) => {
         name:"usageType",
         type:"select",
         options:[
-          { value: "expense", label: "খরচ" },
-          { value: "waste", label: "বর্জ্য" }
+          { value: "cooking", label: "খরচ" },
+          { value: "wastage", label: "বর্জ্য" }
         ],
       }
 

@@ -104,6 +104,21 @@ const InventoryProvider = ({ children }) => {
     fetchLowStockCount();
   };
 
+  // Usage Update
+ const updateUsage = async (usageData) => {
+  console.log("Updating usage with data:", usageData);
+  await fetch(`${BASE_URL}/usage/create`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(usageData),
+    credentials: "include",
+  });
+
+  refreshData();
+};
+
   // Navigation
   const onTabClick = (tab) => {
     if (tab === "Low Stock") {
@@ -147,6 +162,7 @@ const InventoryProvider = ({ children }) => {
         updateQuantity,
         loading,
         lowStockCount,
+        updateUsage,
       }}
     >
       {children}
