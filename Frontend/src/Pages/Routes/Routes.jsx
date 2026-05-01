@@ -7,6 +7,8 @@ import Staff from "../Staff/Staff";
 import Inventory from "../Inventory/Inventory";
 import Menu from "../Menu/Menu";
 import Profile from "../Profile/Profile";
+import Supplier from "../Supplier/Supplier";
+import Report from "../Report/Report";
 
 export const router = createBrowserRouter([
   {
@@ -61,6 +63,32 @@ export const router = createBrowserRouter([
           {
             path: "stock-usage",
             element: <Inventory />,
+          },
+        ],
+      },
+      {
+        path: "supplier",
+        element:<Supplier/>,
+      },
+      {
+        path:"report",
+        element:<Report/>,
+        children:[
+          {
+            index:true,
+            element:<Report/>,
+          },
+          {
+            path: "sales-report",
+            element: <Report />,
+          },
+          {
+            path: "inventory-report",
+            element: <Report />,
+          },
+          {
+            path: "attendance-report",
+            element: <Report />,
           },
         ],
       },

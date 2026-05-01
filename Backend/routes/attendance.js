@@ -2,7 +2,8 @@ import express from "express";
 
 import {
     addAttendance,
-    getAllAttendance
+    getAllAttendance,
+    getAttendanceReport
 }
 from "../controllers/attendance.js";
 
@@ -13,5 +14,5 @@ router.post("/add", addAttendance);
 
 router.get("/all", getAllAttendance);
 
-
+router.get("/report", getAttendanceReport);
 export default router;

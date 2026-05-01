@@ -34,3 +34,32 @@ export const getAllAttendance = async (req, res) => {
     res.status(500).json(err);
   }
 };
+// GET REPORT
+export const getAttendanceReport = async (req, res) => {
+  try {
+    let { month, year } = req.query;
+
+    let startDate = null;
+    let endDate = null;
+
+    if (month && year) {
+      month = month.toString().padStart(2, "0");
+      const lastDay = new Date(year, month, 0).getDate();
+
+      startDate = `${year}-${month}-01`;
+      endDate = `${year}-${month}-${lastDay}`;
+    }
+
+    const data = await AttendanceService.getAttendanceReport(
+      startDate,
+      endDate
+    );
+
+    res.json(data);
+  } catch (err) {
+    console.log("REPORT ERROR:", err);
+    res.status(500).json({
+      message: err.message,
+    });
+  }
+};
