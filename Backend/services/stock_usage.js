@@ -71,9 +71,11 @@ export const getUsageHistory = async ({
       u.usage_type,
       u.note,
       u.date,
-      u.created_at
+      u.created_at,
+      users.name
     FROM usage_items u
     JOIN stock_item s ON u.stock_item_id = s.id
+    JOIN users ON u.created_by = users.id
     WHERE 1=1
   `;
 
