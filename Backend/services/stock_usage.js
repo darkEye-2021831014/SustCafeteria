@@ -55,3 +55,39 @@ export const createUsageService = async ({
     connection.release();
   }
 };
+
+
+
+
+export const getUsageHistory = async ({
+  startDate,
+  endDate,
+}) => {
+  let query = `
+    SELECT 
+      u.id,
+      s.name AS item_name,
+      u.quantity_used,
+      u.usage_type,
+      u.note,
+      u.date,
+      u.created_at
+    FROM usage_items u
+    JOIN stock s ON u.stock_item_id = s.id
+    WHERE 1=1
+  `;
+
+  const params = [];
+
+  // 🔥 Date Range filter
+  if (startDate && endDate) {
+    query += " AND u.date BETWEEN ? AND ?";
+    params.push(startDate, endDate);
+  }
+
+  query += " ORDER BY u.date DESC";
+
+  const [rows] = await db.query(query, params);
+
+  return rows;
+};

@@ -35,6 +35,9 @@ export const createUsageItemsTable = async () => {
 
 
 
+
+
+
 // // usage_records table
 // export const createUsageRecordTable = async () => {
 //   const query = `
