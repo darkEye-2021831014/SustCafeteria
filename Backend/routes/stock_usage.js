@@ -5,6 +5,6 @@ import { getUsageHistory } from "../controllers/stock_usage.js";
 const router = express.Router();
 
 router.post("/create", createUsage);
-router.get("/usageRecord", getUsageHistory);
+router.get("/history", getUsageHistory);
 
 export default router;

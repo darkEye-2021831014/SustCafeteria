@@ -73,7 +73,7 @@ export const getUsageHistory = async ({
       u.date,
       u.created_at
     FROM usage_items u
-    JOIN stock s ON u.stock_item_id = s.id
+    JOIN stock_item s ON u.stock_item_id = s.id
     WHERE 1=1
   `;
 
