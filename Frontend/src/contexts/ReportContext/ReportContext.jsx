@@ -2,7 +2,6 @@ import { set } from "date-fns";
 import { createContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 export const ReportContext = createContext();
-
 const ReportProvider = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -64,7 +63,7 @@ const ReportProvider = ({ children }) => {
       })
       .catch((err) => console.error(err))
       .finally(() => setLoading(false));
-  }, [selectedDate, activeTab]);
+  }, [selectedDate, activeTab, startDate, endDate]);
   useEffect(() => {
     if (activeTab === "Inventory Report") {
       const today = new Date().toISOString().split("T")[0];

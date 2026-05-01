@@ -27,10 +27,6 @@ const ReportContent = () => {
   const tHeaders = getHeaders(activeTab);
   const columns =getColumns(activeTab);
 
-  // const reportingTime = selectedDate.toLocaleString("default", {
-  //   month: "long",
-  //   year: "numeric",
-  // });
  const reportingTime =
   activeTab === "Inventory Report"
     ? `${startDate || "Start"} to ${endDate || "End"}`
@@ -65,19 +61,6 @@ useEffect(() => {
           </div>
         ) : (
           <div className="mt-15 p-20 rounded-xl shadow-[0_4px_15px_rgba(0,0,0,0.25)]">
-            {/* <div className="flex justify-between">
-              <TableHeader title="" reportingTime={reportingTime} />
-              <input
-                type="month"
-                value={`${selectedDate.getFullYear()}-${String(
-                  selectedDate.getMonth() + 1,
-                ).padStart(2, "0")}`}
-                onChange={(e) =>
-                  setSelectedDate(new Date(e.target.value + "-01"))
-                }
-                className="px-4 py-0 text-lg font-bold border rounded-md bg-[#F54758]/5 text-black border-[#F54758] focus:outline-none focus:[#F54758]/50"
-              />
-            </div> */}
             <div className="flex justify-between">
               <TableHeader title="" reportingTime={reportingTime} />
 
@@ -87,13 +70,13 @@ useEffect(() => {
                     type="date"
                     value={startDate || ""}
                     onChange={(e) => setStartDate(e.target.value)}
-                    className="px-3 py-1 border rounded"
+                    className="px-1 py-0 text-lg font-bold border rounded-md bg-[#F54758]/5 text-black border-[#F54758] focus:outline-none focus:[#F54758]/50"
                   />
                   <input
                     type="date"
                     value={endDate || ""}
                     onChange={(e) => setEndDate(e.target.value)}
-                    className="px-3 py-1 border rounded"
+                    className="px-1 py-0 text-lg font-bold border rounded-md bg-[#F54758]/5 text-black border-[#F54758] focus:outline-none focus:[#F54758]/50"
                   />
                 </div>
               ) : (
@@ -105,7 +88,7 @@ useEffect(() => {
                   onChange={(e) =>
                     setSelectedDate(new Date(e.target.value + "-01"))
                   }
-                  className="px-4 py-0 text-lg font-bold border rounded-md"
+                  className="px-4 py-0 text-lg font-bold border rounded-md bg-[#F54758]/5 text-black border-[#F54758] focus:outline-none focus:[#F54758]/50"
                 />
               )}
             </div>
