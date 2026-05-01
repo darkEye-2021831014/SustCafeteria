@@ -5,6 +5,8 @@ import TableHeader from "../../components/Table/TableHeader";
 import SubNavBar from "../../components/SubHeader/SubNavBar";
 import PDFPrint from "../../components/Report/PDFPrint";
 import { useLocation } from "react-router";
+import { useEffect } from "react";
+import { getColumns, getHeaders } from "./ReportHelper";
 const ReportContent = () => {
   const {
     attendance,
@@ -15,23 +17,30 @@ const ReportContent = () => {
     onTabClick,
     pillList,
     loading,
+    startDate,
+    setStartDate,
+    endDate,
+    setEndDate,
   } = useContext(ReportContext);
   const componentRef = useRef();
   const location = useLocation();
-  const tHeaders = ["নাম", "পদবী", "উপস্থিত", "অনুপস্থিত", "দেরি"];
+  const tHeaders = getHeaders(activeTab);
+  const columns =getColumns(activeTab);
 
-  const columns = [
-    { key: "name" },
-    { key: "position" },
-    { key: "present" },
-    { key: "absent" },
-    { key: "late" },
-  ];
-
-  const reportingTime = selectedDate.toLocaleString("default", {
-    month: "long",
-    year: "numeric",
-  });
+  // const reportingTime = selectedDate.toLocaleString("default", {
+  //   month: "long",
+  //   year: "numeric",
+  // });
+ const reportingTime =
+  activeTab === "Inventory Report"
+    ? `${startDate || "Start"} to ${endDate || "End"}`
+    : selectedDate
+    ? selectedDate.toLocaleString("default", {
+        month: "long",
+        year: "numeric",
+      })
+    : "";
+useEffect(() => {
   if (location.pathname.includes("sales-report")) {
     setActiveTab("Sales Report");
   } else if (location.pathname.includes("inventory-report")) {
@@ -41,6 +50,7 @@ const ReportContent = () => {
   } else {
     setActiveTab(pillList[0]);
   }
+}, [location.pathname]);
   return (
     <div>
       <SubNavBar
@@ -55,7 +65,7 @@ const ReportContent = () => {
           </div>
         ) : (
           <div className="mt-15 p-20 rounded-xl shadow-[0_4px_15px_rgba(0,0,0,0.25)]">
-            <div className="flex justify-between">
+            {/* <div className="flex justify-between">
               <TableHeader title="" reportingTime={reportingTime} />
               <input
                 type="month"
@@ -67,10 +77,41 @@ const ReportContent = () => {
                 }
                 className="px-4 py-0 text-lg font-bold border rounded-md bg-[#F54758]/5 text-black border-[#F54758] focus:outline-none focus:[#F54758]/50"
               />
+            </div> */}
+            <div className="flex justify-between">
+              <TableHeader title="" reportingTime={reportingTime} />
+
+              {activeTab === "Inventory Report" ? (
+                <div className="flex gap-3">
+                  <input
+                    type="date"
+                    value={startDate || ""}
+                    onChange={(e) => setStartDate(e.target.value)}
+                    className="px-3 py-1 border rounded"
+                  />
+                  <input
+                    type="date"
+                    value={endDate || ""}
+                    onChange={(e) => setEndDate(e.target.value)}
+                    className="px-3 py-1 border rounded"
+                  />
+                </div>
+              ) : (
+                <input
+                  type="month"
+                  value={`${selectedDate.getFullYear()}-${String(
+                    selectedDate.getMonth() + 1,
+                  ).padStart(2, "0")}`}
+                  onChange={(e) =>
+                    setSelectedDate(new Date(e.target.value + "-01"))
+                  }
+                  className="px-4 py-0 text-lg font-bold border rounded-md"
+                />
+              )}
             </div>
             <div ref={componentRef}>
               <h1 className="hidden print:block text-center text-2xl font-bold mb-5">
-                Attendance Report for {reportingTime}
+                {activeTab} for {reportingTime}
               </h1>
               <Table items={attendance} columns={columns} tHeaders={tHeaders} />
             </div>
