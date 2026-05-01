@@ -20,19 +20,17 @@ const InventoryContent = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const location = useLocation();
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const { isAdmin, pillList, onTabClick, products, loading } =
-    useContext(InventoryContext);
-
-  let activeTab = "All Item";
-
+  const { isAdmin, pillList, activeTab, setActiveTab, onTabClick, products, loading } = useContext(InventoryContext);
   if (location.pathname.includes("low-stock")) {
-    activeTab = "Low Stock";
+    setActiveTab("Low Stock");
   } else if (location.pathname.includes("available")) {
-    activeTab = "Available Stock";
+    setActiveTab("Available Stock");
   }else if(location.pathname.includes("remove-item")){
-    activeTab = "Remove Item";
+    setActiveTab("Remove Item");
   } else if(location.pathname.includes("add-item")){
-    activeTab = "Add Item";
+    setActiveTab("Add Item");
+  }else if(location.pathname.includes("stock-usage")){
+    setActiveTab("Stock Usage");
   }
 
   const displayedData = products;

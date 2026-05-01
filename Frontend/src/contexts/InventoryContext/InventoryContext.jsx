@@ -3,8 +3,7 @@ import { AuthContext } from "../AuthContext/Authcontext";
 import { useLocation, useNavigate } from "react-router";
 
 export const InventoryContext = createContext();
-
-const BASE_URL = "http://localhost:8000";
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const InventoryProvider = ({ children }) => {
   const { user } = useContext(AuthContext);
@@ -19,11 +18,11 @@ const InventoryProvider = ({ children }) => {
 
   const pillList = isAdmin
     ? ["Add Item", "Remove Item"]
-    : ["All Item", "Low Stock", "Available Stock"];
+    : ["All Item", "Low Stock", "Available Stock","Stock Usage"];
 
   const [activeTab, setActiveTab] = useState(pillList[0]);
 
-  // ✅ Common Fetch Handler (DRY)
+  // Common Fetch Handler (DRY)
   const fetchData = async (url, setter) => {
     setLoading(true);
     const res = await fetch(url, { credentials: "include" });
@@ -32,7 +31,7 @@ const InventoryProvider = ({ children }) => {
     setLoading(false);
   };
 
-  // ✅ Inventory APIs
+  // Inventory APIs
   const fetchAllItems = () => {
     fetchData(`${BASE_URL}/inventory`, setProducts);
   };
@@ -45,7 +44,7 @@ const InventoryProvider = ({ children }) => {
     fetchData(`${BASE_URL}/inventory/available`, setProducts);
   };
 
-  // ✅ Low Stock Count (no loading here ❗)
+  //  Low Stock Count (no loading here)
   const fetchLowStockCount = async () => {
     const res = await fetch(`${BASE_URL}/inventory/low-stock`, {
       credentials: "include",
@@ -54,7 +53,7 @@ const InventoryProvider = ({ children }) => {
     setLowStockCount(data.length);
   };
 
-  // ✅ Create
+  // Create
   const createItem = async (item) => {
     await fetch(`${BASE_URL}/inventory`, {
       method: "POST",
@@ -68,7 +67,7 @@ const InventoryProvider = ({ children }) => {
     refreshData();
   };
 
-  // ✅ Delete
+  // Delete
   const deleteItem = async (id) => {
     await fetch(`${BASE_URL}/inventory/${id}`, {
       method: "DELETE",
@@ -78,7 +77,7 @@ const InventoryProvider = ({ children }) => {
     refreshData();
   };
 
-  // ✅ Update Quantity
+  // Update Quantity
   const updateQuantity = async (id, quantity) => {
     await fetch(`${BASE_URL}/inventory/${id}/quantity`, {
       method: "PUT",
@@ -92,7 +91,7 @@ const InventoryProvider = ({ children }) => {
     refreshData();
   };
 
-  // ✅ Smart Refresh (🔥 important)
+  //Refresh 
   const refreshData = () => {
     if (location.pathname.includes("low-stock")) {
       fetchLowStock();
@@ -102,15 +101,17 @@ const InventoryProvider = ({ children }) => {
       fetchAllItems();
     }
 
-    fetchLowStockCount(); // alert update
+    fetchLowStockCount();
   };
 
-  // ✅ Navigation
+  // Navigation
   const onTabClick = (tab) => {
     if (tab === "Low Stock") {
       navigate("/inventory/low-stock");
     } else if (tab === "Available Stock") {
       navigate("/inventory/available");
+    } else if (tab === "Stock Usage") {
+      navigate("/inventory/stock-usage");
     } else if (tab === "Remove Item") {
       navigate("/inventory/remove-item");
     } else if (tab === "Add Item") {
@@ -120,17 +121,14 @@ const InventoryProvider = ({ children }) => {
     }
   };
 
-  // ✅ Route ভিত্তিক data load
   useEffect(() => {
     refreshData();
   }, [location.pathname]);
 
-  // ✅ Initial low stock count
   useEffect(() => {
     fetchLowStockCount();
   }, []);
 
-  // ✅ Reset tab when role changes
   useEffect(() => {
     setActiveTab(pillList[0]);
   }, [isAdmin]);
@@ -141,6 +139,7 @@ const InventoryProvider = ({ children }) => {
         isAdmin,
         pillList,
         activeTab,
+        setActiveTab,
         onTabClick,
         products,
         createItem,
