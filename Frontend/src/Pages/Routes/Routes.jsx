@@ -58,6 +58,10 @@ export const router = createBrowserRouter([
             path: "remove-item",
             element: <Inventory />,
           },
+          {
+            path: "stock-usage",
+            element: <Inventory />,
+          },
         ],
       },
     ],

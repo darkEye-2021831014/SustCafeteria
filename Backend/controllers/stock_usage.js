@@ -2,6 +2,7 @@ import * as Stock from "../services/stock_usage.js";
 
 
 export const createUsage = async (req, res) => {
+  console.log("Received usage data:", req.body);
   try {
     const {
       stock_item_id,
@@ -19,7 +20,7 @@ export const createUsage = async (req, res) => {
       note,
       created_by: userId,
     });
-
+    
     res.status(200).json(result);
 
   } catch (error) {

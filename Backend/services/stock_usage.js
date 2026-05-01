@@ -12,7 +12,7 @@ export const createUsageService = async ({
   try {
     await connection.beginTransaction();
 
-    // 1️⃣ check stock
+    // 1️⃣check stock
     const [rows] = await connection.query(
       "SELECT current_stock FROM stock_item WHERE id = ?",
       [stock_item_id]
