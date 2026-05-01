@@ -5,6 +5,8 @@ import Attendance from "../Attendance/Attendance";
 import { createBrowserRouter } from "react-router";
 import Staff from "../Staff/Staff";
 import Inventory from "../Inventory/Inventory";
+import Menu from "../Menu/Menu";
+import Profile from "../Profile/Profile";
 import Supplier from "../Supplier/Supplier";
 import Report from "../Report/Report";
 
@@ -17,6 +19,14 @@ export const router = createBrowserRouter([
       {
         index: true,
         element: <Home />,
+      },
+      {
+        path: "menu",
+        element: <Menu />,
+      },
+      {
+        path: "profile",
+        element: <Profile />,
       },
       {
         path: "attendance",
@@ -48,6 +58,10 @@ export const router = createBrowserRouter([
           },
           {
             path: "remove-item",
+            element: <Inventory />,
+          },
+          {
+            path: "stock-usage",
             element: <Inventory />,
           },
         ],

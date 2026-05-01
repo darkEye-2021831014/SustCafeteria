@@ -14,32 +14,26 @@ const InventoryModalManager = ({
 }) => {
   const modalClass = isRemoveAll
     ? "w-[630px] h-[320px]  py-[35px] bg-[#F2F2F7]"
-    : "bg-white w-[550px] h-[630px] p-[50px]";
+    : activeTab === "Stock Usage"
+      ? "bg-white w-[550px] h-[700px] p-[50px]"
+      : isAdmin
+        ? "bg-white w-[630px] h-[550px] p-[50px]"
+        : "bg-white w-[550px] h-[550px] p-[50px]";
   return (
-
-    <Modal isOpen={isOpen} onClose={onClose} className={modalClass}> 
-
+    <Modal isOpen={isOpen} onClose={onClose} className={modalClass}>
       {!isAdmin && (
-
         <AddInventoryModal
           onClose={onClose}
           selectedProduct={selectedProduct}
           title="পণ্য আপডেট করুন"
         />
-
       )}
 
       {isAdmin && activeTab === "Add Item" && (
-
-        <AddInventoryModal
-          onClose={onClose}
-          title="নতুন পণ্য যোগ করুন"
-        />
-
+        <AddInventoryModal onClose={onClose} title="নতুন পণ্য যোগ করুন" />
       )}
 
       {isAdmin && activeTab === "Remove Item" && (
-
         <AddInventoryModal
           onClose={onClose}
           selectedProduct={selectedProduct}
@@ -48,13 +42,9 @@ const InventoryModalManager = ({
           cancelIcon={<FaXmark />}
           isRemoveAll={isRemoveAll}
         />
-
       )}
-
     </Modal>
-
   );
-
 };
 
 export default InventoryModalManager;
