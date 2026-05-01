@@ -16,8 +16,14 @@ const AddInventoryModal = ({
   isRemoveAll,
   className,
 }) => {
-  const { isAdmin, activeTab, createItem, deleteItem, updateQuantity } =
-    useContext(InventoryContext);
+  const {
+    isAdmin,
+    activeTab,
+    createItem,
+    deleteItem,
+    updateQuantity,
+    updateUsage,
+  } = useContext(InventoryContext);
 
   const fields = getInventoryFields(selectedProduct, isAdmin, activeTab);
 
@@ -25,6 +31,7 @@ const AddInventoryModal = ({
     e.preventDefault();
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData.entries());
+    console.log("Form Data:", data);
     try {
       if (!selectedProduct && isAdmin) {
         createItem({
@@ -32,9 +39,23 @@ const AddInventoryModal = ({
           minimum_stock: Number(data.minimumStock),
           current_stock: Number(data.currentStock),
         });
-      } else if (selectedProduct && isAdmin && location.pathname.includes("remove-item")) {
-        
+      } else if (
+        selectedProduct &&
+        isAdmin &&
+        location.pathname.includes("remove-item")
+      ) {
         deleteItem(selectedProduct.id);
+      } else if (
+        selectedProduct &&
+        !isAdmin &&
+        location.pathname.includes("stock-usage")
+      ) {
+        updateUsage({
+          stock_item_id: selectedProduct.id,
+          quantity_used: Number(data.usedStock),
+          usage_type: data.usageType,
+          note: data.usageDescription,
+        });
       } else if (selectedProduct && !isAdmin) {
         updateQuantity(selectedProduct.id, Number(data.currentStock));
       }

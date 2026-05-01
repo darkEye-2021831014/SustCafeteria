@@ -9,6 +9,8 @@ import Menu from "../Menu/Menu";
 import Profile from "../Profile/Profile";
 import MenuManager from "../MenuManagement/MenuManager";
 import MenuControl from "../Menu/MenuControl";
+import Supplier from "../Supplier/Supplier";
+import Report from "../Report/Report";
 
 export const router = createBrowserRouter([
   {
@@ -59,6 +61,36 @@ export const router = createBrowserRouter([
           {
             path: "remove-item",
             element: <Inventory />,
+          },
+          {
+            path: "stock-usage",
+            element: <Inventory />,
+          },
+        ],
+      },
+      {
+        path: "supplier",
+        element:<Supplier/>,
+      },
+      {
+        path:"report",
+        element:<Report/>,
+        children:[
+          {
+            index:true,
+            element:<Report/>,
+          },
+          {
+            path: "sales-report",
+            element: <Report />,
+          },
+          {
+            path: "inventory-report",
+            element: <Report />,
+          },
+          {
+            path: "attendance-report",
+            element: <Report />,
           },
         ],
       },

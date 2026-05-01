@@ -20,7 +20,7 @@ const InventoryFoundMessage = ({ products, loading, children }) => {
     }
   } else {
     if (products.length === 0) {
-      message = "📭 No items found. Add new items.";
+      message = "No items found. Add new items.";
     }
   }
 
