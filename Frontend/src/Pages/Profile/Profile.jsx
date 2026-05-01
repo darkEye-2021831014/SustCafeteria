@@ -94,7 +94,7 @@ const Profile = () => {
       await logout.mutateAsync();
 
       queryClient.clear();
-      navigate("/");
+      navigate("/login");
     } catch (err) {
       setActiveItem("profile");
       alert("Failed to log out. Please try again.");
