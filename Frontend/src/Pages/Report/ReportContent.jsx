@@ -1,8 +1,9 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import { ReportContext } from "../../contexts/ReportContext/ReportContext";
 import Table from "../../components/Table/Table";
 import TableHeader from "../../components/Table/TableHeader";
 import SubNavBar from "../../components/SubHeader/SubNavBar";
+import PDFPrint from "../../components/Report/PDFPrint";
 const ReportContent = () => {
   const {
     attendance,
@@ -12,6 +13,7 @@ const ReportContent = () => {
     onTabClick,
     pillList,
   } = useContext(ReportContext);
+  const componentRef = useRef();
 
   const tHeaders = ["নাম", "পদবী", "উপস্থিত", "অনুপস্থিত", "দেরি"];
 
@@ -47,11 +49,21 @@ const ReportContent = () => {
               onChange={(e) =>
                 setSelectedDate(new Date(e.target.value + "-01"))
               }
-              className="px-2 py-1 text-lg font-bold border rounded-md bg-[#F54758]/5 text-black border-[#F54758] focus:outline-none focus:[#F54758]/50"
+              className="px-4 py-0 text-lg font-bold border rounded-md bg-[#F54758]/5 text-black border-[#F54758] focus:outline-none focus:[#F54758]/50"
             />
           </div>
-
-          <Table items={attendance} columns={columns} tHeaders={tHeaders} />
+          <div ref={componentRef}>
+            <h1 className="hidden print:block text-center text-2xl font-bold mb-5">
+              Attendance Report
+            </h1>
+            <Table items={attendance} columns={columns} tHeaders={tHeaders} />
+          </div>
+          <PDFPrint
+            targetRef={componentRef}
+            title="Attendance Report"
+            buttonText="Generate Report"
+            className="mt-5 justify-end flex"
+          />
         </div>
       </div>
     </div>

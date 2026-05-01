@@ -30,14 +30,20 @@ const ReportProvider = ({ children }) => {
     const year = selectedDate.getFullYear();
 
    fetch(
-    `http://localhost:8000/attendance/report?month=${month}&year=${year}`,
+    `${import.meta.env.VITE_API_BASE_URL}/attendance/report?month=${month}&year=${year}`,
     {
       credentials: "include",
     }
   )
-      .then((res) => res.json())
-      .then((data) => setAttendance(data));
+    .then((res) => res.json())
+    .then((data) => {
+      const filteredData = data.filter(
+        (item) => item.position.toLowerCase() !== "manager"
+      );
+      setAttendance(filteredData);
+    });
   }, [selectedDate]);
+  
 
   return (
     <ReportContext.Provider
