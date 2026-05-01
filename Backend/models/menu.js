@@ -7,6 +7,7 @@ export const createMenuItemTable = async () => {
             name VARCHAR(150) NOT NULL,
             image VARCHAR(255),
             price DECIMAL(10,2) NOT NULL,
+            category VARCHAR(100) NOT NULL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
         )
@@ -19,12 +20,21 @@ export const createMenuItemTable = async () => {
     }
 };
 
-export const createItem = async ({ name, image, price }) => {
+export const createItem = async ({ name, image, price, category }) => {
     const query = `
-        INSERT INTO menu_items (name, image, price)
-        VALUES (?, ?, ?)
+        INSERT INTO menu_items (name, image, price, category)
+        VALUES (?, ?, ?, ?)
     `;
-    const [result] = await db.execute(query, [name, image, price]);
+    const [result] = await db.execute(query, [name, image, price, category]);
     return result.insertId;
 };
 
+export const getAllItems = async () => {
+    const query = `
+        SELECT id, name, image, price, category
+        FROM menu_items
+        ORDER BY created_at DESC
+    `;
+    const [rows] = await db.execute(query);
+    return rows;
+};

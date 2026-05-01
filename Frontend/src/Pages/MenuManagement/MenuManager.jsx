@@ -1,8 +1,11 @@
-// MenuManager.jsx
-import { useState } from "react";
-import MenuItemList from "./EditMenuItemList";
+import { useState, useEffect } from "react";
+import { uploadImage } from "../../services/uploadImage";
 import AddItemSidebar from "./AddItem";
+import MenuItemList from "./EditMenuItemList";
 import ManagementSubNavBar from "./SubNavBar";
+import LoadingPage from "../ErrorPage/LoadingPage";
+
+import * as useMenu from "../../hooks/menu";
 
 const CATEGORIES = ["Breakfast", "Lunch", "Miscellaneous"];
 
@@ -76,11 +79,26 @@ const SAMPLE_ITEMS = [
 ];
 
 const MenuManager = () => {
+  const createItem = useMenu.createItem();
+  const { data, isLoading, error } = useMenu.getAllItems();
   const [items, setItems] = useState(SAMPLE_ITEMS);
   const [activeCategory, setActiveCategory] = useState("All");
-  const [activeMode, setActiveMode] = useState("edit"); // ← "edit" selected by default
-
+  const [activeMode, setActiveMode] = useState("edit");
   const navCategories = ["All", ...CATEGORIES];
+
+  useEffect(() => {
+    if (data?.data) {
+      const formattedItems = data.data.map((item) => ({
+        ...item,
+        imageUrl: item.image,
+      }));
+
+      setItems(formattedItems);
+    }
+  }, [data]);
+
+  if (isLoading) return <LoadingPage MESSAGE="Loading Menu Items..." />;
+  if (error) return <LoadingPage MESSAGE="Error loading menu items" />;
 
   // ── API: Save edited item ──────────────────────────────────────────────────
   const handleSaveItem = async (updatedItem) => {
@@ -105,16 +123,34 @@ const MenuManager = () => {
     setItems((prev) => prev.filter((i) => i.id !== item.id));
   };
 
-  // ── API: Add new item ──────────────────────────────────────────────────────
   const handleAddItem = async (newItem) => {
-    // const fd = new FormData();
-    // ...
-    // const res = await fetch("/api/menu-items", { method: "POST", body: fd });
-    // if (!res.ok) throw new Error("Failed to add item.");
-    // const created = await res.json();
-    // setItems((prev) => [...prev, created]);
+    const payload = {
+      name: newItem.name,
+      price: newItem.price,
+      category: newItem.category,
+      image: null,
+    };
+    if (newItem?.imageFile) {
+      try {
+        const imageUrl = await uploadImage(newItem.imageFile, "MenuItems");
+        payload.image = imageUrl;
+      } catch (err) {
+        alert("Image upload failed. Please try again.");
+        return;
+      }
+    }
 
-    setItems((prev) => [...prev, { ...newItem, id: Date.now() }]);
+    createItem.mutate(payload, {
+      onSuccess: (created) => {
+        setItems((prev) => [...prev, created]);
+      },
+      onSuccess: () => {
+        alert("Item added successfully!");
+      },
+      onError: () => {
+        alert("Failed to add item. Please try again.");
+      },
+    });
   };
 
   return (

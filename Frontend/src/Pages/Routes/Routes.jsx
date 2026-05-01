@@ -8,6 +8,7 @@ import Inventory from "../Inventory/Inventory";
 import Menu from "../Menu/Menu";
 import Profile from "../Profile/Profile";
 import MenuManager from "../MenuManagement/MenuManager";
+import MenuControl from "../Menu/MenuControl";
 
 export const router = createBrowserRouter([
   {
@@ -19,13 +20,9 @@ export const router = createBrowserRouter([
         index: true,
         element: <Home />,
       },
-      // {
-      //   path: "menu",
-      //   element: <Menu />,
-      // },
       {
         path: "menu",
-        element: <MenuManager />,
+        element: <MenuControl />,
       },
       {
         path: "profile",

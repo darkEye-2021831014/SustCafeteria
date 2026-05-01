@@ -16,3 +16,19 @@ export const createItem = async (req, res) => {
         });
     }
 };
+
+export const getAllItems = async (req, res) => {
+    try {
+        const items = await MenuService.getAllItems();
+
+        res.status(200).json({
+            success: true,
+            data: items
+        });
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            message: "Failed to retrieve menu items"
+        });
+    }
+};

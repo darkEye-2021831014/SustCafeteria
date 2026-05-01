@@ -2,10 +2,10 @@ import * as MenuModel from "../models/menu.js";
 import { convertBanglaToEnglishNumber } from "../utils/menu.js";
 
 export const createItem = async (data) => {
-    const { name, image, price } = data;
+    const { name, image, price, category } = data;
 
-    if (!name || !price) {
-        throw new Error("Name and price are required");
+    if (!name || !price || !category) {
+        throw new Error("Name, price and category are required");
     }
 
     const normalizedPrice = parseFloat(
@@ -19,5 +19,10 @@ export const createItem = async (data) => {
         throw new Error("Price cannot be negative");
     }
 
-    return await MenuModel.createItem({ name, image, price: normalizedPrice });
+    console.log("Creating menu item with data:", { name, price: normalizedPrice, category, image });
+    return await MenuModel.createItem({ name, image, price: normalizedPrice, category });
+};
+
+export const getAllItems = async () => {
+    return await MenuModel.getAllItems();
 };

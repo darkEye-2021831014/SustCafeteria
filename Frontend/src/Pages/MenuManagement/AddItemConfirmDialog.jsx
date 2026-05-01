@@ -17,7 +17,7 @@ const AddItemConfirmDialog = ({ item, onConfirm, onCancel }) => (
     <div className="bg-gray-100 rounded-2xl px-6 pt-6 pb-7 w-full max-w-[420px] shadow-xl">
       {/* Success heading */}
       <h2 className="text-[20px] font-bold text-green-500 mb-6">
-        Item Added Successfully
+        Are You Sure You Want to Add This Item to the Menu?
       </h2>
 
       {/* Preview row */}

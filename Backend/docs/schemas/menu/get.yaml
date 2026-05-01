@@ -1,0 +1,57 @@
+summary: Get all menu items
+tags:
+  - Menu
+
+responses:
+  "200":
+    description: Successfully retrieved all menu items
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            success:
+              type: boolean
+              example: true
+            data:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  name:
+                    type: string
+                    example: Burger
+                  price:
+                    type: number
+                    example: 120
+                  category:
+                    type: string
+                    example: Lunch
+                  image:
+                    type: string
+                    example: https://res.cloudinary.com/demo/image/upload/v123456/burger.jpg
+                  created_at:
+                    type: string
+                    format: date-time
+                    example: 2026-05-01T12:00:00Z
+                  updated_at:
+                    type: string
+                    format: date-time
+                    example: 2026-05-01T12:30:00Z
+
+  "500":
+    description: Failed to retrieve menu items
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            success:
+              type: boolean
+              example: false
+            message:
+              type: string
+              example: Failed to retrieve menu items

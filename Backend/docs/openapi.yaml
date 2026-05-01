@@ -112,6 +112,8 @@ paths:
   /menu:
     post:
       $ref: "./schemas/menu/post.yaml"
+    get:
+      $ref: "./schemas/menu/get.yaml"
 
 components:
   securitySchemes:

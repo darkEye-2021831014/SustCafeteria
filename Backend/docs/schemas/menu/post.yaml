@@ -18,6 +18,9 @@ requestBody:
           price:
             type: number
             example: 120
+          category:
+            type: string
+            example: Lunch
           image:
             type: string
             example: https://res.cloudinary.com/demo/image/upload/v123456/burger.jpg
@@ -55,7 +58,7 @@ responses:
               example: false
             message:
               type: string
-              example: Name and valid price are required
+              example: Name, price and category are required
 
   "500":
     description: Server error
