@@ -26,6 +26,8 @@ paths:
       $ref: "./schemas/userLogin/get.yaml"
     patch:
       $ref: "./schemas/userLogin/patch.yaml"
+    put:
+      $ref: "./schemas/userLogin/put.yaml"
 
       # ------------Inventory----------------
   /inventory:
@@ -72,7 +74,7 @@ paths:
   /attendance/all:
     get:
       $ref: "./schemas/attendance/getAll.yaml"
- 
+
       # ------------Item Supplier----------------
   /itemSupplier:
     post:
@@ -105,7 +107,7 @@ paths:
   /purchaseOrder/{id}/deliver:
     put:
       $ref: "./schemas/purchaseOrder/put-deliver.yaml"
- 
+
 components:
   securitySchemes:
     cookieAuth:

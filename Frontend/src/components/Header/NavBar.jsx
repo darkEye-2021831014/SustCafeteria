@@ -6,10 +6,7 @@ import { useLocation } from "react-router";
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext/Authcontext";
 
-const NavBar = ({
-  signedIn = true,
-  className,
-}) => {
+const NavBar = ({ signedIn = true, className }) => {
   const location = useLocation();
   const { user, loading } = useContext(AuthContext);
   if (loading) return <div>Loading...</div>;
@@ -22,6 +19,7 @@ const NavBar = ({
     if (location.pathname === "/supplier") return "Supplier";
     if (location.pathname === "/staff") return "Staff";
     if (location.pathname === "/report") return "Report";
+    if (location.pathname === "/profile") return "Profile";
     return "";
   };
   const active = getActive();
@@ -31,7 +29,7 @@ const NavBar = ({
 
   return (
     <div
-      className={`flex bg-[#E8B5BA] border border-[#F54758] h-fit w-full items-center justify-between px-5 py-3 ${className} `}
+      className={`flex bg-[#E8B5BA] border-b border-b-[#F54758] h-fit w-full items-center justify-between px-5 py-3 ${className} `}
     >
       <div className="flex items-center gap-4 cursor-pointer">
         <img src={sustLogo} alt="sustLogo" className="w-auto h-14" />
