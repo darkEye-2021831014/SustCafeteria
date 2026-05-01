@@ -59,7 +59,25 @@ export const router = createBrowserRouter([
       {
         path:"report",
         element:<Report/>,
-      }
+        children:[
+          {
+            index:true,
+            element:<Report/>,
+          },
+          {
+            path: "sales-report",
+            element: <Report />,
+          },
+          {
+            path: "inventory-report",
+            element: <Report />,
+          },
+          {
+            path: "attendance-report",
+            element: <Report />,
+          },
+        ],
+      },
     ],
   },
 ]);
