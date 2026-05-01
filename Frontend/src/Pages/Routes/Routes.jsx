@@ -5,6 +5,8 @@ import Attendance from "../Attendance/Attendance";
 import { createBrowserRouter } from "react-router";
 import Staff from "../Staff/Staff";
 import Inventory from "../Inventory/Inventory";
+import Supplier from "../Supplier/Supplier";
+import Report from "../Report/Report";
 
 export const router = createBrowserRouter([
   {
@@ -50,6 +52,14 @@ export const router = createBrowserRouter([
           },
         ],
       },
+      {
+        path: "supplier",
+        element:<Supplier/>,
+      },
+      {
+        path:"report",
+        element:<Report/>,
+      }
     ],
   },
 ]);
