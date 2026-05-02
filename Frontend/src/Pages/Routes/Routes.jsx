@@ -72,10 +72,10 @@ export const router = createBrowserRouter([
           },
         ],
       },
-      {
-        path: "supplier",
-        element: <Supplier />,
-      },
+      // {
+      //   path: "supplier",
+      //   element: <Supplier />,
+      // },
       {
         path: "report",
         element: <Report />,
