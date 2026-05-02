@@ -7,10 +7,7 @@ import Staff from "../Staff/Staff";
 import Inventory from "../Inventory/Inventory";
 import Menu from "../Menu/Menu";
 import Profile from "../Profile/Profile";
-import MenuManager from "../MenuManagement/MenuManager";
-import MenuControl from "../Menu/MenuControl";
-import Supplier from "../Supplier/Supplier";
-import Report from "../Report/Report";
+import Login from "../Login/Login";
 
 export const router = createBrowserRouter([
   {
@@ -21,6 +18,11 @@ export const router = createBrowserRouter([
       {
         index: true,
         element: <Home />,
+      },
+      {
+        path:"login",
+        element: <Login/>,
+
       },
       {
         path: "menu",
