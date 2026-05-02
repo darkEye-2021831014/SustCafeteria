@@ -9,16 +9,16 @@ const Menu = () => {
 
   return (
     <OrderState>
-      <div className="flex flex-col w-full min-h-screen bg-[#E8B5BA]/20">
+      <div className="flex flex-col w-full min-h-screen bg-[#ffff]/10">
         <SubNavBar
-          className="border-b border-b-[#34C759]"
+          className="border-b border-b-[#8B3A3A]/20"
           pillList={["All", "Breakfast", "Lunch", "Miscellaneous"]}
           active={activeTab}
           onTabClick={setActiveTab}
         />
         <div className="flex flex-1 justify-between">
           <MenuItemList category={activeTab} />
-          <Order className={"border-l border-l-[#34C759]"} />
+          <Order className={"border-l border-l-[#8B3A3A]/20"} />
         </div>
       </div>
     </OrderState>
