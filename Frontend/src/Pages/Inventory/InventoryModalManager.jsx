@@ -15,10 +15,12 @@ const InventoryModalManager = ({
   const modalClass = isRemoveAll
     ? "w-[630px] h-[320px]  py-[35px] bg-[#F2F2F7]"
     : activeTab === "Stock Usage"
-      ? "bg-white w-[550px] h-[700px] p-[50px]"
-      : isAdmin
-        ? "bg-white w-[630px] h-[550px] p-[50px]"
-        : "bg-white w-[550px] h-[550px] p-[50px]";
+      ? "bg-white w-[550px] h-[650px] p-[50px]"
+      : activeTab === "Remove Item"
+        ? "bg-white w-[550px] h-[440px] p-[50px]"
+        : isAdmin
+          ? "bg-white w-[520px] h-[560px] p-[50px]"
+          : "bg-white w-[550px] h-[500px] p-[50px]";
   return (
     <Modal isOpen={isOpen} onClose={onClose} className={modalClass}>
       {!isAdmin && (

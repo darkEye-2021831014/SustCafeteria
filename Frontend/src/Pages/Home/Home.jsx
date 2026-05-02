@@ -10,9 +10,9 @@ const Home = () => {
   return (
     <div>
       {!user ? (
-        <Login />
+        <Login key="login"/>
       ) : (
-        <div className="h-[calc(100vh-81px)] gap-5">
+        <div className="h-[calc(100vh-82px)] gap-5">
           <WelcomeSection />
           <DashboardSection />
         </div>

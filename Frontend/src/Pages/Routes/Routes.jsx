@@ -8,6 +8,7 @@ import Inventory from "../Inventory/Inventory";
 import Menu from "../Menu/Menu";
 import Profile from "../Profile/Profile";
 import Login from "../Login/Login";
+import ProtectedRoute from "../../contexts/AuthContext/ProtectedRoute";
 
 export const router = createBrowserRouter([
   {
@@ -17,7 +18,7 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Home />,
+        element:<ProtectedRoute><Home/></ProtectedRoute>
       },
       {
         path: "login",
@@ -25,23 +26,23 @@ export const router = createBrowserRouter([
       },
       {
         path: "menu",
-        element: <MenuControl />,
+        element:<ProtectedRoute><Menu /></ProtectedRoute>,
       },
       {
         path: "profile",
-        element: <Profile />,
+        element: <ProtectedRoute><Profile /></ProtectedRoute>,
       },
       {
         path: "attendance",
-        element: <Attendance />,
+        element: <ProtectedRoute><Attendance /></ProtectedRoute>,
       },
       {
         path: "staff",
-        element: <Staff />,
+        element: <ProtectedRoute><Staff /></ProtectedRoute> ,
       },
       {
         path: "inventory",
-        element: <Inventory />,
+        element: <ProtectedRoute><Inventory /></ProtectedRoute>,
         children: [
           {
             index: true,
