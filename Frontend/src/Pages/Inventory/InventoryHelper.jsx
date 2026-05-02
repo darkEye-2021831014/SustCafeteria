@@ -15,12 +15,14 @@ export const getInventoryFields = (selectedProduct, isAdmin, activeTab) => {
     {
       label: "পণ্যের নাম",
       name: "name",
+      placeholder: "আলু",
       defaultValue: selectedProduct?.name,
       disabled: isRemove,
     },
     {
       label: "পরিমাপের একক",
       name: "unit",
+      placeholder: "কেজি",
       defaultValue: selectedProduct?.unit,
       disabled: isRemove,
     },
