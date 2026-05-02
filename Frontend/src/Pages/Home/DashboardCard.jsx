@@ -3,45 +3,71 @@ import { useNavigate } from "react-router";
 import { ENV } from "../../config/env";
 import { AttendanceContext } from "../../contexts/AttendanceContext/AttendanceContext";
 import {
-  AlertTriangle,
-  ClipboardList,
+  ShoppingCart,
   Users,
   Wallet,
-  UserCircle,
+  FileBarChart,
   Utensils,
+  UserCircle,
+  ClipboardList,
 } from "lucide-react";
 
 export default function DashboardSection({ isManager }) {
   const navigate = useNavigate();
-  const { lateCount = 0, absentCount = 0, presentCount = 0 } =
+  const today = new Date().toISOString().split("T")[0];
+
+  const [todaySalesCount, setTodaySalesCount] = useState(0);
+  const [totalStaffCount, setTotalStaffCount] = useState(0);
+  const [todayOrderCount, setTodayOrderCount] = useState(0);
+  const [startDate, setStartDate] = useState(today);
+  const [endDate, setEndDate] = useState(today);
+    const { lateCount = 0, absentCount = 0, presentCount = 0 } =
     useContext(AttendanceContext);
-
-  const [lowStockCount, setLowStockCount] = useState(0);
-
   useEffect(() => {
     if (!isManager) return;
 
-    const fetchLowStockCount = async () => {
+    const fetchDashboardData = async () => {
       try {
-        const res = await fetch(`${ENV.BASE_URL}/inventory/low-stock`, {
-          credentials: "include",
-        });
-        const data = await res.json();
-        setLowStockCount(Array.isArray(data) ? data.length : 0);
-      } catch (err) {
-        setLowStockCount(0);
+        const [salesRes, staffRes, orderRes] = await Promise.all([
+          fetch(`${ENV.BASE_URL}/sales?startDate=${startDate}&endDate=${endDate}`, {
+            credentials: "include",
+          }),
+
+          fetch(`${ENV.BASE_URL}/user`, {
+            credentials: "include",
+          }),
+
+          fetch(`${ENV.BASE_URL}/order`, {
+            credentials: "include",
+          }),
+        ]);
+
+        const salesData = await salesRes.json();
+        const staffData = await staffRes.json();
+        console.log("Staff data:", staffData.users.length);
+        const orderData = await orderRes.json();
+
+        setTodaySalesCount(salesData.data.length || 0);
+        setTotalStaffCount(staffData.users.length || 0);
+        setTodayOrderCount(orderData.data.length || 0);
+      } catch (error) {
+        setTodaySalesCount(0);
+        setTotalStaffCount(0);
+        setTodayOrderCount(0);
       }
     };
 
-    fetchLowStockCount();
+    fetchDashboardData();
   }, [isManager]);
+  console.log("Dashboard data:", { todaySalesCount, totalStaffCount, todayOrderCount });
 
+  /* ================= MANAGER CARDS ================= */
   const managerCards = useMemo(
     () => [
       {
         title: "Today's Sales",
-        value: "৳ 12,450",
-        subtitle: "Sales summary",
+        value: `${todaySalesCount} Items`,
+        subtitle: "Sold today",
         icon: Wallet,
         color: "text-emerald-600",
         bg: "from-emerald-50 to-white",
@@ -49,40 +75,41 @@ export default function DashboardSection({ isManager }) {
         route: "/report/sales-report",
       },
       {
-        title: "Low Stock Items",
-        value: lowStockCount,
-        subtitle: "Refill required",
-        icon: AlertTriangle,
-        color: "text-rose-600",
-        bg: "from-rose-50 to-white",
-        glow: "bg-rose-200",
-        route: "/inventory/low-stock",
-      },
-      {
-        title: "Pending Orders",
-        value: 4,
-        subtitle: "Awaiting action",
-        icon: ClipboardList,
-        color: "text-amber-600",
-        bg: "from-amber-50 to-white",
-        glow: "bg-amber-200",
-        route: "/inventory",
-      },
-      {
-        title: "Attendance",
-        value: `${lateCount} Late / ${absentCount} Absent`,
-        subtitle: "Today status",
+        title: "Total Staffs",
+        value: `${totalStaffCount} Members`,
+        subtitle: "Registered staffs",
         icon: Users,
+        color: "text-blue-600",
+        bg: "from-blue-50 to-white",
+        glow: "bg-blue-200",
+        route: "/staff",
+      },
+      {
+        title: "Today's Orders",
+        value: `${todayOrderCount} Orders`,
+        subtitle: "Placed today",
+        icon: ShoppingCart,
+        color: "text-orange-600",
+        bg: "from-orange-50 to-white",
+        glow: "bg-orange-200",
+        route: "/orders",
+      },
+      {
+        title: "Generate Report",
+        value: "Report Analysis",
+        subtitle: "Sales / Inventory / Attendance",
+        icon: FileBarChart,
         color: "text-violet-600",
         bg: "from-violet-50 to-white",
         glow: "bg-violet-200",
-        route: "/attendance",
+        route: "/report",
       },
     ],
-    [lowStockCount, lateCount, absentCount]
+    [todaySalesCount, totalStaffCount, todayOrderCount]
   );
 
-  const staffCards = useMemo(
+  /* ================= STAFF CARDS ================= */
+   const staffCards = useMemo(
     () => [
        {
         title: "Today's Menu",
@@ -129,14 +156,16 @@ export default function DashboardSection({ isManager }) {
     [presentCount, lateCount, absentCount]
   );
 
+
   const cards = isManager ? managerCards : staffCards;
 
   return (
     <section className="px-6 py-6 min-h-[calc(100vh-300px)] flex flex-col">
       <div className="mb-5 flex items-center justify-between max-w-6xl w-full mx-auto">
         <h2 className="text-2xl font-bold text-[#4A1D23]">
-          {isManager ? "Manager Overview" : "Staff Overview"}
+          {isManager ? "Manager Dashboard" : "Staff Dashboard"}
         </h2>
+
         <p className="text-sm text-gray-500">
           Click any card to open details
         </p>
@@ -149,15 +178,17 @@ export default function DashboardSection({ isManager }) {
             onClick={() => navigate(item.route)}
             className={`group relative overflow-hidden rounded-3xl border border-white/60 bg-gradient-to-br ${item.bg} p-6 text-left shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl min-h-[160px]`}
           >
-           
+            {/* top right glow */}
             <div
               className={`absolute -top-6 -right-6 h-28 w-28 rounded-full blur-2xl opacity-60 ${item.glow}`}
             />
+
+            {/* icon */}
             <div className="absolute top-4 right-4 rounded-2xl bg-white/80 p-3 shadow-md backdrop-blur-md group-hover:scale-110 transition">
               <item.icon className={`h-6 w-6 ${item.color}`} />
             </div>
 
-           
+            {/* pattern */}
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.8),transparent_40%)]" />
 
             <div className="relative z-10">
