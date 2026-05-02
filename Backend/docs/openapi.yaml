@@ -138,6 +138,14 @@ paths:
     get:
       $ref: "./schemas/stockUsage/get-history.yaml"
 
+      # ------------Sales Report----------------
+  /sales:
+    get:
+      $ref: "./schemas/salesReport/get.yaml"
+  /sales/total:
+    get:
+      $ref: "./schemas/salesReport/get-total.yaml"
+
 components:
   securitySchemes:
     cookieAuth:
