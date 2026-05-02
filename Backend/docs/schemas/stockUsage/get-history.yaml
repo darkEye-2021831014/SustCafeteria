@@ -1,0 +1,80 @@
+summary: Inventory usage tracking report (history by date range)
+description: >
+  Returns usage lines joined with item details and the name of the user who recorded each usage.
+  Rows are ordered by usage date descending.
+tags:
+  - Stock usage
+security:
+  - cookieAuth: []
+parameters:
+  - in: query
+    name: startDate
+    required: true
+    schema:
+      type: string
+      format: date
+    example: "2026-04-01"
+    description: Range start (inclusive), typically YYYY-MM-DD
+  - in: query
+    name: endDate
+    required: true
+    schema:
+      type: string
+      format: date
+    example: "2026-04-30"
+    description: Range end (inclusive), typically YYYY-MM-DD
+responses:
+  "200":
+    description: List of usage records in the date range
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+              item_name:
+                type: string
+              unit:
+                type: string
+              current_stock:
+                type: number
+                format: float
+                description: Stock level after earlier operations (snapshot from joined stock_item)
+              minimum_stock:
+                type: number
+                format: float
+              quantity_used:
+                type: number
+                format: float
+              usage_type:
+                type: string
+                enum: [cooking, wastage]
+              note:
+                type: string
+                nullable: true
+              date:
+                type: string
+                format: date
+              created_at:
+                type: string
+                format: date-time
+              created_by:
+                type: string
+                description: Display name of the user who created the usage row
+  "400":
+    description: Missing query parameters
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "startDate and endDate are required"
+  "403":
+    description: Unauthorized
+  "500":
+    description: Server error

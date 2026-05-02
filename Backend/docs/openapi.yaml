@@ -53,6 +53,9 @@ paths:
     put:
       $ref: "./schemas/inventoryAdmin/info.yaml"
 
+
+
+
       # ------------Supplier----------------
   /supplier:
     post:
@@ -66,6 +69,8 @@ paths:
       $ref: "./schemas/supplier/get-id.yaml"
     delete:
       $ref: "./schemas/supplier/delete.yaml"
+
+      
   # -----------Attendance----------------
   /attendance/add:
     post:
@@ -114,6 +119,17 @@ paths:
       $ref: "./schemas/menu/post.yaml"
     get:
       $ref: "./schemas/menu/get.yaml"
+
+
+
+      # ------------Stock Usage----------------
+  /stockUsage:
+    post:
+      $ref: "./schemas/stockUsage/post-create.yaml"
+    get:
+      $ref: "./schemas/stockUsage/get-history.yaml"
+
+      
 
 components:
   securitySchemes:
