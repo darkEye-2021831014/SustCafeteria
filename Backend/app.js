@@ -13,6 +13,8 @@ import purchaseOrder from "./routes/purchase_order.js"
 import SwaggerParser from "@apidevtools/swagger-parser"
 import attendance from "./routes/attendance.js";
 import menu from "./routes/menu.js"
+import order from "./routes/order.js";
+
 const app = express();
 
 app.use((req, res, next) => {
@@ -45,6 +47,7 @@ app.use("/supplier", loginRequired, supplier);
 app.use("/itemSupplier", loginRequired, itemSupplier);
 app.use("/purchaseOrder", loginRequired, purchaseOrder);
 app.use("/menu", loginRequired, menu);
+app.use("/order", loginRequired, order);
 
 app.use("/attendance", loginRequired, attendance);
 

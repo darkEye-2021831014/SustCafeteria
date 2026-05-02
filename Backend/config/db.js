@@ -7,6 +7,8 @@ import { createPurchaseOrderTable } from "../models/purchase_order.js";
 import { createAttendanceTable } from "../models/attendance.js";
 import { createMenuItemTable } from "../models/menu.js";
 import { createUsageItemsTable } from "../models/stock_usage.js";
+import { createOrderTable } from "../models/order.js";
+import { createOrderItemTable } from "../models/order_item.js";
 
 export const db = mysql.createPool({
     host: process.env.DB_HOST,
@@ -37,7 +39,13 @@ export const setUpDB = async () => {
     await createItemSupplierTable();
     await createPurchaseOrderTable();
     await createAttendanceTable();
+    //order must be maintained
     await createMenuItemTable();
     await createUsageItemsTable();
+    await createOrderTable();
+    await createOrderItemTable();
+    //order ended
+
 };
+
 

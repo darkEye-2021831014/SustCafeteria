@@ -12,3 +12,18 @@ export const convertBanglaToEnglishNumber = (value) => {
 
     return converted;
 };
+
+export const normalizedPrice = (price) => {
+    const convertedPrice = convertBanglaToEnglishNumber(price);
+    const numericPrice = parseFloat(convertedPrice);
+
+    if (isNaN(numericPrice)) {
+        throw new Error("Invalid price format");
+    }
+
+    if (numericPrice < 0) {
+        throw new Error("Price cannot be negative");
+    }
+
+    return numericPrice;
+};
