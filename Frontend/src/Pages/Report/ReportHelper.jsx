@@ -2,7 +2,7 @@ export const getHeaders=(reportType) => {
   if (reportType === "Inventory Report") {
     return ["পণ্যের নাম", "পরিমাপের একক ", "বর্তমান মজুদ", "ন্যূনতম মজুদ","মোট ব্যবহার", "ব্যবহারের ধরণ ","প্রস্তুতকারকের নাম"];
     } else if (reportType === "Sales Report") {
-    return ["পণ্যের নাম","ক্যাটাগরি", "মোট বিক্রয় ", "প্রতি উনিটের দাম ","মোট আয়"];
+    return ["পণ্যের নাম","মোট পরিমান ", "প্রতি উনিটের দাম ","মোট বিক্রয় "];
     } else if (reportType === "Attendance Report") {
     return ["নাম", "পদবী", "উপস্থিত", "অনুপস্থিত", "দেরি"];
     } else {
@@ -21,12 +21,12 @@ export const getColumns = (reportType) => {
   }
     else if (reportType === "Sales Report") {
     return [
-      { key: "item_name" },
-      { key: "category" },
+      { key: "product" },
+      { key: "total_quantity" },
       { key: "total_sales" },
-      { key: "price_per_unit" },
-      { key: "total_revenue" },
-    ];
+      { key: "unit_price" },
+      
+      ];
   } else if (reportType === "Attendance Report") {
     return [
       { key: "name" },
