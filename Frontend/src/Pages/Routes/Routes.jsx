@@ -20,7 +20,11 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element:<ProtectedRoute><Home/></ProtectedRoute>
+        element: (
+          <ProtectedRoute>
+            <Home />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "login",
@@ -28,23 +32,43 @@ export const router = createBrowserRouter([
       },
       {
         path: "menu",
-        element:<ProtectedRoute><Menu /></ProtectedRoute>,
+        element: (
+          <ProtectedRoute>
+            <MenuControl />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "profile",
-        element: <ProtectedRoute><Profile /></ProtectedRoute>,
+        element: (
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "attendance",
-        element: <ProtectedRoute><Attendance /></ProtectedRoute>,
+        element: (
+          <ProtectedRoute>
+            <Attendance />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "staff",
-        element: <ProtectedRoute><Staff /></ProtectedRoute> ,
+        element: (
+          <ProtectedRoute>
+            <Staff />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "inventory",
-        element: <ProtectedRoute><Inventory /></ProtectedRoute>,
+        element: (
+          <ProtectedRoute>
+            <Inventory />
+          </ProtectedRoute>
+        ),
         children: [
           {
             index: true,

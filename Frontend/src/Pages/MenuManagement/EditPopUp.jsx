@@ -1,15 +1,6 @@
-// Slide-up popup overlay that wraps EditMenu
-
 import { useEffect, useRef } from "react";
 import EditMenu from "./EditMenu";
 
-/**
- * EditPopUp
- * @param {object|null} item        - Item being edited; null = closed
- * @param {string[]}    categories  - Category options from parent/API
- * @param {Function}    onConfirm   - Called with updated item data
- * @param {Function}    onClose     - Called to close the popup
- */
 const EditPopUp = ({ item, categories = [], onConfirm, onClose }) => {
   const isOpen = !!item;
   const overlayRef = useRef(null);

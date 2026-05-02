@@ -1,14 +1,5 @@
-// Confirmation dialog shown after clicking "Add Item"
-// Shows a live preview of the item card as it will appear in the menu grid
-
 import MenuItem from "./MenuItem";
 
-/**
- * AddItemConfirmDialog
- * @param {object}   item       - { name, price, imageUrl, category }
- * @param {Function} onConfirm  - Called when user confirms
- * @param {Function} onCancel   - Called when user cancels
- */
 const AddItemConfirmDialog = ({ item, onConfirm, onCancel }) => (
   <div
     className="fixed inset-0 z-50 flex items-center justify-center px-6"

@@ -1,6 +1,3 @@
-// MenuItem.jsx
-// Accepts `mode` prop: "edit" | "delete" | null — changes icon & ring color accordingly.
-
 const EditIcon = () => (
   <svg
     width="18"
@@ -35,13 +32,6 @@ const TrashIcon = () => (
   </svg>
 );
 
-/**
- * MenuItem
- * @param {object}         item   - { id, name, price, imageUrl, category }
- * @param {Function}       onEdit   - called with item (edit mode)
- * @param {Function}       onDelete - called with item (delete mode)
- * @param {"edit"|"delete"|null} mode
- */
 const MenuItem = ({ item, onEdit, onDelete, mode = null }) => {
   const isEdit = mode === "edit";
   const isDelete = mode === "delete";

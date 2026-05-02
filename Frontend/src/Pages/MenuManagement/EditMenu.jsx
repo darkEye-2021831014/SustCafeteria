@@ -1,14 +1,5 @@
-// Edit form content rendered inside the popup
-
 import { useState, useEffect, useRef } from "react";
 
-/**
- * EditMenu
- * @param {object}   item          - The menu item being edited { id, name, price, imageUrl, category }
- * @param {string[]} categories    - Category list from parent/API e.g. ["Breakfast","Lunch","Dinner"]
- * @param {Function} onConfirm     - Called with updated item data
- * @param {Function} onCancel      - Called when cancel is clicked
- */
 const EditMenu = ({ item, categories = [], onConfirm, onCancel }) => {
   const [name, setName] = useState(item?.name ?? "");
   const [price, setPrice] = useState(item?.price ?? "");
@@ -59,14 +50,16 @@ const EditMenu = ({ item, categories = [], onConfirm, onCancel }) => {
   };
 
   const handleConfirm = () => {
-    onConfirm?.({
-      ...item,
-      name,
-      price,
-      category,
-      imageUrl,
-      imageFile, // raw File for multipart upload
-    });
+    const updated = {
+      id: item.id,
+    };
+
+    if (name !== item.name) updated.name = name;
+    if (price !== item.price) updated.price = price;
+    if (category !== item.category) updated.category = category;
+    if (imageFile) updated.image = imageFile;
+
+    onConfirm?.(updated);
   };
 
   return (

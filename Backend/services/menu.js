@@ -7,10 +7,9 @@ export const createItem = async (data) => {
     if (!name || !price || !category) {
         throw new Error("Name, price and category are required");
     }
+    const normPrice = normalizedPrice(price);
 
-    const normalizedPrice = normalizedPrice(price);
-
-    return await MenuModel.createItem({ name, image, price: normalizedPrice, category });
+    return await MenuModel.createItem({ name, image, price: normPrice, category });
 };
 
 export const getAllItems = async () => {
