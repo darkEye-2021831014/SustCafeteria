@@ -1,0 +1,50 @@
+summary: Get all orders
+tags:
+  - Order
+
+responses:
+  "200":
+    description: Successfully retrieved all orders
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            success:
+              type: boolean
+              example: true
+            data:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  order_time:
+                    type: string
+                    format: date-time
+                    example: 2026-05-02T12:30:00Z
+                  subtotal:
+                    type: number
+                    example: 240
+                  discount:
+                    type: number
+                    example: 10
+                  total:
+                    type: number
+                    example: 216
+
+  "500":
+    description: Failed to fetch orders
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            success:
+              type: boolean
+              example: false
+            message:
+              type: string
+              example: Failed to fetch orders

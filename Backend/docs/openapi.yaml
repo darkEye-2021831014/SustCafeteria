@@ -119,6 +119,18 @@ paths:
       $ref: "./schemas/menu/post.yaml"
     get:
       $ref: "./schemas/menu/get.yaml"
+    patch:
+      $ref: "./schemas/menu/patch.yaml"
+
+      # ------------Order----------------
+  /order:
+    post:
+      $ref: "./schemas/order/post.yaml"
+    get:
+      $ref: "./schemas/order/get.yaml"
+  /order/items:
+    get:
+      $ref: "./schemas/orderItems/get.yaml"
 
 
 

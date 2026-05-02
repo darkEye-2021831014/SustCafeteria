@@ -1,5 +1,5 @@
 import * as MenuModel from "../models/menu.js";
-import { convertBanglaToEnglishNumber } from "../utils/menu.js";
+import { normalizedPrice } from "../utils/menu.js";
 
 export const createItem = async (data) => {
     const { name, image, price, category } = data;
@@ -8,21 +8,28 @@ export const createItem = async (data) => {
         throw new Error("Name, price and category are required");
     }
 
-    const normalizedPrice = parseFloat(
-        convertBanglaToEnglishNumber(price)
-    );
-    if (isNaN(normalizedPrice)) {
-        throw new Error("Invalid price format");
-    }
+    const normalizedPrice = normalizedPrice(price);
 
-    if (normalizedPrice < 0) {
-        throw new Error("Price cannot be negative");
-    }
-
-    console.log("Creating menu item with data:", { name, price: normalizedPrice, category, image });
     return await MenuModel.createItem({ name, image, price: normalizedPrice, category });
 };
 
 export const getAllItems = async () => {
     return await MenuModel.getAllItems();
+};
+
+export const updateItem = async (data) => {
+    const { id, name, image, price, category } = data;
+
+    if (!id) {
+        throw new Error("Item ID is required for update");
+    }
+
+    const fields = {};
+
+    if (name !== undefined) fields.name = name;
+    if (image !== undefined) fields.image = image;
+    if (price !== undefined) fields.price = normalizedPrice(price);
+    if (category !== undefined) fields.category = category;
+
+    return await MenuModel.updateItem({ id, fields });
 };

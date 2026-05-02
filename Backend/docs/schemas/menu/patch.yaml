@@ -1,0 +1,57 @@
+summary: Update a menu item
+tags:
+  - Menu
+
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - id
+        properties:
+          id:
+            type: integer
+            example: 10
+          name:
+            type: string
+            example: Rice
+          price:
+            type: number
+            example: 120
+          category:
+            type: string
+            example: Lunch
+          image:
+            type: string
+            example: https://res.cloudinary.com/demo/image/upload/v123456/burger.jpg
+
+responses:
+  "200":
+    description: Item updated successfully
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            success:
+              type: boolean
+              example: true
+            message:
+              type: string
+              example: Item updated successfully
+
+  "400":
+    description: Failed to update item
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            success:
+              type: boolean
+              example: false
+            message:
+              type: string
+              example: Item ID is required for update

@@ -38,3 +38,30 @@ export const getAllItems = async () => {
     const [rows] = await db.execute(query);
     return rows;
 };
+
+export const updateItem = async ({ fields, id }) => {
+    const updateFields = [];
+    const values = [];
+
+    Object.keys(fields).forEach((key) => {
+        if (fields[key] !== undefined && fields[key] !== null) {
+            updateFields.push(`${key} = ?`);
+            values.push(fields[key]);
+        }
+    });
+
+    if (updateFields.length === 0) {
+        throw new Error("No fields to update");
+    }
+
+    const query = `
+        UPDATE menu_items
+        SET ${updateFields.join(", ")}
+        WHERE id = ?
+    `;
+    values.push(id);
+
+    const [result] = await db.execute(query, values);
+
+    return result.affectedRows > 0;
+};

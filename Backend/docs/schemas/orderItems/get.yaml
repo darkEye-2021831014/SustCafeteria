@@ -1,0 +1,52 @@
+summary: Get all order items
+tags:
+  - Order
+
+responses:
+  "200":
+    description: Successfully retrieved all order items
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            success:
+              type: boolean
+              example: true
+            data:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  order_id:
+                    type: integer
+                    example: 1
+                  menu_item_id:
+                    type: integer
+                    example: 2
+                  quantity:
+                    type: integer
+                    example: 3
+                  unit_price:
+                    type: number
+                    example: 120
+                  total_cost:
+                    type: number
+                    example: 360
+
+  "500":
+    description: Failed to fetch order items
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            success:
+              type: boolean
+              example: false
+            message:
+              type: string
+              example: Failed to fetch order items

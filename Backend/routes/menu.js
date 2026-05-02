@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.route("/")
     .post(adminOnly, MenuController.createItem)
-    .get(MenuController.getAllItems);
+    .get(MenuController.getAllItems)
+    .patch(adminOnly, MenuController.updateItem);
 
 export default router;
