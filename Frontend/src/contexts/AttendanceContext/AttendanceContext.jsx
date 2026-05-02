@@ -123,7 +123,10 @@ const [loading, setLoading] = useState(true);
       : mergedList
           .filter((s) => s.status === filter)
           .filter((s) => s.role?.toLowerCase() !== "manager");
-
+// ✅ Count calculations
+const lateCount = mergedList.filter((u) => u.status === "Late").length;
+const absentCount = mergedList.filter((u) => u.status === "Absent").length;
+const presentCount = mergedList.filter((u) => u.status === "Present").length;
   return (
     <AttendanceContext.Provider
       value={{
@@ -134,6 +137,9 @@ const [loading, setLoading] = useState(true);
         setFilter,
         markAttendance,
         isAfter8,
+        lateCount,
+    absentCount,
+    presentCount,
       }}
     >
       {children}

@@ -29,17 +29,17 @@ export function WelcomeSection() {
   }, []);
 
   return (
-    <section className="bg-gray-100 border-b">
+    <section className="bg-[#ffff]/10 border-b border-[#8B3A3A]/20">
       <div className=" px-5 py-7">
-        <h1 className="text-3xl font-bold mb-2">Welcome to SUST Cafeteria</h1>
+        <h1 className="text-4xl font-bold mb-2 font-cormorant">Welcome to SUST Cafeteria</h1>
         <h2>
           Welcome to SUST Cafeteria Management System. Manage your cafeteria
           operations efficiently with our comprehensive management platform
         </h2>
 
         {currentDateTime && (
-          <div className="mt-4 flex gap-6">
-            <div className="flex items-center gap-2">
+          <div className="mt-4 flex gap-12">
+            <div className="flex items-center gap-4">
               <Calendar />
               <div className="flex flex-col justify-center">
                 <p>Date</p>

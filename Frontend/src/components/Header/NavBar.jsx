@@ -1,16 +1,44 @@
-import React from "react";
+import React, { useContext } from "react";
 import PillList from "./PillList";
 import AuthPill from "./AuthPill";
-import sustLogo from "../../assets/sustLogo.png";
-import { useLocation } from "react-router";
-import { useContext } from "react";
+import sustLogo from "../../assets/sust_logo.png";
+import { useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../../contexts/AuthContext/Authcontext";
 
 const NavBar = ({ signedIn = true, className }) => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { user, loading } = useContext(AuthContext);
-  if (loading) return <div>Loading...</div>;
+
+  if (loading) return <div className="sticky top-0 z-50 flex w-full items-center justify-center border-b border-b-[#F54758] bg-[#E8B5BA] px-5 py-4 text-sm sm:text-base">Loading...</div>;
+
   const isAdmin = user?.role?.toLowerCase() === "manager";
+
+  // route map
+  const routeMap = {
+    Home: "/",
+    Menu: "/menu",
+    Inventory: "/inventory",
+    Attendance: "/attendance",
+    Supplier: "/supplier",
+    Staff: "/staff",
+    Report: "/report",
+    Profile: "/profile",
+  };
+
+  // click handler
+  const handleNavClick = (item) => {
+    const route = routeMap[item];
+
+    if (!user) {
+      navigate("/login", {
+        state: { from: { pathname: route } },
+      });
+    } else {
+      navigate(route);
+    }
+  };
+
   const getActive = () => {
     if (location.pathname === "/") return "Home";
     if (location.pathname === "/attendance") return "Attendance";
@@ -22,23 +50,37 @@ const NavBar = ({ signedIn = true, className }) => {
     if (location.pathname === "/profile") return "Profile";
     return "";
   };
+
   const active = getActive();
+
   const headerPillList = isAdmin
     ? ["Home", "Menu", "Inventory", "Staff", "Supplier", "Report"]
     : ["Home", "Menu", "Inventory", "Attendance", "Supplier"];
 
   return (
     <div
-      className={`flex bg-[#E8B5BA] border-b border-b-[#F54758] h-fit w-full items-center justify-between px-5 py-3 ${className} `}
+      className={`flex bg-[#650b13] border-b border-b-[#F54758] h-[70px] w-full items-center justify-between px-5 py-3 text-white ${className}`}
     >
-      <div className="flex items-center gap-4 cursor-pointer">
-        <img src={sustLogo} alt="sustLogo" className="w-auto h-14" />
+      <div
+        className="flex items-center gap-4 cursor-pointer"
+        onClick={() => handleNavClick("Home")}
+      >
+        <img src={sustLogo} alt="sustLogo" className="h-14 rounded-[5px]" />
         <div className="font-tourney text-[30px]">Sust Cafeteria</div>
       </div>
 
       <div className="flex items-center h-fit gap-12">
-        <PillList headerPillList={headerPillList} active={active} />
-        <AuthPill signedIn={signedIn} isActive={active === "Profile"} />
+        <PillList
+          headerPillList={headerPillList}
+          active={active}
+          onItemClick={handleNavClick} 
+        />
+
+        <AuthPill
+          signedIn={signedIn}
+          isActive={active === "Profile"}
+          onClick={() => handleNavClick("Profile")}
+        />
       </div>
     </div>
   );

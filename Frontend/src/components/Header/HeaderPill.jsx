@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router";
 const HeaderPill = ({ name, isActive = false }) => {
-  const bg = isActive ? "bg-white" : "bg-none hover:bg-white/50";
+  const bg = isActive ? "bg-white text-black" : "bg-none hover:bg-white/50";
   const getPath = (name) => {
     switch (name) {
       case "Home":

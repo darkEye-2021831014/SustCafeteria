@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.route("/")
     .post(upload.single("image"), verifyEmail, createUser)
-    .get(adminOnly, getAllUsers)
+    .get( getAllUsers)
     .delete(adminOnly, deleteAllUsers)
     .patch(adminOnly, updateUserRole);
 
