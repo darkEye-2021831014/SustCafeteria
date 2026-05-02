@@ -33,3 +33,17 @@ export const updateItem = async (data) => {
 
     return await MenuModel.updateItem({ id, fields });
 };
+
+export const deleteItem = async (id) => {
+    if (!id) {
+        throw new Error("Menu item ID is required");
+    }
+
+    const isDeleted = await MenuModel.deleteItem(id);
+
+    if (!isDeleted) {
+        throw new Error("Menu item not found or already deleted");
+    }
+
+    return true;
+};

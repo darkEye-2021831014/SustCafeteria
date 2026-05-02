@@ -8,10 +8,12 @@ export const createMenuItemTable = async () => {
             image VARCHAR(255),
             price DECIMAL(10,2) NOT NULL,
             category VARCHAR(100) NOT NULL,
+            is_deleted BOOLEAN DEFAULT FALSE,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
         )
     `;
+
     try {
         await db.execute(query);
         console.log("Menu Items table created successfully");
@@ -33,12 +35,12 @@ export const getAllItems = async () => {
     const query = `
         SELECT id, name, image, price, category
         FROM menu_items
+        WHERE is_deleted = FALSE
         ORDER BY created_at DESC
     `;
     const [rows] = await db.execute(query);
     return rows;
 };
-
 export const updateItem = async ({ fields, id }) => {
     const updateFields = [];
     const values = [];
@@ -62,6 +64,19 @@ export const updateItem = async ({ fields, id }) => {
     values.push(id);
 
     const [result] = await db.execute(query, values);
+
+    return result.affectedRows > 0;
+};
+
+
+export const deleteItem = async (id) => {
+    const query = `
+        UPDATE menu_items
+        SET is_deleted = TRUE
+        WHERE id = ?
+    `;
+
+    const [result] = await db.execute(query, [id]);
 
     return result.affectedRows > 0;
 };

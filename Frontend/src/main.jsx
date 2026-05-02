@@ -10,6 +10,8 @@ import AuthProvider from "./contexts/AuthContext/Authcontext.jsx";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
+import MenuControl from "./Pages/Menu/MenuControl.jsx";
+
 const queryClient = new QueryClient();
 
 createRoot(document.getElementById("root")).render(
