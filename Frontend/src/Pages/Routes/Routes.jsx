@@ -96,13 +96,13 @@ export const router = createBrowserRouter([
           },
         ],
       },
-      // {
-      //   path: "supplier",
-      //   element: <Supplier />,
-      // },
       {
         path: "report",
-        element: <Report />,
+        element: (
+          <ProtectedRoute>
+            <Report />
+          </ProtectedRoute>
+        ),
         children: [
           {
             index: true,
