@@ -3,9 +3,25 @@ import SubNavBar from "../../components/SubHeader/SubNavBar";
 import OrderState from "../../contexts/OrderContext/OrderState";
 import MenuItemList from "./MenuItemList";
 import Order from "./Order";
+import LoadingPage from "../ErrorPage/LoadingPage";
+import MenuContent from "./MenuContent";
+
+import * as useMenu from "../../hooks/menu";
 
 const Menu = () => {
   const [activeTab, setActiveTab] = useState("All");
+
+  const { data, isLoading, error } = useMenu.getAllItems();
+
+  if (isLoading) return <LoadingPage MESSAGE="Loading Menu..." />;
+  if (error) return <LoadingPage MESSAGE="Failed to load menu" />;
+
+  const items =
+    data?.data?.map((item) => ({
+      ...item,
+      image: item.image,
+      price: Number(item.price),
+    })) || [];
 
   return (
     <OrderState>
@@ -16,10 +32,8 @@ const Menu = () => {
           active={activeTab}
           onTabClick={setActiveTab}
         />
-        <div className="flex flex-1 justify-between">
-          <MenuItemList category={activeTab} />
-          <Order className={"border-l border-l-[#8B3A3A]/20"} />
-        </div>
+
+        <MenuContent items={items} activeTab={activeTab} />
       </div>
     </OrderState>
   );

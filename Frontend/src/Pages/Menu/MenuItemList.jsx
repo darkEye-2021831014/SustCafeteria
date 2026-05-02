@@ -1,52 +1,24 @@
-import PlainRice from "../../assets/MenuItemImages/PlainRice.webp";
 import MenuItem from "./MenuItem";
-import { useOrderContext } from "../../contexts/OrderContext/OrderContext";
 
-const MenuItemList = ({ category }) => {
-  const { addItem } = useOrderContext();
-
-  let items = [];
-  for (let i = 0; i < 3; i++) {
-    let curItem = [];
-    for (let j = 0; j < 5; j++) {
-      curItem.push({
-        id: j + 5 * i,
-        name: "সাদা ভাত",
-        qty: 1,
-        price: 20,
-        image: PlainRice,
-        category: ["Breakfast", "Lunch", "Miscellaneous"][i],
-      });
-    }
-    items.push(curItem);
-  }
-  console.log(items);
-  console.log(category);
-
-  const menuItemList =
-    category === "All"
+const MenuItemList = ({ items = [], activeCategory = "All", onItemClick }) => {
+  const visibleItems =
+    activeCategory === "All"
       ? items
-      : items
-          .map((row) => row.filter((item) => item.category === category))
-          .filter((row) => row.length > 0);
-  // 5 items in a Row
-  const menu = menuItemList.map((rowItems, rowIndex) => (
-    <div
-      key={rowIndex}
-      className="flex justify-around items-center w-full h-fit"
-    >
-      {rowItems.map((item) => (
+      : items.filter((i) => i.category === activeCategory);
+
+  return (
+    <div className="flex flex-wrap gap-10 w-[70%] h-full p-5">
+      {visibleItems.map((item) => (
         <MenuItem
           key={item.id}
           name={item.name}
           price={item.price}
           image={item.image}
-          handleClick={() => addItem(item)}
+          handleClick={() => onItemClick(item)}
         />
       ))}
     </div>
-  ));
-  return <div className="flex flex-col w-[70%] h-full gap-10 p-5">{menu}</div>;
+  );
 };
 
 export default MenuItemList;

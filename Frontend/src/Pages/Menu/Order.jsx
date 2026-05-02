@@ -1,108 +1,111 @@
 import TextIconButton from "../../components/Button/TextIconButton";
 import OrderItem from "./OrderItem";
-import { IoClose } from "react-icons/io5";
-import { FaCheck } from "react-icons/fa";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { FaArrowRightLong } from "react-icons/fa6";
 import { useOrderContext } from "../../contexts/OrderContext/OrderContext";
 import OrderReceipt from "./OrderReceipt";
 import { useState } from "react";
-import { RiDeleteBin6Line } from "react-icons/ri";
-import { FaArrowRightLong } from "react-icons/fa6";
+import * as useOrder from "../../hooks/order";
 
-const BottomSheet = ({ showReceipt, setShowReceipt, removeAllItems }) => {
+const BottomSheet = ({ showReceipt, setShowReceipt, onConfirm }) => {
   return (
     <div
       className={`fixed inset-0 z-50 flex items-center justify-center
-      transition-opacity duration-300
-      ${showReceipt ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
+      ${showReceipt ? "opacity-100" : "opacity-0 pointer-events-none"}`}
     >
-      {/* Overlay */}
       <div
         className="absolute inset-0 bg-black/40"
         onClick={() => setShowReceipt(false)}
       />
 
-      {/* Sheet Container */}
       <div
-        className={`relative w-fit
-        transform transition-transform duration-800 ease-[cubic-bezier(0.22,1,0.36,1)]
-        ${showReceipt ? "translate-y-0" : "translate-y-full"}`}
-        onClick={(e) => e.stopPropagation()}
+        className={`relative transition-transform duration-500 ${
+          showReceipt ? "translate-y-0" : "translate-y-full"
+        }`}
       >
-        {/* Scroll Wrapper */}
-        <div
-          className="bg-transparent rounded-2xl shadow-2xl
-                        max-h-[90vh] overflow-y-auto overflow-x-hidden"
-        >
-          <OrderReceipt
-            onCancel={() => setShowReceipt(false)}
-            onConfirm={() => {
-              setShowReceipt(false);
-              removeAllItems();
-            }}
-          />
-        </div>
+        <OrderReceipt
+          onCancel={() => setShowReceipt(false)}
+          onConfirm={onConfirm}
+        />
       </div>
     </div>
   );
 };
 
 const Order = ({ className }) => {
+  const createOrder = useOrder.createOrder();
   const { orderItemList, totalCost, removeAllItems } = useOrderContext();
   const [showReceipt, setShowReceipt] = useState(false);
 
-  const orderItems = orderItemList.map((item) => (
-    <OrderItem key={item.id} id={item.id} />
-  ));
-
-  const handelCancelClick = () => {
-    removeAllItems();
-  };
-  const handleConfirmClick = () => {
+  const handleConfirm = () => {
     setShowReceipt(true);
+  };
+
+  const confirmFinal = () => {
+    const payload = {
+      items: orderItemList.map((item) => ({
+        menu_item_id: item.id,
+        unit_price: Number(item.price),
+        quantity: item.qty,
+      })),
+      discount: 0,
+    };
+
+    createOrder.mutate(payload, {
+      onSuccess: () => {
+        setShowReceipt(false);
+        removeAllItems();
+      },
+      onError: (err) => {
+        console.error("Order failed:", err);
+        alert("Failed to create order");
+      },
+    });
   };
 
   return (
     <div
-      className={`flex flex-col bg-[#ffff]/10 px-7.5 py-2.5 flex-1 ${className} justify-between gap-3`}
+      className={`flex flex-col bg-[#ffff]/10 px-7.5 py-2.5 flex-1 justify-start gap-3 ${className}`}
     >
-      {/* Bottom Up popUp Animation */}
       <BottomSheet
         showReceipt={showReceipt}
         setShowReceipt={setShowReceipt}
-        removeAllItems={removeAllItems}
+        onConfirm={confirmFinal}
       />
 
-      {/* Header Section */}
+      {/* Header */}
       <div className="flex flex-col gap-3.75">
-        {/* Header*/}
-        <h1 className="text-center text-xl text-[#650b13] font-extrabold font-bold font-tourney">
+        <h1 className="text-center text-xl text-[#650b13] font-extrabold font-tourney">
           Order Items
         </h1>
-        {/* Action Button*/}
+
         <div className="flex justify-between font-bold">
           <TextIconButton
-            className="bg-red-500 text-white rounded-full shadow hover:bg-red-700"
+            className="bg-red-500 hover:bg-red-800 text-white rounded-full"
             text="Clear All"
-            icon={<RiDeleteBin6Line className="text-[20px]" />}
-            onClick={handelCancelClick}
+            icon={<RiDeleteBin6Line />}
+            onClick={removeAllItems}
           />
+
           <TextIconButton
-            className="bg-green-500 rounded-full text-white shadow hover:bg-green-700 gap-2"
+            className="bg-green-500 hover:bg-green-800 text-white rounded-full"
             text="Continue"
-            iconRight={<FaArrowRightLong className="text-[24px]" />}
-            onClick={handleConfirmClick}
+            iconRight={<FaArrowRightLong />}
+            onClick={handleConfirm}
           />
         </div>
       </div>
 
-      {/* Total Cost */}
-      <div className="bg-white rounded-md px-1.5 py-3 text-center font-bold shadow text-md">
+      {/* Total */}
+      <div className="bg-white rounded-md px-1.5 py-3 text-center font-bold shadow">
         Total Cost: {totalCost.toFixed(2)} ৳
       </div>
 
-      {/* Order Items List */}
-      <div className="flex flex-col justify-start items-center gap-5 w-full h-full">
-        {orderItems}
+      {/* Items */}
+      <div className="flex flex-col gap-5">
+        {orderItemList.map((item) => (
+          <OrderItem key={item.id} id={item.id} />
+        ))}
       </div>
     </div>
   );
