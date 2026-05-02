@@ -57,12 +57,6 @@ app.use("/attendance", loginRequired, attendance);
 app.use("/uploads", express.static("uploads"));
 
 
-// async function setupSwagger() {
-//   const api = await SwaggerParser.dereference("./docs/openapi.yaml");
-//   app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(api));
-// }
-// setupSwagger();
-
 const api = await SwaggerParser.dereference("./docs/openapi.yaml");
 
 api.servers = [
