@@ -39,7 +39,7 @@ export const TABLE_CONFIG = {
 },
   STAFF:{
     title: "Total Staff List",
-    columns: ["name","role","action"],
+    columns: ["name","role","details","action"],
     dataKey: "StaffsData",
   },
 };
