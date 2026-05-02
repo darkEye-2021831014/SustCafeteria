@@ -96,4 +96,24 @@ export const BASE_COLUMNS = {
     key: "description",
     label: "পণ্যের বিবরণ",
   },
+  details: {
+  key: "details",
+  label: "বিস্তারিত তথ্য ",
+  render: (row, activeType, override) => {
+    const cfg = override || {};
+    const text = cfg.text || "Show Details";
+    const color = cfg.color || "text-red-600";
+    const onClick = cfg.onClick ? () => cfg.onClick(row) : null;
+
+    return React.createElement(
+      "button",
+      {
+        type: "button",
+        className: `font-semibold underline ${color} cursor-pointer`,
+        onClick,
+      },
+      text
+    );
+  },
+},
 };

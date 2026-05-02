@@ -9,6 +9,8 @@ import Menu from "../Menu/Menu";
 import Profile from "../Profile/Profile";
 import Login from "../Login/Login";
 import ProtectedRoute from "../../contexts/AuthContext/ProtectedRoute";
+import MenuControl from "../Menu/MenuControl";
+import Report from "../Report/Report";
 
 export const router = createBrowserRouter([
   {
@@ -18,32 +20,55 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element:<ProtectedRoute><Home/></ProtectedRoute>
+        element: (
+          <ProtectedRoute>
+            <Home />
+          </ProtectedRoute>
+        ),
       },
       {
-        path:"login",
-        element: <Login/>,
-
+        path: "login",
+        element: <Login />,
       },
       {
         path: "menu",
-        element:<ProtectedRoute><Menu /></ProtectedRoute>,
+        element: (
+          <ProtectedRoute>
+            <MenuControl />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "profile",
-        element: <ProtectedRoute><Profile /></ProtectedRoute>,
+        element: (
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "attendance",
-        element: <ProtectedRoute><Attendance /></ProtectedRoute>,
+        element: (
+          <ProtectedRoute>
+            <Attendance />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "staff",
-        element: <ProtectedRoute><Staff /></ProtectedRoute> ,
+        element: (
+          <ProtectedRoute>
+            <Staff />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "inventory",
-        element: <ProtectedRoute><Inventory /></ProtectedRoute>,
+        element: (
+          <ProtectedRoute>
+            <Inventory />
+          </ProtectedRoute>
+        ),
         children: [
           {
             index: true,
@@ -68,6 +93,28 @@ export const router = createBrowserRouter([
           {
             path: "stock-usage",
             element: <Inventory />,
+          },
+        ],
+      },
+      {
+        path: "report",
+        element: <ProtectedRoute><Report /></ProtectedRoute>,
+        children: [
+          {
+            index: true,
+            element: <Report />,
+          },
+          {
+            path: "sales-report",
+            element: <Report />,
+          },
+          {
+            path: "inventory-report",
+            element: <Report />,
+          },
+          {
+            path: "attendance-report",
+            element: <Report />,
           },
         ],
       },

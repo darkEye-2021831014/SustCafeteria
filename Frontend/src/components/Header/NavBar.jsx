@@ -10,13 +10,13 @@ const NavBar = ({ className }) => {
   const navigate = useNavigate();
   const { user, loading } = useContext(AuthContext);
 
-  if (loading) {
-    return (
-      <div className="sticky top-0 z-50 flex h-[70px] w-full items-center justify-center border-b border-b-[#F54758] bg-[#E8B5BA] px-5 text-sm sm:text-base">
-        Loading...
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div className="sticky top-0 z-50 flex h-[70px] w-full items-center justify-center border-b border-b-[#F54758] bg-[#E8B5BA] px-5 text-sm sm:text-base">
+  //       Loading...
+  //     </div>
+  //   );
+  // }
 
   const isAdmin = user?.role?.toLowerCase() === "manager";
 
@@ -25,7 +25,6 @@ const NavBar = ({ className }) => {
     Menu: "/menu",
     Inventory: "/inventory",
     Attendance: "/attendance",
-    Supplier: "/supplier",
     Staff: "/staff",
     Report: "/report",
     Profile: "/profile",
@@ -48,7 +47,6 @@ const NavBar = ({ className }) => {
     if (location.pathname === "/attendance") return "Attendance";
     if (location.pathname === "/menu") return "Menu";
     if (location.pathname.startsWith("/inventory")) return "Inventory";
-    if (location.pathname === "/supplier") return "Supplier";
     if (location.pathname === "/staff") return "Staff";
     if (location.pathname === "/report") return "Report";
     if (location.pathname === "/profile") return "Profile";
@@ -58,8 +56,8 @@ const NavBar = ({ className }) => {
   const active = getActive();
 
   const headerPillList = isAdmin
-    ? ["Home", "Menu", "Inventory", "Staff", "Supplier", "Report"]
-    : ["Home", "Menu", "Inventory", "Attendance", "Supplier"];
+    ? ["Home", "Menu", "Inventory", "Staff", "Report"]
+    : ["Home", "Menu", "Inventory", "Attendance"];
 
   return (
     <div

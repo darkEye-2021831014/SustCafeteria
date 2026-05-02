@@ -96,3 +96,32 @@ export const getAllAttendance = async (date, status) => {
 
   return rows;
 };
+
+export const getAttendanceReport = async (startDate, endDate) => {
+  let query = `
+    SELECT
+      users.id,
+      users.name,
+      users.role AS position,
+
+      SUM(CASE WHEN LOWER(TRIM(a.status))='present' THEN 1 ELSE 0 END) AS present,
+      SUM(CASE WHEN LOWER(TRIM(a.status))='absent' THEN 1 ELSE 0 END) AS absent,
+      SUM(CASE WHEN LOWER(TRIM(a.status))='late' THEN 1 ELSE 0 END) AS late
+
+    FROM users
+    LEFT JOIN attendance a
+      ON users.id = a.user_id
+  `;
+
+  let params = [];
+  if (startDate && endDate) {
+    query += ` AND a.date BETWEEN ? AND ?`;
+    params.push(startDate, endDate);
+  }
+
+  query += ` GROUP BY users.id, users.name, users.role`;
+
+  const [rows] = await db.query(query, params);
+
+  return rows;
+};

@@ -66,6 +66,7 @@ paths:
       $ref: "./schemas/supplier/get-id.yaml"
     delete:
       $ref: "./schemas/supplier/delete.yaml"
+
   # -----------Attendance----------------
   /attendance/add:
     post:
@@ -107,6 +108,43 @@ paths:
   /purchaseOrder/{id}/deliver:
     put:
       $ref: "./schemas/purchaseOrder/put-deliver.yaml"
+
+      # ------------Menu----------------
+  /menu:
+    post:
+      $ref: "./schemas/menu/post.yaml"
+    get:
+      $ref: "./schemas/menu/get.yaml"
+    patch:
+      $ref: "./schemas/menu/patch.yaml"
+  /menu/{id}:
+    delete:
+      $ref: "./schemas/menuId/delete.yaml"
+
+      # ------------Order----------------
+  /order:
+    post:
+      $ref: "./schemas/order/post.yaml"
+    get:
+      $ref: "./schemas/order/get.yaml"
+  /order/items:
+    get:
+      $ref: "./schemas/orderItems/get.yaml"
+
+      # ------------Stock Usage----------------
+  /stockUsage:
+    post:
+      $ref: "./schemas/stockUsage/post-create.yaml"
+    get:
+      $ref: "./schemas/stockUsage/get-history.yaml"
+
+      # ------------Sales Report----------------
+  /sales:
+    get:
+      $ref: "./schemas/salesReport/get.yaml"
+  /sales/total:
+    get:
+      $ref: "./schemas/salesReport/get-total.yaml"
 
 components:
   securitySchemes:
