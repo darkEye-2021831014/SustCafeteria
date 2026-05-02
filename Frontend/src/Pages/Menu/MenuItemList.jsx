@@ -1,13 +1,20 @@
 import MenuItem from "./MenuItem";
 
-const MenuItemList = ({ items = [], activeCategory = "All", onItemClick }) => {
+const MenuItemList = ({
+  items = [],
+  activeCategory = "All",
+  onItemClick,
+  className = "",
+}) => {
   const visibleItems =
     activeCategory === "All"
       ? items
       : items.filter((i) => i.category === activeCategory);
 
   return (
-    <div className="flex flex-wrap gap-10 w-[70%] h-full p-5">
+    <div
+      className={`grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-12 gap-y-12 p-6 ${className} h-fit w-full`}
+    >
       {visibleItems.map((item) => (
         <MenuItem
           key={item.id}

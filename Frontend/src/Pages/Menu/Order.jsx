@@ -65,7 +65,7 @@ const Order = ({ className }) => {
 
   return (
     <div
-      className={`flex flex-col bg-[#ffff]/10 px-7.5 py-2.5 flex-1 justify-start gap-3 ${className}`}
+      className={`flex flex-col bg-[#650b13]/2 px-7.5 py-2.5 flex-1 justify-start gap-3 ${className}`}
     >
       <BottomSheet
         showReceipt={showReceipt}

@@ -11,9 +11,10 @@ const MenuContent = ({ items, activeTab }) => {
         items={items}
         activeCategory={activeTab}
         onItemClick={addItem}
+        className={"flex-3"}
       />
 
-      <Order className={"border-l border-l-[#8B3A3A]/20"} />
+      <Order className={"flex-1 border-l border-l-[#8B3A3A]/20"} />
     </div>
   );
 };

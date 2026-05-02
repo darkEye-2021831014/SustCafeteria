@@ -1,26 +1,68 @@
 const MenuItem = ({ name, price, image, handleClick }) => {
-  const itemPrice = Number.isInteger(price) ? `${price}.00` : price;
+  const itemPrice = Number.isInteger(Number(price)) ? `${price}.00` : price;
 
   return (
     <div
-      className="flex rounded-lg bg-white px-5 py-2.5 w-fit h-fit flex-col gap-1.25 leading-none shadow-md cursor-pointer 
-      hover:outline-2 hover:outline-cyan-500 hover:-outline-offset-2 hover:transition-outline hover:duration-100 hover:shadow-2xl"
       onClick={handleClick}
+      className="
+        flex flex-col cursor-pointer group bg-white rounded-2xl
+        p-3 h-fit sm:p-3.5 md:p-4
+        shadow-sm hover:shadow-xl hover:ring-2 hover:ring-purple-400
+        transition-all duration-200
+        w-full max-w-[220px]
+      "
     >
-      <div className="flex flex-col w-full h-fit items-end">
-        <div className="flex rounded-sm p-0.5 gap-px w-fit h-fit bg-[#C057E2]/92 border border-white/35 justify-center items-center text-white">
-          <span className="font-bold">{itemPrice}</span>
-          <span className="text-[18px]">৳</span>
+      {/* IMAGE + PRICE */}
+      <div className="relative">
+        {/* Price badge */}
+        <div
+          className="
+            absolute top-0 right-0 z-10
+            bg-purple-500 text-white font-bold
+            px-2 py-0.5 rounded-bl-lg rounded-tr-lg
+            text-[10px] sm:text-xs md:text-sm
+          "
+        >
+          {itemPrice} ৳
         </div>
 
-        <img
-          src={image}
-          alt={name}
-          className="w-25 h-17.5 rounded-md object-cover"
-        />
+        {/* Image */}
+        <div className="w-full aspect-4/3 rounded-xl overflow-hidden bg-gray-50 border border-gray-100">
+          {image ? (
+            <img
+              src={image}
+              alt={name}
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center text-gray-300">
+              <svg
+                width="28"
+                height="28"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+              >
+                <rect x="3" y="3" width="18" height="18" rx="2" />
+                <circle cx="8.5" cy="8.5" r="1.5" />
+                <path d="M21 15l-5-5L5 21" />
+              </svg>
+            </div>
+          )}
+        </div>
       </div>
 
-      <span className="font-bold">{name}</span>
+      {/* NAME */}
+      <span
+        className="
+          font-bold text-gray-800 text-center truncate
+          text-sm sm:text-base md:text-[15px]
+          mt-2
+        "
+      >
+        {name}
+      </span>
     </div>
   );
 };
