@@ -24,8 +24,8 @@ const StaffModalManager = ({
   const modalClass = isRemoveAll
     ? "w-[630px] h-[320px]  py-[35px] bg-[#F2F2F7]"
     : activeTab === "Release Staff"
-  ? "bg-white w-[550px] h-[710px] p-[50px]" 
-    : "bg-white w-[550px] h-[810px] p-[50px]";
+  ? "bg-white w-[550px] h-[660px] p-[50px]" 
+    : "bg-white w-[550px] h-[700px] px-[50px] py-[20px]";
 
   const handleSubmit = async (e) => {
     e.preventDefault();

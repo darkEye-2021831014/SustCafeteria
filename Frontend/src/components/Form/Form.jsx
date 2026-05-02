@@ -43,9 +43,9 @@ const Form = ({
         )}
       </div>
 
-      <form onSubmit={onSubmit} className="flex flex-col gap-4">
+      <form onSubmit={onSubmit} className="flex flex-col gap-2">
         {fields.map((field, index) => (
-          <div key={index} className="flex flex-col gap-1">
+          <div key={index} className="flex flex-col gap-0.5">
             <label className="text-sm font-medium text-start">
               {field.label}
             </label>
@@ -83,7 +83,7 @@ const Form = ({
           </div>
         ))}
 
-        <div className="flex justify-center items-center gap-10 mt-1 px-20 ">
+        <div className="flex justify-center items-center gap-10 mt-4 px-20 ">
           <TextIconButton
             text={cancelText}
             icon={cancelIcon || <FaXmark />}

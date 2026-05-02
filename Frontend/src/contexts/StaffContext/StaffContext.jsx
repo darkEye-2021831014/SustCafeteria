@@ -1,79 +1,79 @@
 import { createContext, useEffect, useState } from "react";
-
+import { ENV } from "../../config/env";
+import { useContext } from "react";
+import { AuthContext } from "../AuthContext/Authcontext";
 export const StaffContext = createContext();
-const BASE_URL = "http://localhost:8000";
 const StaffProvider = ({ children }) => {
   const pillList = ["Register Staff", "Release Staff"];
   const [activeTab, setActiveTab] = useState(pillList[0]);
-
-  const onTabClick = (tab) => setActiveTab(tab);
   const [StaffsData, setStaffsData] = useState([]);
-
+  const onTabClick = (tab) => setActiveTab(tab);
+  const { user } = useContext(AuthContext);
   // fetch staff data from backend
   const fetchStaffs = async () => {
     try {
-      const res = await fetch(`${BASE_URL}/user`, {
+      const res = await fetch(`${ENV.BASE_URL}/user`, {
         credentials: "include",
       });
-      const data = await res.json();
-      const filteredUsers = data.users.filter((u) => u.role !== "ADMIN");
 
+      if (!res.ok) {
+        const errText = await res.text();
+        throw new Error(errText || "Failed to fetch staff");
+      }
+
+      const data = await res.json();
+      const filteredUsers = (data.users || []).filter((u) => u.id !== user?.id);
       setStaffsData(filteredUsers);
     } catch (error) {
       console.error("Error fetching staff:", error);
     }
   };
 
-// add staff to backend
+  // add staff to backend
   const addStaff = async (formData) => {
     try {
-      console.log("FormData:", [...formData.entries()]);
-
-      const res = await fetch(`${BASE_URL}/user`, {
+      const res = await fetch(`${ENV.BASE_URL}/user`, {
         method: "POST",
         credentials: "include",
         body: formData,
       });
 
-      const text = await res.text();
-      console.log("Server response:", text);
+      if (!res.ok) {
+        const errText = await res.text();
+        throw new Error(errText || "Failed request");
+      }
 
-      if (!res.ok) throw new Error("Failed request");
-
-      const data = JSON.parse(text);
-
-      setStaffsData((prev) => [...prev, data.user]);
+      // backend returns { msg, id }, so refresh list
+      await fetchStaffs();
     } catch (error) {
       console.error("Error adding staff:", error);
+      throw error;
     }
   };
 
-// delete staff from backend
+  // delete staff from backend
   const deleteStaff = async (id) => {
-  try {
-    await fetch(`${BASE_URL}/user/${id}`, {
-      method: "DELETE",
-      credentials: "include",
-    });
+    try {
+      const res = await fetch(`${ENV.BASE_URL}/user/${id}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
 
-    setStaffsData((prev) => prev.filter((s) => s.id !== id));
+      if (!res.ok) {
+        const errText = await res.text();
+        throw new Error(errText || "Failed to delete staff");
+      }
 
-  } catch (error) {
-    console.error("Error deleting staff:", error);
-  }
-};
+      setStaffsData((prev) =>
+        prev.filter((s) => s.id !== id && s.user_id !== id),
+      );
+    } catch (error) {
+      console.error("Error deleting staff:", error);
+      throw error;
+    }
+  };
 
-// delete all staff from backend
-// const deleteAll = async () => {
-//   await fetch(`${BASE_URL}/user`, {
-//     method: "DELETE",
-//     credentials: "include",
-//   });
-
-//   setStaffsData([]);
-// };
-
-  //load data on first render
+  // load data on first render
   useEffect(() => {
     fetchStaffs();
   }, []);
@@ -87,7 +87,6 @@ const StaffProvider = ({ children }) => {
         setStaffsData,
         addStaff,
         deleteStaff,
-        // deleteAll,
       }}
     >
       {children}
