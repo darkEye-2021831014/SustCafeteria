@@ -49,3 +49,23 @@ export const updateItem = async (req, res) => {
     }
 };
 
+
+export const deleteItem = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        await MenuService.deleteItem(id);
+
+        res.status(200).json({
+            success: true,
+            message: "Menu item deleted successfully"
+        });
+    } catch (err) {
+        console.error("Error deleting menu item", err);
+
+        res.status(400).json({
+            success: false,
+            message: err.message
+        });
+    }
+};
