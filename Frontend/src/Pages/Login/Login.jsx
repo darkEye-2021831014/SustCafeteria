@@ -7,7 +7,7 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // last attempted route
+  // 🔥 last attempted route
   const from = location.state?.from?.pathname || "/";
 
   const [formData, setFormData] = useState({
@@ -35,7 +35,7 @@ const Login = () => {
     loginUser(formData);
   };
 
-  // redirect after login
+  // 🔥 redirect after login
   useEffect(() => {
     if (isSuccess) {
       console.log("Login successful, redirecting...");
