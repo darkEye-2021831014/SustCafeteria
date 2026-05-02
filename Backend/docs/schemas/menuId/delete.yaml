@@ -1,0 +1,40 @@
+summary: Delete a menu item (soft delete)
+tags:
+  - Menu
+
+parameters:
+  - in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+    description: ID of the menu item to delete
+
+responses:
+  "200":
+    description: Menu item deleted successfully
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            success:
+              type: boolean
+              example: true
+            message:
+              type: string
+              example: Menu item deleted successfully
+
+  "400":
+    description: Failed to delete menu item
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            success:
+              type: boolean
+              example: false
+            message:
+              type: string
+              example: Menu item not found or already deleted

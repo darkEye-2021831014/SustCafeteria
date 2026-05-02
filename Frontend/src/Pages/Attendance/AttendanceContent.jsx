@@ -7,6 +7,7 @@ import { AttendanceContext } from "../../contexts/AttendanceContext/AttendanceCo
 
 const AttendanceContent = () => {
   const reportingTime = "সকাল ৮:০০ টা";
+
   const {
     loading,
     mergedList,
@@ -14,6 +15,8 @@ const AttendanceContent = () => {
     filter,
     setFilter,
     markAttendance,
+    canMarkAttendance,
+    attendanceWindowText,
   } = useContext(AttendanceContext);
 
   const summary = [
@@ -55,22 +58,34 @@ const AttendanceContent = () => {
 
   const columnOverrides = {
     time: (item) => {
-      if (item.time) {
-        return item.time;
-      }
+      if (item.time) return item.time;
+
       return (
         <button
           onClick={() => markAttendance(item.user_id || item.id)}
-          className="px-3 py-1 underline text-orange-500 font-semibold"
+          disabled={!canMarkAttendance}
+          title={attendanceWindowText}
+          className={`px-3 py-1 font-semibold ${
+            canMarkAttendance
+              ? "underline text-orange-500"
+              : "text-gray-400 cursor-not-allowed no-underline"
+          }`}
         >
           Mark Attendance
         </button>
       );
     },
   };
+
   return (
     <div className="px-15 py-5">
       <PageHeader title="Staff Attendance" />
+
+      {!canMarkAttendance && (
+        <div className="bg-[#E8B5BA] border-l-4 border-[#ec727e] text-black font-bold p-4 rounded-lg mb-8">
+          {attendanceWindowText}
+        </div>
+      )}
 
       <div className="grid grid-cols-4 gap-20 mb-8">
         {summary.map((item, index) => (
@@ -83,7 +98,6 @@ const AttendanceContent = () => {
           />
         ))}
       </div>
-
       <div className="mt-15 p-20 rounded-xl shadow-[0_4px_15px_rgba(0,0,0,0.25)]">
         {loading ? (
           <div className="text-center py-10 text-gray-500 text-lg">

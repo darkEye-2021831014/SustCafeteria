@@ -1,9 +1,8 @@
 import { useContext, createContext, useState, useEffect } from "react";
 import { AuthContext } from "../AuthContext/Authcontext";
 import { useLocation, useNavigate } from "react-router";
-
+import { ENV } from "../../config/env";
 export const InventoryContext = createContext();
-const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const InventoryProvider = ({ children }) => {
   const { user } = useContext(AuthContext);
@@ -33,20 +32,20 @@ const InventoryProvider = ({ children }) => {
 
   // Inventory APIs
   const fetchAllItems = () => {
-    fetchData(`${BASE_URL}/inventory`, setProducts);
+    fetchData(`${ENV.BASE_URL}/inventory`, setProducts);
   };
 
   const fetchLowStock = () => {
-    fetchData(`${BASE_URL}/inventory/low-stock`, setProducts);
+    fetchData(`${ENV.BASE_URL}/inventory/low-stock`, setProducts);
   };
 
   const fetchAvailableStock = () => {
-    fetchData(`${BASE_URL}/inventory/available`, setProducts);
+    fetchData(`${ENV.BASE_URL}/inventory/available`, setProducts);
   };
 
   //  Low Stock Count (no loading here)
   const fetchLowStockCount = async () => {
-    const res = await fetch(`${BASE_URL}/inventory/low-stock`, {
+    const res = await fetch(`${ENV.BASE_URL}/inventory/low-stock`, {
       credentials: "include",
     });
     const data = await res.json();
@@ -55,7 +54,7 @@ const InventoryProvider = ({ children }) => {
 
   // Create
   const createItem = async (item) => {
-    await fetch(`${BASE_URL}/inventory`, {
+    await fetch(`${ENV.BASE_URL}/inventory`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -69,7 +68,7 @@ const InventoryProvider = ({ children }) => {
 
   // Delete
   const deleteItem = async (id) => {
-    await fetch(`${BASE_URL}/inventory/${id}`, {
+    await fetch(`${ENV.BASE_URL}/inventory/${id}`, {
       method: "DELETE",
       credentials: "include",
     });
@@ -79,7 +78,7 @@ const InventoryProvider = ({ children }) => {
 
   // Update Quantity
   const updateQuantity = async (id, quantity) => {
-    await fetch(`${BASE_URL}/inventory/${id}/quantity`, {
+    await fetch(`${ENV.BASE_URL}/inventory/${id}/quantity`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -107,7 +106,7 @@ const InventoryProvider = ({ children }) => {
   // Usage Update
  const updateUsage = async (usageData) => {
   console.log("Updating usage with data:", usageData);
-  await fetch(`${BASE_URL}/usage/create`, {
+  await fetch(`${ENV.BASE_URL}/usage/create`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

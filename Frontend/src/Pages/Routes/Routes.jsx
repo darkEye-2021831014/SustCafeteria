@@ -8,6 +8,7 @@ import Inventory from "../Inventory/Inventory";
 import Menu from "../Menu/Menu";
 import Profile from "../Profile/Profile";
 import Login from "../Login/Login";
+import ProtectedRoute from "../../contexts/AuthContext/ProtectedRoute";
 import MenuControl from "../Menu/MenuControl";
 import Report from "../Report/Report";
 
@@ -19,32 +20,31 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Home />,
+        element:<ProtectedRoute><Home/></ProtectedRoute>
       },
       {
-        path:"login",
-        element: <Login/>,
-
+        path: "login",
+        element: <Login />,
       },
       {
         path: "menu",
-        element: <MenuControl />,
+        element:<ProtectedRoute><Menu /></ProtectedRoute>,
       },
       {
         path: "profile",
-        element: <Profile />,
+        element: <ProtectedRoute><Profile /></ProtectedRoute>,
       },
       {
         path: "attendance",
-        element: <Attendance />,
+        element: <ProtectedRoute><Attendance /></ProtectedRoute>,
       },
       {
         path: "staff",
-        element: <Staff />,
+        element: <ProtectedRoute><Staff /></ProtectedRoute> ,
       },
       {
         path: "inventory",
-        element: <Inventory />,
+        element: <ProtectedRoute><Inventory /></ProtectedRoute>,
         children: [
           {
             index: true,
@@ -73,12 +73,16 @@ export const router = createBrowserRouter([
         ],
       },
       {
-        path:"report",
-        element:<Report/>,
-        children:[
+        path: "supplier",
+        element: <Supplier />,
+      },
+      {
+        path: "report",
+        element: <Report />,
+        children: [
           {
-            index:true,
-            element:<Report/>,
+            index: true,
+            element: <Report />,
           },
           {
             path: "sales-report",

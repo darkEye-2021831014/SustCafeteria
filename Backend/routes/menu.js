@@ -9,4 +9,7 @@ router.route("/")
     .get(MenuController.getAllItems)
     .patch(adminOnly, MenuController.updateItem);
 
+router.route("/:id")
+    .delete(adminOnly, MenuController.deleteItem);
+
 export default router;
