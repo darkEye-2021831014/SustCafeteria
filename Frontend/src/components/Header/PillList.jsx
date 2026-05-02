@@ -1,10 +1,16 @@
 import React from "react";
 import HeaderPill from "./HeaderPill";
 
-const PillList = ({ headerPillList, active,onItemClick  }) => {
-  const TabButtons = headerPillList.map((pill) => {
-    return <HeaderPill key={pill} name={pill} isActive={pill === active} onClick={() => onItemClick(pill)}/>;
-  });
+const PillList = ({ headerPillList, active, onItemClick, linkMode = true }) => {
+  const TabButtons = headerPillList.map((pill) => (
+    <HeaderPill
+      key={pill}
+      name={pill}
+      isActive={pill === active}
+      linkMode={linkMode}
+      onClick={() => onItemClick(pill)}
+    />
+  ));
 
   return (
     <div className="grid grid-flow-col auto-cols-max gap-4 justify-end h-fit">
@@ -14,4 +20,3 @@ const PillList = ({ headerPillList, active,onItemClick  }) => {
 };
 
 export default PillList;
-
