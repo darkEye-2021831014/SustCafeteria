@@ -10,39 +10,54 @@ const OrderItem = ({ id }) => {
   if (!item) return null;
 
   const { price, image, name, qty } = item;
-  const itemCost = (price * qty).toFixed(2);
+  const itemCost = (Number(price) * qty).toFixed(2);
 
   return (
-    <div className="flex justify-between w-full items-center">
-      <MenuItem image={image} name={name} price={price} />
+    <div
+      className="
+        flex items-center gap-3 w-full
+        bg-white/80 rounded-xl
+        p-3 sm:p-4
+        shadow-sm hover:shadow-md transition
+      "
+    >
+      {/* ── Compact Menu Item (scaled properly) ── */}
+      <div className="w-[110px] sm:w-[130px] shrink-0">
+        <MenuItem image={image} name={name} price={price} />
+      </div>
 
-      <div className="flex flex-col w-50 justify-around h-full">
-        {/* Quantity Controls */}
-        <div className="flex items-center gap-3">
+      {/* ── Controls Section ── */}
+      <div className="flex flex-col gap-2 w-full">
+        {/* Quantity Row */}
+        <div className="flex items-center justify-between bg-gray-100 rounded-lg px-3 py-2 text-sm">
           <FaMinus
             onClick={() => updateQty(id, -1)}
-            className="cursor-pointer hover:text-red-500"
+            className="cursor-pointer text-gray-600 hover:text-red-500 transition"
           />
 
-          <span className="px-4 py-1.5 font-semibold rounded-lg w-full shadow-sm">
-            Quantity: {qty}
-          </span>
+          <span className="font-semibold text-gray-700">Qty: {qty}</span>
 
           <FaPlus
             onClick={() => updateQty(id, 1)}
-            className="cursor-pointer hover:text-green-500"
+            className="cursor-pointer text-gray-600 hover:text-green-500 transition"
           />
         </div>
 
-        {/* Item Cost */}
-        <div className="bg-white rounded-lg px-3 py-1.5 shadow-sm text-center">
-          Item Cost: <span className="font-semibold">{itemCost} ৳</span>
+        {/* Cost Row */}
+        <div className="flex items-center justify-between bg-gray-100 rounded-lg px-3 py-2 text-sm">
+          <span className="text-gray-600">Item Cost</span>
+          <span className="font-semibold text-gray-800">{itemCost} ৳</span>
         </div>
 
-        {/* Remove */}
+        {/* Remove Button */}
         <button
           onClick={() => removeItem(id)}
-          className="bg-white text-red-500 font-bold py-1.5 rounded-lg shadow hover:bg-red-200 flex justify-center items-center gap-1"
+          className="
+            flex items-center justify-center gap-2
+            bg-red-50 text-red-500 hover:bg-red-100
+            font-semibold text-sm py-2 rounded-lg
+            transition
+          "
         >
           Remove Item <RiDeleteBin6Line />
         </button>

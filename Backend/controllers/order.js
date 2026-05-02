@@ -6,7 +6,8 @@ export const createOrder = async (req, res) => {
         if (!items || !Array.isArray(items) || items.length === 0) {
             return res.status(400).json({ error: "Items are required and should be an array" });
         }
-        if (!discount || typeof discount !== "number" || discount < 0) {
+
+        if (typeof discount !== "number" || discount < 0) {
             return res.status(400).json({ error: "Discount should be a non-negative number" });
         }
 
