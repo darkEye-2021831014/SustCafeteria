@@ -6,7 +6,7 @@ const MenuContent = ({ items, activeTab }) => {
   const { addItem } = useOrderContext();
 
   return (
-    <div className="flex flex-1 justify-between">
+    <div className="flex flex-1 justify-between gap-5 bg-[#E8B5BA]/20">
       <MenuItemList
         items={items}
         activeCategory={activeTab}

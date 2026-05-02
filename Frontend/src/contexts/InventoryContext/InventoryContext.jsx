@@ -17,7 +17,7 @@ const InventoryProvider = ({ children }) => {
 
   const pillList = isAdmin
     ? ["Add Item", "Remove Item"]
-    : ["All Item", "Low Stock", "Available Stock","Stock Usage"];
+    : ["All Item", "Low Stock", "Available Stock", "Stock Usage"];
 
   const [activeTab, setActiveTab] = useState(pillList[0]);
 
@@ -90,7 +90,7 @@ const InventoryProvider = ({ children }) => {
     refreshData();
   };
 
-  //Refresh 
+  //Refresh
   const refreshData = () => {
     if (location.pathname.includes("low-stock")) {
       fetchLowStock();
@@ -104,19 +104,19 @@ const InventoryProvider = ({ children }) => {
   };
 
   // Usage Update
- const updateUsage = async (usageData) => {
-  console.log("Updating usage with data:", usageData);
-  await fetch(`${ENV.BASE_URL}/usage/create`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(usageData),
-    credentials: "include",
-  });
+  const updateUsage = async (usageData) => {
+    console.log("Updating usage with data:", usageData);
+    await fetch(`${ENV.BASE_URL}/usage/create`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(usageData),
+      credentials: "include",
+    });
 
-  refreshData();
-};
+    refreshData();
+  };
 
   // Navigation
   const onTabClick = (tab) => {

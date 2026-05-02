@@ -4,19 +4,12 @@ import AuthPill from "./AuthPill";
 import sustLogo from "../../assets/sust_logo.png";
 import { useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../../contexts/AuthContext/Authcontext";
+import { useProfile } from "../../hooks/useUser";
 
 const NavBar = ({ className }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { user, loading } = useContext(AuthContext);
-
-  // if (loading) {
-  //   return (
-  //     <div className="sticky top-0 z-50 flex h-[70px] w-full items-center justify-center border-b border-b-[#F54758] bg-[#E8B5BA] px-5 text-sm sm:text-base">
-  //       Loading...
-  //     </div>
-  //   );
-  // }
+  const { data: user, loading, error } = useProfile();
 
   const isAdmin = user?.role?.toLowerCase() === "manager";
 
