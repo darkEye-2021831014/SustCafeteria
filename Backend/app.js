@@ -3,7 +3,7 @@ import cors from "cors"
 import express from "express"
 import swaggerUi from "swagger-ui-express"
 import home from "./controllers/home.js"
-import { loginRequired, verifyUser } from "./middlewares/auth.js"
+import { adminOnly, loginRequired, verifyUser } from "./middlewares/auth.js"
 import inventory from "./routes/inventory.js"
 import usageRoutes from "./routes/stock_usage.js";
 import user from "./routes/user.js"
@@ -14,6 +14,8 @@ import SwaggerParser from "@apidevtools/swagger-parser"
 import attendance from "./routes/attendance.js";
 import menu from "./routes/menu.js"
 import order from "./routes/order.js";
+import salesReport from "./routes/sales_report.js";
+
 
 const app = express();
 
@@ -48,6 +50,7 @@ app.use("/itemSupplier", loginRequired, itemSupplier);
 app.use("/purchaseOrder", loginRequired, purchaseOrder);
 app.use("/menu", loginRequired, menu);
 app.use("/order", loginRequired, order);
+app.use("/sales", loginRequired, adminOnly, salesReport);
 
 app.use("/attendance", loginRequired, attendance);
 

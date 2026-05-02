@@ -25,28 +25,27 @@ const ReportContent = () => {
   const componentRef = useRef();
   const location = useLocation();
   const tHeaders = getHeaders(activeTab);
-  const columns =getColumns(activeTab);
+  const columns = getColumns(activeTab);
 
- const reportingTime =
-  activeTab === "Inventory Report"
-    ? `${startDate || "Start"} to ${endDate || "End"}`
-    : selectedDate
-    ? selectedDate.toLocaleString("default", {
-        month: "long",
-        year: "numeric",
-      })
-    : "";
-useEffect(() => {
-  if (location.pathname.includes("sales-report")) {
-    setActiveTab("Sales Report");
-  } else if (location.pathname.includes("inventory-report")) {
-    setActiveTab("Inventory Report");
-  } else if (location.pathname.includes("attendance-report")) {
-    setActiveTab("Attendance Report");
-  } else {
-    setActiveTab(pillList[0]);
-  }
-}, [location.pathname]);
+  const reportingTime =
+    activeTab === "Inventory Report" || activeTab === "Sales Report"
+      ? `${startDate || "Start"} to ${endDate || "End"}`
+      : selectedDate
+        ? selectedDate.toLocaleString("default", {
+            month: "long",
+            year: "numeric",
+          })
+        : "";
+  useEffect(() => {
+    if (location.pathname.includes("inventory-report")) {
+      setActiveTab("Inventory Report");
+    } else if (location.pathname.includes("attendance-report")) {
+      setActiveTab("Attendance Report");
+    } else {
+      setActiveTab(pillList[0]);
+    }
+  }, [location.pathname]);
+
   return (
     <div>
       <SubNavBar
@@ -64,7 +63,18 @@ useEffect(() => {
             <div className="flex justify-between">
               <TableHeader title="" reportingTime={reportingTime} />
 
-              {activeTab === "Inventory Report" ? (
+              {activeTab === "Attendance Report" ? (
+                <input
+                  type="month"
+                  value={`${selectedDate.getFullYear()}-${String(
+                    selectedDate.getMonth() + 1,
+                  ).padStart(2, "0")}`}
+                  onChange={(e) =>
+                    setSelectedDate(new Date(e.target.value + "-01"))
+                  }
+                  className="px-4 py-0 text-lg font-bold border rounded-md bg-[#F54758]/5 text-black border-[#F54758] focus:outline-none focus:[#F54758]/50"
+                />
+              ) : (
                 <div className="flex gap-3">
                   <input
                     type="date"
@@ -79,17 +89,6 @@ useEffect(() => {
                     className="px-1 py-0 text-lg font-bold border rounded-md bg-[#F54758]/5 text-black border-[#F54758] focus:outline-none focus:[#F54758]/50"
                   />
                 </div>
-              ) : (
-                <input
-                  type="month"
-                  value={`${selectedDate.getFullYear()}-${String(
-                    selectedDate.getMonth() + 1,
-                  ).padStart(2, "0")}`}
-                  onChange={(e) =>
-                    setSelectedDate(new Date(e.target.value + "-01"))
-                  }
-                  className="px-4 py-0 text-lg font-bold border rounded-md bg-[#F54758]/5 text-black border-[#F54758] focus:outline-none focus:[#F54758]/50"
-                />
               )}
             </div>
             <div ref={componentRef}>

@@ -46,7 +46,12 @@ export const createUser = async (req, res) => {
     }
 };
 
-
+const cookieOptions = {
+  httpOnly: true,
+  sameSite: "lax",
+  secure: false, // true in production https
+  path: "/",
+};
 export const loginUser = async (req, res) => {
     const { email, password } = req.body;
 
@@ -61,7 +66,7 @@ export const loginUser = async (req, res) => {
         }
 
         // Set cookie
-        res.cookie("token", token);
+        res.cookie("token", token, cookieOptions);
 
         res.json({ msg: "Login Successful" });
     } catch (err) {
@@ -230,7 +235,7 @@ export const updateUserImage = async (req, res) => {
 };
 
 export const logout = (req, res) => {
-    res.clearCookie("token", { path: "/" });
+    res.clearCookie("token", cookieOptions);
 
     return res.json({ msg: "Logged out" });
 };

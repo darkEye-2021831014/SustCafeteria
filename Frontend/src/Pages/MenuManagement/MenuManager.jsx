@@ -161,7 +161,8 @@ const MenuManager = () => {
 
     createItem.mutate(payload, {
       onSuccess: (created) => {
-        console.log("Item added successfully!");
+        setItems((prev) => [...prev, created]);
+        alert("Item added successfully!");
       },
       onError: () => {
         alert("Failed to add item. Please try again.");
