@@ -7,7 +7,7 @@ const SubNavBar = ({
 }) => {
   return (
     <div
-      className="w-full flex items-center justify-between px-7.5 py-2.5 border-b border-b-[#34C759] bg-[#E8B5BA]/50"
+      className=" bg-[#650b13]/5 border-b border-b-[#8B3A3A]/20 h-14 w-full flex items-center justify-between px-7.5 py-2.5 "
       style={{
         fontFamily: "'Inter', sans-serif",
       }}
@@ -20,10 +20,10 @@ const SubNavBar = ({
             <button
               key={cat}
               onClick={() => onCategoryChange?.(cat)}
-              className={`cursor-pointer px-4 py-1.5 rounded-lg text-sm font-medium transition-all duration-150 whitespace-nowrap ${
+              className={`cursor-pointer px-4 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap ${
                 isActive
-                  ? "bg-white text-gray-900 shadow-sm"
-                  : "bg-transparent text-gray-700 hover:bg-white/50"
+                  ? "border border-[#8B3A3A]/60 bg-[#ffb8c0]"
+                  : "bg-none hover:bg-[#650b13]/10"
               }`}
             >
               {cat}
@@ -45,8 +45,8 @@ const SubNavBar = ({
               onClick={() => onModeChange?.(value)}
               className={`cursor-pointer px-4 py-1.5 rounded-lg text-sm font-medium transition-all duration-150 whitespace-nowrap ${
                 isActive
-                  ? "bg-white text-gray-900 shadow-sm"
-                  : "bg-transparent text-gray-700 hover:bg-white/50"
+                  ? "border border-[#8B3A3A]/60 bg-[#ffb8c0]"
+                  : "bg-none hover:bg-[#650b13]/10"
               }`}
             >
               {label}
