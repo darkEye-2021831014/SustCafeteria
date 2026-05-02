@@ -63,7 +63,7 @@ const Order = ({ className }) => {
 
   return (
     <div
-      className={`flex flex-col bg-gray-100 px-7.5 py-2.5 flex-1 ${className} justify-between gap-3`}
+      className={`flex flex-col bg-[#ffff]/10 px-7.5 py-2.5 flex-1 ${className} justify-between gap-3`}
     >
       {/* Bottom Up popUp Animation */}
       <BottomSheet
@@ -75,19 +75,19 @@ const Order = ({ className }) => {
       {/* Header Section */}
       <div className="flex flex-col gap-3.75">
         {/* Header*/}
-        <h1 className="text-center text-xl text-orange-500 font-tourney font-semibold">
+        <h1 className="text-center text-xl text-[#650b13] font-extrabold font-bold font-tourney">
           Order Items
         </h1>
         {/* Action Button*/}
         <div className="flex justify-between font-bold">
           <TextIconButton
-            className="bg-red-700 rounded-full shadow hover:bg-red-500"
+            className="bg-red-500 text-white rounded-full shadow hover:bg-red-700"
             text="Clear All"
             icon={<RiDeleteBin6Line className="text-[20px]" />}
             onClick={handelCancelClick}
           />
           <TextIconButton
-            className="bg-green-700 rounded-full shadow hover:bg-green-500 gap-2"
+            className="bg-green-500 rounded-full text-white shadow hover:bg-green-700 gap-2"
             text="Continue"
             iconRight={<FaArrowRightLong className="text-[24px]" />}
             onClick={handleConfirmClick}
