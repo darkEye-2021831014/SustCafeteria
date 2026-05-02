@@ -3,8 +3,7 @@ import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext/Authcontext";
 import Login from "../Login/Login";
 import { WelcomeSection } from "./WelcomeSection";
-import DashboardSection from "./DashBoardCard";
-
+import DashboardSection from "./DashboardCard";
 
 const Home = () => {
   const { user } = useContext(AuthContext);
