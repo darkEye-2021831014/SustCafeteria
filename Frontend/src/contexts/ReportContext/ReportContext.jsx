@@ -2,14 +2,16 @@ import { set } from "date-fns";
 import { createContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 export const ReportContext = createContext();
+import { ENV } from "../../config/env";
 const ReportProvider = ({ children }) => {
+  const today = new Date().toISOString().split("T")[0];
   const navigate = useNavigate();
   const location = useLocation();
   const [loading, setLoading] = useState(false);
   const [attendance, setAttendance] = useState([]);
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+  const [startDate, setStartDate] = useState(today);
+  const [endDate, setEndDate] = useState(today);
   const pillList = ["Sales Report", "Inventory Report", "Attendance Report"];
   const [activeTab, setActiveTab] = useState(pillList[0]);
   const onTabClick = (tab) => {
@@ -24,6 +26,7 @@ const ReportProvider = ({ children }) => {
     }
   };
 
+
   useEffect(() => {
     setLoading(true);
     const month = String(selectedDate.getMonth() + 1).padStart(2, "0");
@@ -31,20 +34,18 @@ const ReportProvider = ({ children }) => {
     const year = selectedDate.getFullYear();
 
     let url = "";
-
     if (activeTab === "Attendance Report") {
-      url = `${import.meta.env.VITE_API_BASE_URL}/attendance/report?month=${month}&year=${year}`;
-    }
-    // else if (activeTab === "Sales Report") {
-    //   url = `${import.meta.env.VITE_API_BASE_URL}/sales/report?month=${month}&year=${year}`;
-    // }
-    else if (activeTab === "Inventory Report") {
+      url = `${ENV.BASE_URL}/attendance/report?month=${month}&year=${year}`;
+    } else if (activeTab === "Inventory Report") {
       if (!startDate || !endDate) return;
 
-      url = `${import.meta.env.VITE_API_BASE_URL}/usage/history?startDate=${startDate}&endDate=${endDate}`;
+      url = `${ENV.BASE_URL}/usage/history?startDate=${startDate}&endDate=${endDate}`;
+    } else {
+      url = `${ENV.BASE_URL}/sales?startDate=${startDate}&endDate=${endDate}`;
     }
 
     if (!url) return;
+    console.log("Fetching report from URL:", url);
 
     fetch(url, {
       credentials: "include",
@@ -56,21 +57,15 @@ const ReportProvider = ({ children }) => {
             (item) => item.position.toLowerCase() !== "manager",
           );
           setAttendance(filteredData);
-        } else {
-          console.log(data);
+        } else if (activeTab === "Inventory Report") {
           setAttendance(data);
+        } else {
+          setAttendance(Array.isArray(data?.data) ? data.data : []);
         }
       })
       .catch((err) => console.error(err))
       .finally(() => setLoading(false));
   }, [selectedDate, activeTab, startDate, endDate]);
-  useEffect(() => {
-    if (activeTab === "Inventory Report") {
-      const today = new Date().toISOString().split("T")[0];
-      setStartDate(today);
-      setEndDate(today);
-    }
-  }, [activeTab]);
   return (
     <ReportContext.Provider
       value={{

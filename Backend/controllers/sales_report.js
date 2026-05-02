@@ -4,15 +4,15 @@ export const getSalesReport = async (req, res) => {
 
     try {
 
-        const { start, end } = req.query;
+        const { startDate, endDate } = req.query;
 
-        if (!start || !end) {
+        if (!startDate || !endDate) {
             return res.status(400).json({
                 message: "Start and end date required"
             });
         }
 
-        const data = await sales.fetchSalesReport(start, end);
+        const data = await sales.fetchSalesReport(startDate, endDate);
 
         res.json({
             success: true,
@@ -34,9 +34,9 @@ export const getSalesReport = async (req, res) => {
 
 export const getTotalSales = async (req, res) => {
 
-    const { start, end } = req.query;
+    const { startDate, endDate } = req.query;
 
-    const data = await sales.fetchTotalSales(start, end);
+    const data = await sales.fetchTotalSales(startDate, endDate);
 
     res.json(data);
 };
