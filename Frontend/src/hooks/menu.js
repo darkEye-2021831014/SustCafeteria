@@ -23,3 +23,28 @@ export const getAllItems = () => {
         },
     });
 }
+
+export const updateItem = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: async (payload) => {
+            const res = await menuService.updateItem(payload);
+            return res.data;
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries(["menuItems"]);
+        }
+    });
+}
+
+export const deleteItem = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (id) => menuService.deleteItem(id),
+
+        onSuccess: () => {
+            queryClient.invalidateQueries(["menuItems"]);
+        },
+    });
+};

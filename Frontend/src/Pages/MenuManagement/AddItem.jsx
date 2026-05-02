@@ -1,10 +1,6 @@
-// Right sidebar for adding a new menu item
-// Mirrors the same visual style as EditMenu/EditPopUp
-
 import { useState, useEffect, useRef } from "react";
 import AddItemConfirmDialog from "./AddItemConfirmDialog";
 
-// Bengali digit helpers (shared pattern with EditMenu)
 const toBengali = (val) => {
   const map = {
     0: "০",
@@ -23,7 +19,6 @@ const toBengali = (val) => {
 const toAscii = (val) =>
   String(val).replace(/[০-৯]/g, (d) => "০১২৩৪৫৬৭৮৯".indexOf(d));
 
-// Inline live preview card (same visual as MenuItem without hover effects)
 const PreviewCard = ({ item }) => (
   <div className="relative flex flex-col gap-2 w-[130px]">
     <div className="absolute top-0 right-0 z-10 bg-purple-500 text-white text-[16px] font-bold px-2 py-0.5 rounded-bl-lg rounded-tr-lg select-none">
@@ -59,16 +54,9 @@ const PreviewCard = ({ item }) => (
   </div>
 );
 
-// ── Shared input style ───────────────────────────────────────────────────────
 const inputCls =
   "w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-white text-[15px] text-gray-800 outline-none focus:ring-2 focus:ring-purple-300 focus:border-transparent transition-all";
 
-/**
- * AddItemSidebar
- * @param {string[]}  categories  - Category options from parent/API
- * @param {Function}  onAddItem   - Called with new item data after confirmation
- * @param {Function}  onCancel    - Called when Cancel is clicked
- */
 const AddItemSidebar = ({
   categories = [],
   onAddItem,
@@ -99,8 +87,11 @@ const AddItemSidebar = ({
   const handleImageChange = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
+
     setImageFile(file);
     setImageUrl(URL.createObjectURL(file));
+
+    e.target.value = null;
   };
 
   const validate = () => {
@@ -318,28 +309,3 @@ const AddItemSidebar = ({
 };
 
 export default AddItemSidebar;
-
-/**
- * ─── USAGE EXAMPLE ───────────────────────────────────────────────────────────
- *
- * const [categories, setCategories] = useState([]);
- * useEffect(() => {
- *   fetch("/api/categories").then(r => r.json()).then(setCategories);
- * }, []);
- *
- * const handleAddItem = async ({ name, price, category, imageFile }) => {
- *   const fd = new FormData();
- *   fd.append("name", name);
- *   fd.append("price", price);
- *   fd.append("category", category);
- *   if (imageFile) fd.append("image", imageFile);
- *   await fetch("/api/menu-items", { method: "POST", body: fd });
- * };
- *
- * <AddItemSidebar
- *   categories={categories}
- *   onAddItem={handleAddItem}
- *   onCancel={() => setShowSidebar(false)}
- * />
- * ─────────────────────────────────────────────────────────────────────────────
- */
