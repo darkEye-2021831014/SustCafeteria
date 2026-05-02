@@ -21,9 +21,8 @@ export const router = createBrowserRouter([
         element:<ProtectedRoute><Home/></ProtectedRoute>
       },
       {
-        path:"login",
-        element: <Login/>,
-
+        path: "login",
+        element: <Login />,
       },
       {
         path: "menu",
@@ -68,6 +67,32 @@ export const router = createBrowserRouter([
           {
             path: "stock-usage",
             element: <Inventory />,
+          },
+        ],
+      },
+      {
+        path: "supplier",
+        element: <Supplier />,
+      },
+      {
+        path: "report",
+        element: <Report />,
+        children: [
+          {
+            index: true,
+            element: <Report />,
+          },
+          {
+            path: "sales-report",
+            element: <Report />,
+          },
+          {
+            path: "inventory-report",
+            element: <Report />,
+          },
+          {
+            path: "attendance-report",
+            element: <Report />,
           },
         ],
       },
