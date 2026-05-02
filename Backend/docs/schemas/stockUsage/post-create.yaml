@@ -1,0 +1,60 @@
+summary: Record stock usage (cooking or wastage)
+description: >
+  Creates a usage row, subtracts quantity from the stock item, and associates the row with the authenticated user.
+tags:
+  - Stock usage
+security:
+  - cookieAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - stock_item_id
+          - quantity_used
+          - usage_type
+        properties:
+          stock_item_id:
+            type: integer
+            example: 3
+          quantity_used:
+            type: number
+            format: float
+            example: 2.5
+          usage_type:
+            type: string
+            enum: [cooking, wastage]
+            example: cooking
+          note:
+            type: string
+            nullable: true
+            example: "Lunch batch"
+responses:
+  "200":
+    description: Usage saved and stock updated
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Usage saved successfully"
+  "403":
+    description: Unauthorized (not logged in)
+  "500":
+    description: Server error (e.g. item not found, insufficient stock)
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              examples:
+                notFound:
+                  value: "Item not found"
+                insufficient:
+                  value: "Not enough stock"
