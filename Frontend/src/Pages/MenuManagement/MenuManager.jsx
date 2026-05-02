@@ -80,6 +80,8 @@ const SAMPLE_ITEMS = [
 
 const MenuManager = () => {
   const createItem = useMenu.createItem();
+  const updateItem = useMenu.updateItem();
+  const deleteItem = useMenu.deleteItem();
   const { data, isLoading, error } = useMenu.getAllItems();
   const [items, setItems] = useState(SAMPLE_ITEMS);
   const [activeCategory, setActiveCategory] = useState("All");
@@ -100,27 +102,44 @@ const MenuManager = () => {
   if (isLoading) return <LoadingPage MESSAGE="Loading Menu Items..." />;
   if (error) return <LoadingPage MESSAGE="Error loading menu items" />;
 
-  // ── API: Save edited item ──────────────────────────────────────────────────
   const handleSaveItem = async (updatedItem) => {
-    // const fd = new FormData();
-    // fd.append("name",     updatedItem.name);
-    // fd.append("price",    updatedItem.price);
-    // fd.append("category", updatedItem.category);
-    // if (updatedItem.imageFile) fd.append("image", updatedItem.imageFile);
-    // const res = await fetch(`/api/menu-items/${updatedItem.id}`, { method: "PUT", body: fd });
-    // if (!res.ok) throw new Error("Failed to save item.");
+    const payload = {
+      id: updatedItem.id,
+    };
 
-    setItems((prev) =>
-      prev.map((i) => (i.id === updatedItem.id ? updatedItem : i)),
-    );
+    if (updatedItem.name) payload.name = updatedItem.name;
+    if (updatedItem.price !== undefined) payload.price = updatedItem.price;
+    if (updatedItem.category) payload.category = updatedItem.category;
+
+    if (updatedItem.image) {
+      try {
+        const imageUrl = await uploadImage(updatedItem.image, "MenuItems");
+        payload.image = imageUrl;
+      } catch (err) {
+        alert("Image upload failed");
+        return;
+      }
+    }
+
+    updateItem.mutate(payload, {
+      onSuccess: () => {
+        console.log("Item Updated Successfully");
+      },
+      onError: () => {
+        alert("Update failed");
+      },
+    });
   };
 
-  // ── API: Delete item — must throw on failure ───────────────────────────────
   const handleDeleteItem = async (item) => {
-    // const res = await fetch(`/api/menu-items/${item.id}`, { method: "DELETE" });
-    // if (!res.ok) throw new Error("Failed to delete item.");
-
-    setItems((prev) => prev.filter((i) => i.id !== item.id));
+    deleteItem.mutate(item.id, {
+      onSuccess: () => {
+        console.log("Item deleted successfully");
+      },
+      onError: () => {
+        alert("Failed to delete item");
+      },
+    });
   };
 
   const handleAddItem = async (newItem) => {
@@ -142,10 +161,7 @@ const MenuManager = () => {
 
     createItem.mutate(payload, {
       onSuccess: (created) => {
-        setItems((prev) => [...prev, created]);
-      },
-      onSuccess: () => {
-        alert("Item added successfully!");
+        console.log("Item added successfully!");
       },
       onError: () => {
         alert("Failed to add item. Please try again.");
@@ -166,7 +182,7 @@ const MenuManager = () => {
 
       <div className="flex justify-between gap-5 bg-[#E8B5BA]/20">
         <MenuItemList
-          className="flex-[6]"
+          className="flex-6"
           items={items}
           categories={CATEGORIES}
           activeCategory={activeCategory}
@@ -175,7 +191,7 @@ const MenuManager = () => {
           onDeleteItem={handleDeleteItem}
         />
         <AddItemSidebar
-          className="flex-[2]"
+          className="flex-2"
           categories={CATEGORIES}
           onAddItem={handleAddItem}
         />

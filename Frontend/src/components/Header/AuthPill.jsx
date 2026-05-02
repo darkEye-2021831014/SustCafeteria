@@ -1,32 +1,39 @@
 import { Link } from "react-router";
 import profilePicture from "../../assets/profilePicture.png";
+import { useProfile } from "../../hooks/useUser";
+import { ENV } from "../../config/env";
 
-const AuthPill = ({ signedIn = false, isActive = false, onProfileClick }) => {
+const AuthPill = ({ signedIn = false, isActive = false }) => {
+  const { data: user, isLoading } = useProfile();
+
   const bg = isActive ? "bg-white" : "bg-none hover:bg-white/50";
+
+  const imageSrc = user?.image
+    ? `${ENV.BASE_URL}/${user.image}`
+    : profilePicture;
 
   if (!signedIn) {
     return (
-      <button
-        type="button"
-        className={`cursor-pointer border-0 bg-transparent p-0 ${bg} rounded-lg px-3.75 py-1.5`}
-        onClick={onProfileClick}
-      >
-        <span className="flex font-semibold text-[20px] text-white items-center justify-center">
-          Sign In
-        </span>
-      </button>
+      <div className={`px-3.75 ${bg} rounded-lg py-2 cursor-pointer`}>
+        <img
+          src={profilePicture}
+          alt="Profile"
+          className="w-10 h-10 rounded-full object-cover"
+        />
+      </div>
     );
   }
 
   return (
     <Link to="/profile">
-      <div
-        className={`w-auto h-auto px-3.75 ${bg} rounded-lg py-2 h-fit cursor-pointer`}
-      >
+      <div className={`px-3.75 ${bg} rounded-lg py-2 cursor-pointer`}>
         <img
-          src={profilePicture}
-          alt="Profile Image"
-          className="w-10 h-10 rounded-full object-cover "
+          src={imageSrc}
+          alt="Profile"
+          className="w-10 h-10 rounded-full object-cover"
+          onError={(e) => {
+            e.currentTarget.src = profilePicture; // fallback if broken URL
+          }}
         />
       </div>
     </Link>

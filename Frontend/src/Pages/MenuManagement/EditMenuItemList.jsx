@@ -1,21 +1,8 @@
-// MenuItemList.jsx
-// No longer owns category/mode state — receives them from MenuManager as props.
-
 import { useState } from "react";
 import MenuItem from "./MenuItem";
 import EditPopUp from "./EditPopUp";
 import DeleteConfirmPopup from "./DeleteConfirmPopup";
 
-/**
- * MenuItemList
- * @param {object[]}          items           - Menu items from API
- * @param {string[]}          categories      - Raw categories WITHOUT "All"
- * @param {string}            activeCategory  - Controlled by MenuManager
- * @param {"edit"|"delete"|null} activeMode   - Controlled by MenuManager
- * @param {Function}          onSaveItem      - async (updatedItem) => void
- * @param {Function}          onDeleteItem    - async (item) => void — must throw on failure
- * @param {string}            className
- */
 const MenuItemList = ({
   items = [],
   categories = [],
@@ -41,8 +28,8 @@ const MenuItemList = ({
   };
 
   const handleDeleteConfirm = async (item) => {
-    await onDeleteItem?.(item); // throws → popup stays open with error
-    setDeletingItem(null); // success → close
+    await onDeleteItem?.(item);
+    setDeletingItem(null);
   };
 
   return (

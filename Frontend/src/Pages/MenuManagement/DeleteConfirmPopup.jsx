@@ -1,6 +1,3 @@
-// DeleteConfirmPopup.jsx
-// Modal that previews an item before deletion, with loading + error states.
-
 import { useState } from "react";
 
 const TrashIcon = () => (
@@ -52,12 +49,6 @@ const SpinnerIcon = () => (
   </svg>
 );
 
-/**
- * DeleteConfirmPopup
- * @param {object|null} item         - Item to delete; null = hidden
- * @param {Function}    onConfirm    - async (item) => void  — must throw on failure
- * @param {Function}    onClose      - () => void
- */
 const DeleteConfirmPopup = ({ item, onConfirm, onClose }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
