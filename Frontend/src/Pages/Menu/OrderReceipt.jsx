@@ -22,7 +22,6 @@ const OrderInfo = () => {
 const HeaderRight = () => {
   return (
     <div className="flex items-center gap-3">
-      {/* Replace with real logo if needed */}
       <img src={sustLogo} alt="SUST Logo" className="w-auto h-12" />
       <h2 className="text-2xl tracking-wide font-tourney">Sust Cafeteria</h2>
     </div>
@@ -31,6 +30,7 @@ const HeaderRight = () => {
 
 const ReceiptTable = () => {
   const { orderItemList } = useOrderContext();
+
   const items = orderItemList.map((item) => ({
     name: item.name,
     qty: item.qty,
@@ -40,36 +40,39 @@ const ReceiptTable = () => {
   const total = items.reduce((sum, i) => sum + i.qty * i.price, 0);
 
   const rowBorder = "border-b-2 border-black/30 text-center";
-  const cellBorder = "border-r-2 border-black/30 py-2";
+  const cellBorder = "border-r-2 border-black/30";
 
   return (
     <div className="mt-6">
-      <table className="w-full border-2 border-black/30 text-md">
+      <table className="w-full border-2 border-black/30 text-sm sm:text-md">
         <thead>
           <tr className={rowBorder}>
-            <th className={cellBorder}>Name</th>
-            <th className={cellBorder}>Quantity</th>
-            <th className={cellBorder}>Price</th>
+            <th className={`${cellBorder} py-2`}>Name</th>
+            <th className={`${cellBorder} py-2`}>Quantity</th>
+            <th className={`${cellBorder} py-2`}>Price</th>
             <th className="py-2">ItemCost</th>
           </tr>
         </thead>
+
         <tbody>
           {items.map((item, index) => (
             <tr key={index} className={rowBorder}>
-              <td className={cellBorder}>{item.name}</td>
-              <td className={cellBorder}>{item.qty}</td>
-              <td className={cellBorder}>{item.price.toFixed(2)}</td>
-              <td className="text-center">
+              <td className={`${cellBorder} py-1 sm:py-2`}>{item.name}</td>
+              <td className={`${cellBorder} py-1 sm:py-2`}>{item.qty}</td>
+              <td className={`${cellBorder} py-1 sm:py-2`}>
+                {item.price.toFixed(2)}
+              </td>
+              <td className="text-center py-1 sm:py-2">
                 {(item.qty * item.price).toFixed(2)}
               </td>
             </tr>
           ))}
-          {/* Total Row */}
+
           <tr className="font-bold text-center">
-            <td className={cellBorder} colSpan="3">
+            <td className={`${cellBorder} py-2`} colSpan="3">
               Total
             </td>
-            <td className="text-center">{total.toFixed(2)}</td>
+            <td className="py-2">{total.toFixed(2)}</td>
           </tr>
         </tbody>
       </table>
@@ -77,17 +80,17 @@ const ReceiptTable = () => {
   );
 };
 
-const PaymentInfo = () => {
+const PaymentInfo = ({ cashReceived }) => {
   const { totalCost } = useOrderContext();
-  const cashReceived = 200.0;
+
   const change = cashReceived - totalCost;
 
   return (
     <div className="mt-6 space-y-4">
-      <table className="border-2 border-black/30 text-lg w-full text-center font-bold">
+      <table className="border-2 border-black/30 text-sm sm:text-lg w-full text-center font-bold">
         <tbody>
           <tr className="border-b-2 border-black/30">
-            <td className="border-r-2 border-black/30 py-2 ">
+            <td className="border-r-2 border-black/30 py-2">
               Cash Received (BDT)
             </td>
             <td>{cashReceived.toFixed(2)}</td>
@@ -103,52 +106,48 @@ const PaymentInfo = () => {
 };
 
 const ActionButtons = ({ onCancel, onConfirm }) => {
-  const handelCancelClick = () => {
-    onCancel();
-  };
-  const handleConfirmClick = () => {
-    onConfirm();
-  };
   return (
-    <div className="mt-8 flex justify-center gap-48">
+    <div className="mt-8 flex justify-center gap-12">
       <TextIconButton
         className="bg-red-700 rounded-full shadow hover:bg-red-500"
         text="Cancel Order"
         icon={<IoClose className="text-[24px]" />}
-        onClick={handelCancelClick}
+        onClick={onCancel}
       />
       <TextIconButton
         className="bg-blue-700 rounded-full shadow hover:bg-blue-500"
         text="Print Receipt"
         icon={<HiPrinter className="text-[24px]" />}
-        onClick={handleConfirmClick}
+        onClick={onConfirm}
       />
     </div>
   );
 };
 
-const OrderReceiptModal = ({ onCancel, onConfirm }) => {
+const OrderReceiptModal = ({ onCancel, onConfirm, cashReceived = 0 }) => {
   return (
-    <div className="bg-gray-200 w-175 rounded-2xl p-10 shadow-xl">
+    <div className="bg-gray-200 w-175 max-h-[90vh] flex flex-col rounded-2xl p-10 shadow-xl">
       {/* Title */}
-      <h1 className="text-center text-xl text-orange-600 font-tourney font-semibold mb-6">
+      <h1 className="text-center text-xl text-orange-600 font-tourney font-semibold mb-6 shrink-0">
         Order Receipt
       </h1>
 
-      {/* Top Section */}
-      <div className="flex justify-between items-start">
-        <OrderInfo />
-        <HeaderRight />
+      {/* Scrollable content */}
+      <div className="flex-1 overflow-y-auto space-y-6">
+        {/* Header */}
+        <div className="flex justify-between items-start">
+          <OrderInfo />
+          <HeaderRight />
+        </div>
+
+        <ReceiptTable />
+        <PaymentInfo cashReceived={cashReceived} />
       </div>
 
-      {/* Table */}
-      <ReceiptTable />
-
-      {/* Payment Info */}
-      <PaymentInfo />
-
-      {/* Buttons */}
-      <ActionButtons onCancel={onCancel} onConfirm={onConfirm} />
+      {/* Buttons (fixed at bottom) */}
+      <div className="shrink-0">
+        <ActionButtons onCancel={onCancel} onConfirm={onConfirm} />
+      </div>
     </div>
   );
 };

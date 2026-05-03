@@ -6,7 +6,7 @@ const MenuItem = ({ name, price, image, handleClick }) => {
       onClick={handleClick}
       className="
         flex flex-col cursor-pointer group bg-white rounded-2xl
-        p-3 h-fit sm:p-3.5 md:p-4
+        p-3 h-full sm:p-3.5 md:p-4
         shadow-sm hover:shadow-xl hover:ring-2 hover:ring-purple-400
         transition-all duration-200
         w-full max-w-[220px]
@@ -56,9 +56,11 @@ const MenuItem = ({ name, price, image, handleClick }) => {
       {/* NAME */}
       <span
         className="
-          font-bold text-gray-800 text-center truncate
-          text-sm sm:text-base md:text-[15px]
-          mt-2
+          font-bold text-gray-800 text-center
+          pt-2 pb-1
+          text-base leading-tight
+          break-words
+          line-clamp-2 flex-1 flex justify-center items-center
         "
       >
         {name}

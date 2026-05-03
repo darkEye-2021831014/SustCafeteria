@@ -7,11 +7,17 @@ import OrderReceipt from "./OrderReceipt";
 import { useState } from "react";
 import * as useOrder from "../../hooks/order";
 
-const BottomSheet = ({ showReceipt, setShowReceipt, onConfirm }) => {
+const BottomSheet = ({
+  showReceipt,
+  setShowReceipt,
+  onConfirm,
+  cashReceived,
+}) => {
   return (
     <div
-      className={`fixed inset-0 z-50 flex items-center justify-center
-      ${showReceipt ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+      className={`fixed inset-0 z-50 flex items-center justify-center ${
+        showReceipt ? "opacity-100" : "opacity-0 pointer-events-none"
+      }`}
     >
       <div
         className="absolute inset-0 bg-black/40"
@@ -26,6 +32,7 @@ const BottomSheet = ({ showReceipt, setShowReceipt, onConfirm }) => {
         <OrderReceipt
           onCancel={() => setShowReceipt(false)}
           onConfirm={onConfirm}
+          cashReceived={cashReceived}
         />
       </div>
     </div>
@@ -35,11 +42,13 @@ const BottomSheet = ({ showReceipt, setShowReceipt, onConfirm }) => {
 const Order = ({ className }) => {
   const createOrder = useOrder.createOrder();
   const { orderItemList, totalCost, removeAllItems } = useOrderContext();
+
+  // keep as STRING (important)
+  const [cashReceived, setCashReceived] = useState("");
+
   const [showReceipt, setShowReceipt] = useState(false);
 
-  const handleConfirm = () => {
-    setShowReceipt(true);
-  };
+  const handleConfirm = () => setShowReceipt(true);
 
   const confirmFinal = () => {
     const payload = {
@@ -55,13 +64,14 @@ const Order = ({ className }) => {
       onSuccess: () => {
         setShowReceipt(false);
         removeAllItems();
+        setCashReceived("");
       },
-      onError: (err) => {
-        console.error("Order failed:", err);
-        alert("Failed to create order");
-      },
+      onError: () => alert("Failed to create order"),
     });
   };
+
+  // safe numeric conversion
+  const cash = cashReceived === "" ? 0 : Number(cashReceived);
 
   return (
     <div
@@ -71,6 +81,7 @@ const Order = ({ className }) => {
         showReceipt={showReceipt}
         setShowReceipt={setShowReceipt}
         onConfirm={confirmFinal}
+        cashReceived={cash}
       />
 
       {/* Header */}
@@ -97,8 +108,33 @@ const Order = ({ className }) => {
       </div>
 
       {/* Total */}
-      <div className="bg-white rounded-md px-1.5 py-3 text-center font-bold shadow">
+      <div className="bg-white rounded-md px-3 py-3 text-center font-bold shadow">
         Total Cost: {totalCost.toFixed(2)} ৳
+      </div>
+
+      {/* Cash Received */}
+      <div className="bg-white rounded-md px-3 py-2.5 shadow flex justify-between items-center font-bold">
+        <span className="text-gray-700">Cash Received</span>
+
+        <div className="flex items-center bg-gray-200 px-3 py-1 rounded-md">
+          <span className="text-[#650b13] font-bold mr-1">৳</span>
+
+          <input
+            type="text"
+            inputMode="numeric"
+            value={cashReceived}
+            onChange={(e) => {
+              const val = e.target.value;
+
+              // allow: "", "12", "12.", "12.5"
+              if (/^\d*\.?\d*$/.test(val)) {
+                setCashReceived(val);
+              }
+            }}
+            placeholder="0"
+            className="w-24 text-left bg-transparent outline-none text-[#650b13] font-bold text-lg"
+          />
+        </div>
       </div>
 
       {/* Items */}

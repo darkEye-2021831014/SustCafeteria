@@ -171,31 +171,35 @@ const MenuManager = () => {
   };
 
   return (
-    <div>
+    <div className="h-full flex flex-col min-h-0">
       {/* ── SubNavBar lives here, owns category + mode state ── */}
-      <ManagementSubNavBar
-        categories={navCategories}
-        activeCategory={activeCategory}
-        onCategoryChange={setActiveCategory}
-        activeMode={activeMode}
-        onModeChange={setActiveMode}
-      />
-
-      <div className="flex justify-between gap-5 bg-[#E8B5BA]/20">
-        <MenuItemList
-          className="flex-6"
-          items={items}
-          categories={CATEGORIES}
+      <div className="shrink-0">
+        <ManagementSubNavBar
+          categories={navCategories}
           activeCategory={activeCategory}
+          onCategoryChange={setActiveCategory}
           activeMode={activeMode}
-          onSaveItem={handleSaveItem}
-          onDeleteItem={handleDeleteItem}
+          onModeChange={setActiveMode}
         />
-        <AddItemSidebar
-          className="flex-2"
-          categories={CATEGORIES}
-          onAddItem={handleAddItem}
-        />
+      </div>
+
+      <div className="flex-1 overflow-y-auto min-h-0">
+        <div className="flex min-h-full w-full justify-between gap-5 bg-[#E8B5BA]/20">
+          <MenuItemList
+            className="flex-6 min-h-full"
+            items={items}
+            categories={CATEGORIES}
+            activeCategory={activeCategory}
+            activeMode={activeMode}
+            onSaveItem={handleSaveItem}
+            onDeleteItem={handleDeleteItem}
+          />
+          <AddItemSidebar
+            className="flex-2"
+            categories={CATEGORIES}
+            onAddItem={handleAddItem}
+          />
+        </div>
       </div>
     </div>
   );

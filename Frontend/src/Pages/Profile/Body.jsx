@@ -177,7 +177,7 @@ const Body = ({
       )}
 
       <div
-        className={`${className} min-h-screen px-10 py-8 flex flex-col bg-[#ffff]/20 border border-l-[#8B3A3A]/20`}
+        className={`${className} min-h-screen px-10 py-8 flex flex-col bg-[#ffff]/20 border-l border-l-[#8B3A3A]/20`}
         style={{
           fontFamily: "'Inter', sans-serif",
         }}

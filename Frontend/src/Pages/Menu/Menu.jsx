@@ -25,15 +25,18 @@ const Menu = () => {
 
   return (
     <OrderState>
-      <div className="flex flex-col w-full min-h-screen bg-[#ffff]/10">
-        <SubNavBar
-          className="border-b border-b-[#8B3A3A]/20"
-          pillList={["All", "Breakfast", "Lunch", "Miscellaneous"]}
-          active={activeTab}
-          onTabClick={setActiveTab}
-        />
-
-        <MenuContent items={items} activeTab={activeTab} />
+      <div className="h-full flex flex-col">
+        <div className="shrink-0">
+          <SubNavBar
+            className="border-b border-b-[#8B3A3A]/20"
+            pillList={["All", "Breakfast", "Lunch", "Miscellaneous"]}
+            active={activeTab}
+            onTabClick={setActiveTab}
+          />
+        </div>
+        <div className="flex-1 overflow-y-auto">
+          <MenuContent items={items} activeTab={activeTab} />
+        </div>
       </div>
     </OrderState>
   );

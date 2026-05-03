@@ -34,11 +34,11 @@ const MenuItemList = ({
 
   return (
     <div
-      className={`min-h-screen bg-transparent px-6 py-6 ${className}`}
+      className={`bg-transparent px-6 py-6 ${className}`}
       style={{ fontFamily: "'Inter', sans-serif" }}
     >
       {/* ── Grid ── */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-12 gap-y-12">
+      <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 gap-x-12 gap-y-12">
         {visibleItems.map((item) => (
           <MenuItem
             key={item.id}
