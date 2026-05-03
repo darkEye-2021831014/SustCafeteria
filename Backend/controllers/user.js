@@ -48,8 +48,8 @@ export const createUser = async (req, res) => {
 
 const cookieOptions = {
     httpOnly: true,
-    sameSite: "none",
-    secure: true, // true in production https
+    sameSite: "lax",
+    secure: false, // true in production https
     path: "/",
 };
 export const loginUser = async (req, res) => {
