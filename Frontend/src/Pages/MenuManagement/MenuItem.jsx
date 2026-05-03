@@ -58,8 +58,9 @@ const MenuItem = ({ item, onEdit, onDelete, mode = null }) => {
   return (
     <div
       onClick={handleCardClick}
-      className={`flex flex-col gap-1.5 cursor-pointer group bg-white rounded-2xl px-[10%] pt-[8%] pb-[5%] ${hoverRing} transition-all duration-200`}
+      className={`flex flex-col h-full cursor-pointer group bg-white rounded-2xl px-[10%] pt-[8%] pb-[5%] ${hoverRing} transition-all duration-200`}
     >
+      {/* IMAGE + PRICE */}
       <div className="relative">
         {/* Price badge */}
         <div className="absolute top-0 right-0 z-10 bg-purple-500 text-white text-[16px] font-bold px-2 py-0.5 rounded-bl-lg rounded-tr-lg select-none">
@@ -93,11 +94,19 @@ const MenuItem = ({ item, onEdit, onDelete, mode = null }) => {
         </div>
       </div>
 
-      {/* Name + action icon */}
-      <div className="flex items-center justify-between gap-1 px-0.5 h-fit">
-        <span className="text-[100%] font-bold text-gray-800 leading-tight line-clamp-1 h-fit p-1">
+      {/* NAME + ACTION */}
+      <div className="flex items-center justify-between gap-1 px-0.5 flex-1">
+        <span
+          className="
+            text-[100%] font-bold text-gray-800 leading-tight
+            break-words line-clamp-2
+            flex-1 flex items-center justify-center text-center
+            pt-2 pb-1
+          "
+        >
           {item.name}
         </span>
+
         {(isEdit || isDelete) && (
           <button
             onClick={handleIconClick}

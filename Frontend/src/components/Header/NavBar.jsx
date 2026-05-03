@@ -54,7 +54,7 @@ const NavBar = ({ className }) => {
 
   return (
     <div
-      className={`fixed top-0 right-0 left-0 z-50 flex h-17.5 w-full items-center justify-between border-b border-b-[#F54758] bg-[#650b13] px-5 py-3 text-white ${className}`}
+      className={`right-0 left-0 z-50 flex h-17.5 w-full items-center justify-between border-b border-b-[#F54758] bg-[#650b13] px-5 py-3 text-white ${className}`}
     >
       <div
         className="flex items-center gap-4 cursor-pointer"

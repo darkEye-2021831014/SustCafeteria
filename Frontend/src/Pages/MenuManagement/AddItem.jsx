@@ -146,7 +146,7 @@ const AddItemSidebar = ({
 
       {/* ── Sidebar panel ── */}
       <div
-        className={`flex flex-col w-85 min-h-screen bg-[#650b13]/2 px-5 py-6 overflow-y-auto ${className} border-l border-l-[#8B3A3A]/20 `}
+        className={` flex flex-col w-85 bg-[#650b13]/2 px-5 py-6 ${className} border-l border-l-[#8B3A3A]/20 `}
         style={{ fontFamily: "'Inter', sans-serif" }}
       >
         {/* Title */}
