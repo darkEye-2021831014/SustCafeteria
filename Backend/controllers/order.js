@@ -53,3 +53,28 @@ export const getAllOrderItems = async (req, res) => {
         });
     }
 };
+
+
+
+export const getTodayOrders = async (req, res) => {
+
+    try {
+
+        const orders = await orderService.getTodayOrders();
+
+        res.status(200).json({
+            success: true,
+            data: orders
+        });
+
+    } catch (error) {
+
+        console.error("Error fetching today's orders", error);
+
+        res.status(500).json({
+            success: false,
+            message: "Failed to fetch today's orders"
+        });
+    }
+
+};
