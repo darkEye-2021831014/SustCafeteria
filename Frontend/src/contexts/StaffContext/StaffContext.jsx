@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { ENV } from "../../config/env";
+import { useGetAllUser } from "../../hooks/useUser";
 
 export const StaffContext = createContext();
 
@@ -7,28 +8,29 @@ const StaffProvider = ({ children }) => {
   const pillList = ["Register Staff", "Release Staff"];
   const [activeTab, setActiveTab] = useState(pillList[0]);
   const [StaffsData, setStaffsData] = useState([]);
+  const { data: allUser, isLoading, error } = useGetAllUser();
 
   const onTabClick = (tab) => setActiveTab(tab);
 
-  // fetch staff data from backend
   const fetchStaffs = async () => {
     try {
-      const res = await fetch(`${ENV.BASE_URL}/user`, {
-        credentials: "include",
-      });
+      const data = allUser;
 
-      if (!res.ok) {
-        const errText = await res.text();
-        throw new Error(errText || "Failed to fetch staff");
-      }
+      if (!data) return;
 
-      const data = await res.json();
-      const filteredUsers = (data.users || []).filter((u) => u.role !== "ADMIN");
+      const usersArray = Array.isArray(data) ? data : data.users || [];
+
+      const filteredUsers = usersArray.filter((u) => u.role !== "ADMIN");
+
       setStaffsData(filteredUsers);
     } catch (error) {
       console.error("Error fetching staff:", error);
     }
   };
+
+  useEffect(() => {
+    fetchStaffs();
+  }, [allUser]);
 
   // add staff to backend
   const addStaff = async (formData) => {
@@ -71,7 +73,7 @@ const StaffProvider = ({ children }) => {
     }
   };
 
-  // NEW: update staff role
+  // update staff role
   const updateStaffRole = async (id, role) => {
     try {
       const res = await fetch(`${ENV.BASE_URL}/user`, {
@@ -86,21 +88,14 @@ const StaffProvider = ({ children }) => {
         throw new Error(errText || "Failed to update role");
       }
 
-      // update local list immediately
       setStaffsData((prev) =>
-        prev.map((s) =>
-          Number(s.id) === Number(id) ? { ...s, role } : s
-        )
+        prev.map((s) => (Number(s.id) === Number(id) ? { ...s, role } : s)),
       );
     } catch (error) {
       console.error("Error updating role:", error);
       throw error;
     }
   };
-
-  useEffect(() => {
-    fetchStaffs();
-  }, []);
 
   return (
     <StaffContext.Provider
@@ -112,7 +107,7 @@ const StaffProvider = ({ children }) => {
         setStaffsData,
         addStaff,
         deleteStaff,
-        updateStaffRole, 
+        updateStaffRole,
       }}
     >
       {children}

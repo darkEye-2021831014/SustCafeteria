@@ -1,13 +1,14 @@
-import * as User from "../models/user.js"
-import { verifyPassword, hashPassword } from "../utils/auth.js"
+import * as User from "../models/user.js";
+import { verifyPassword, hashPassword } from "../utils/auth.js";
 import { setUser } from "./auth.js";
-import fs from "fs";
+
+// ===================== AUTH =====================
 
 export const addUser = async (user) => {
     user.password = await hashPassword(user.password);
     const userId = await User.addUser(user);
     return userId;
-}
+};
 
 export const validateUser = async (email, password) => {
     const isValid = await verifyPassword(email, password);
@@ -18,30 +19,44 @@ export const validateUser = async (email, password) => {
     return token;
 };
 
+// ===================== GET =====================
+
 export const getAllUsers = async () => {
     return await User.getAllUsers();
-}
+};
 
 export const getUserById = async (id) => {
     return await User.getUserById(id);
-}
+};
 
 export const getUserByEmail = async (email) => {
     return await User.getUserByEmail(email);
-}
-
-export const deleteAllUsersExcept = async (id) => {
-    return await User.deleteAllUsersExcept(id);
-}
+};
 
 export const getAllUsersExcept = async (id) => {
     return await User.getAllUsersExcept(id);
-}
+};
 
-export const updateUserById = async (id, updates) => {
+// ===================== DELETE =====================
+
+export const deleteAllUsersExcept = async (id) => {
+    return await User.deleteAllUsersExcept(id);
+};
+
+export const deleteUserById = async (userId) => {
+    const user = await User.getUserById(userId);
+    if (!user) throw new Error("User not found");
+
+
+    const deleted = await User.deleteUserById(userId);
+    return deleted;
+};
+
+// ===================== UPDATE =====================
+
+export const updateUserService = async (id, updates) => {
     const fieldsToUpdate = {};
 
-    // Handle password update
     if (updates.oldPassword && updates.newPassword) {
         const user = await User.getUserById(id);
 
@@ -49,7 +64,8 @@ export const updateUserById = async (id, updates) => {
         if (!valid) throw new Error("Old password is incorrect");
 
         fieldsToUpdate.password = await hashPassword(updates.newPassword);
-    } else if (updates.oldPassword || updates.newPassword) {
+    }
+    else if (updates.oldPassword || updates.newPassword) {
         throw new Error("Both oldPassword and newPassword must be provided");
     }
 
@@ -57,32 +73,26 @@ export const updateUserById = async (id, updates) => {
     if (updates.contact) fieldsToUpdate.contact = updates.contact;
     if (updates.address) fieldsToUpdate.address = updates.address;
 
-    const updated = await User.updateUserById(id, fieldsToUpdate);
-    return updated;
-};
-
-export const deleteUserById = async (userId) => {
-    const user = await User.getUserById(userId);
-    if (!user) throw new Error("User not found");
-
-    // Delete image if exists
-    if (user.image) {
+    if (updates.image) {
         try {
-            await fs.promises.unlink(user.image);
-        } catch (err) {
-            console.log("Error deleting image:", err.message);
+            new URL(updates.image);
+            fieldsToUpdate.image = updates.image;
+        } catch {
+            throw new Error("Invalid image URL");
         }
     }
 
-    const deleted = await User.deleteUserById(userId);
-    return deleted;
+    if (Object.keys(fieldsToUpdate).length === 0) {
+        throw new Error("No valid fields to update");
+    }
+
+    const updated = await User.updateUserDB(id, fieldsToUpdate);
+    return updated;
 };
 
+// ===================== ROLE =====================
+
 export const updateUserRole = async (id, role) => {
-    // const allowedRoles = ["ADMIN", "NORMAL"];
-    // if (!allowedRoles.includes(role)) {
-    //     throw new Error("Invalid role");
-    // }
     const updated = await User.updateUserRole(id, role);
 
     if (!updated) {
@@ -90,15 +100,4 @@ export const updateUserRole = async (id, role) => {
     }
 
     return true;
-}
-
-export const updateUserImageById = async (id, imagePath) => {
-    if (!imagePath) throw new Error("Image is required");
-
-    const fields = {
-        image: imagePath,
-    };
-
-    const updated = await User.updateUserById(id, fields);
-    return updated;
 };

@@ -6,8 +6,8 @@ import { upload } from "../middlewares/user.js";
 const router = express.Router();
 
 router.route("/")
-    .post(upload.single("image"), verifyEmail, createUser)
-    .get( getAllUsers)
+    .post(adminOnly, verifyEmail, createUser)
+    .get(adminOnly, getAllUsers)
     .delete(adminOnly, deleteAllUsers)
     .patch(adminOnly, updateUserRole);
 
@@ -15,7 +15,7 @@ router.route("/login")
     .post(loginUser)
     .get(loginRequired, getUserInfo)
     .patch(loginRequired, updateUserInfo)
-    .put(loginRequired, upload.single("image"), updateUserImage);
+    .put(loginRequired, updateUserImage);
 router.post("/logout", loginRequired, logout);
 
 //Dynamic Routes Should Be Last in the execution order

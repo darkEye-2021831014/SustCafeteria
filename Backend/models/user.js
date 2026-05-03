@@ -78,6 +78,19 @@ export const updateUserById = async (id, fields) => {
     return result.affectedRows > 0;
 };
 
+export const updateUserDB = async (id, fields) => {
+    const keys = Object.keys(fields);
+    if (keys.length === 0) return false;
+
+    const setClause = keys.map(key => `${key} = ?`).join(", ");
+    const values = keys.map(key => fields[key]);
+
+    const query = `UPDATE users SET ${setClause} WHERE id = ?`;
+    const [result] = await db.execute(query, [...values, id]);
+
+    return result.affectedRows > 0;
+};
+
 export const deleteUserById = async (id) => {
     const query = "DELETE FROM users WHERE id = ?";
     const [result] = await db.execute(query, [id]);
