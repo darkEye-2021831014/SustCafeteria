@@ -11,11 +11,11 @@ import {
   UserCircle,
   ClipboardList,
 } from "lucide-react";
+import { AuthContext } from "../../contexts/AuthContext/Authcontext";
 
 export default function DashboardSection({ isManager }) {
   const navigate = useNavigate();
   const today = new Date().toISOString().split("T")[0];
-
   const [todaySalesCount, setTodaySalesCount] = useState(0);
   const [totalStaffCount, setTotalStaffCount] = useState(0);
   const [todayOrderCount, setTodayOrderCount] = useState(0);
@@ -46,7 +46,7 @@ export default function DashboardSection({ isManager }) {
             credentials: "include",
           }),
 
-          fetch(`${ENV.BASE_URL}/order`, {
+          fetch(`${ENV.BASE_URL}/order/today`, {
             credentials: "include",
           }),
         ]);
@@ -56,7 +56,7 @@ export default function DashboardSection({ isManager }) {
         const orderData = await orderRes.json();
 
         setTodaySalesCount(salesData.data.length || 0);
-        setTotalStaffCount(staffData.users.length || 0);
+        setTotalStaffCount(staffData.users.length);
         setTodayOrderCount(orderData.data.length || 0);
       } catch (error) {
         setTodaySalesCount(0);
@@ -98,7 +98,7 @@ export default function DashboardSection({ isManager }) {
         value: `${todayOrderCount} Orders`,
         subtitle: "Placed today",
         icon: ShoppingCart,
-        color: "text-orange-600",
+        color: "text-[#eb3483]",
         bg: "from-orange-50 to-white",
         glow: "bg-orange-200",
         route: "/report/sales-report",
@@ -125,7 +125,7 @@ export default function DashboardSection({ isManager }) {
         value: "View Items",
         subtitle: "Breakfast / Lunch / Dinner",
         icon: Utensils,
-        color: "text-orange-600",
+        color: "text-[#eb3483]",
         bg: "from-orange-50 to-white",
         glow: "bg-orange-200",
         route: "/menu",
