@@ -35,3 +35,11 @@ export const getAllOrders = async () => {
 export const getAllOrderItems = async () => {
     return await OrderItemModel.getAllOrderItems();
 };
+
+
+
+export const getTodayOrders = async () => {
+
+    return await OrderModel.getTodayOrders();
+
+};
