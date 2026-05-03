@@ -2,20 +2,28 @@ import { db } from "../config/db.js";
 
 export const createOrderTable = async () => {
     const query = `
-        CREATE TABLE IF NOT EXISTS orders (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            order_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            subtotal DECIMAL(10,2) NOT NULL,
-            discount DECIMAL(10,2) DEFAULT 0,
-            total DECIMAL(10,2) NOT NULL
-        )
-    `;
+    CREATE TABLE IF NOT EXISTS orders (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      order_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      subtotal DECIMAL(10,2) NOT NULL,
+      discount DECIMAL(10,2) DEFAULT 0,
+      total DECIMAL(10,2) NOT NULL,
+
+      user_id INT NULL,
+
+      CONSTRAINT fk_orders_staff
+      FOREIGN KEY (user_id) REFERENCES users(id)
+      ON DELETE SET NULL
+      ON UPDATE CASCADE
+    )
+  `;
     try {
         await db.execute(query);
         console.log("Orders table created successfully");
     } catch (err) {
         console.error("Error creating orders table", err);
     }
+
 };
 
 export const createOrder = async ({ subtotal, discount, total }) => {
