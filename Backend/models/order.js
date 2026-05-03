@@ -38,3 +38,19 @@ export const getAllOrders = async () => {
     const [rows] = await db.execute(query);
     return rows;
 };
+
+
+
+export const getTodayOrders = async () => {
+
+    const query = `
+        SELECT *
+        FROM orders
+        WHERE DATE(order_time) = CURDATE()
+        ORDER BY order_time DESC
+    `;
+
+    const [rows] = await db.execute(query);
+
+    return rows;
+};
