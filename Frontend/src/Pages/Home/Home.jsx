@@ -7,14 +7,16 @@ import DashboardSection from "./DashboardCard";
 
 const Home = () => {
   const { user } = useContext(AuthContext);
+  const role = user?.role?.toLowerCase();
+  const isManager = role === "manager";
   return (
     <div>
       {!user ? (
         <Login key="login"/>
       ) : (
-        <div className="h-[calc(100vh-82px)] gap-5">
-          <WelcomeSection />
-          <DashboardSection />
+        <div className="h-[calc(100vh-70px)] overflow-hidden gap-5">
+          <WelcomeSection isManager={isManager} userName={user?.name}/>
+          <DashboardSection isManager={isManager}/>
         </div>
       )}
     </div>

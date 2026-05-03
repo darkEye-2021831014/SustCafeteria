@@ -109,9 +109,13 @@ const StaffDetailsModal = ({ isOpen, onClose, staff }) => {
                 >
                   <option value="">Select role</option>
                   <option value="manager">manager</option>
-                  <option value="staff">staff</option>
-                  <option value="normal">normal</option>
-                  <option value="admin">admin</option>
+                  <option value="staff">cashier</option>
+                  <option value="normal">chef</option>
+                  <option value="admin">assistant chef</option>
+                  <option value="admin">porota maker</option>
+                  <option value="admin">assistant porota maker</option>
+                  <option value="admin">waiter</option>
+                  <option value="admin">dish washer</option>
                 </select>
               </div>
             </div>
