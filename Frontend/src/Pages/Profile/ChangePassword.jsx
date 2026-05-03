@@ -128,7 +128,7 @@ const PasswordField = ({
     </div>
 
     {/* Row divider */}
-    <hr style={{ borderColor: "rgba(0,0,0,0.1)" }} />
+    <hr style={{ borderColor: "rgba(139,58,58,0.20)" }} />
   </div>
 );
 
@@ -178,9 +178,9 @@ const ChangePassword = ({ onChangePassword, className = "" }) => {
       )}
 
       <div
-        className={`${className} min-h-screen px-10 py-8 flex flex-col`}
+        className={`${className} min-h-screen px-10 py-8 flex flex-col border border-l-[#8B3A3A]/20`}
         style={{
-          backgroundColor: "rgba(232, 181, 186, 0.18)",
+          backgroundColor: "rgba(255, 255, 255, 0.2)",
           fontFamily: "'Inter', sans-serif",
         }}
       >
@@ -197,7 +197,7 @@ const ChangePassword = ({ onChangePassword, className = "" }) => {
         </div>
 
         {/* ── Section divider ── */}
-        <hr className="mb-8" style={{ borderColor: "rgba(0,0,0,0.1)" }} />
+        <hr className="mb-8" style={{ borderColor: "rgba(139,58,58,0.20)" }} />
 
         {/* ── Password Fields ── */}
         <div className="flex flex-col gap-6">

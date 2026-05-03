@@ -72,7 +72,7 @@ const Sidebar = ({
     <div
       className="flex flex-col flex-1 min-h-screen px-5 py-7 shadow-lg"
       style={{
-        backgroundColor: "rgba(232, 181, 186, 0.5)",
+        backgroundColor: "rgba(255,255,255,0.10)",
         fontFamily: "'Inter', sans-serif",
       }}
     >

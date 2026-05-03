@@ -41,7 +41,7 @@ const NavBar = ({ className }) => {
     if (location.pathname === "/menu") return "Menu";
     if (location.pathname.startsWith("/inventory")) return "Inventory";
     if (location.pathname === "/staff") return "Staff";
-    if (location.pathname === "/report") return "Report";
+    if (location.pathname.startsWith("/report")) return "Report";
     if (location.pathname === "/profile") return "Profile";
     return "";
   };

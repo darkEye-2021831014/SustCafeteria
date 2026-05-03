@@ -110,7 +110,7 @@ const EditableField = ({
     </div>
 
     {/* Row divider */}
-    <hr style={{ borderColor: "rgba(0,0,0,0.1)" }} />
+    <hr style={{ borderColor: "rgba(139,58,58,0.20)" }} />
   </div>
 );
 
@@ -177,7 +177,7 @@ const Body = ({
       )}
 
       <div
-        className={`${className} min-h-screen px-10 py-8 flex flex-col bg-[#E8B5BA]/20`}
+        className={`${className} min-h-screen px-10 py-8 flex flex-col bg-[#ffff]/20 border border-l-[#8B3A3A]/20`}
         style={{
           fontFamily: "'Inter', sans-serif",
         }}
@@ -275,7 +275,7 @@ const Body = ({
         </div>
 
         {/* ── Section divider ── */}
-        <hr className="mb-8" style={{ borderColor: "rgba(0,0,0,0.1)" }} />
+        <hr className="mb-8" style={{ borderColor: "rgba(139,58,58,0.20)" }} />
 
         {/* ── Field Rows ── */}
         <div className="flex flex-col gap-6">

@@ -21,17 +21,26 @@ export default function DashboardSection({ isManager }) {
   const [todayOrderCount, setTodayOrderCount] = useState(0);
   const [startDate, setStartDate] = useState(today);
   const [endDate, setEndDate] = useState(today);
-    const { lateCount = 0, absentCount = 0, presentCount = 0 } =
-    useContext(AttendanceContext);
+  const [load, setLoad] = useState(false);
+  const {
+    loading,
+    lateCount = 0,
+    absentCount = 0,
+    presentCount = 0,
+  } = useContext(AttendanceContext);
   useEffect(() => {
     if (!isManager) return;
+    setLoad(true);
 
     const fetchDashboardData = async () => {
       try {
         const [salesRes, staffRes, orderRes] = await Promise.all([
-          fetch(`${ENV.BASE_URL}/sales?startDate=${startDate}&endDate=${endDate}`, {
-            credentials: "include",
-          }),
+          fetch(
+            `${ENV.BASE_URL}/sales?startDate=${startDate}&endDate=${endDate}`,
+            {
+              credentials: "include",
+            },
+          ),
 
           fetch(`${ENV.BASE_URL}/user`, {
             credentials: "include",
@@ -44,7 +53,6 @@ export default function DashboardSection({ isManager }) {
 
         const salesData = await salesRes.json();
         const staffData = await staffRes.json();
-        console.log("Staff data:", staffData.users.length);
         const orderData = await orderRes.json();
 
         setTodaySalesCount(salesData.data.length || 0);
@@ -54,12 +62,13 @@ export default function DashboardSection({ isManager }) {
         setTodaySalesCount(0);
         setTotalStaffCount(0);
         setTodayOrderCount(0);
+      } finally {
+        setLoad(false);
       }
     };
 
     fetchDashboardData();
   }, [isManager]);
-  console.log("Dashboard data:", { todaySalesCount, totalStaffCount, todayOrderCount });
 
   /* ================= MANAGER CARDS ================= */
   const managerCards = useMemo(
@@ -92,7 +101,7 @@ export default function DashboardSection({ isManager }) {
         color: "text-orange-600",
         bg: "from-orange-50 to-white",
         glow: "bg-orange-200",
-        route: "/orders",
+        route: "/report/sales-report",
       },
       {
         title: "Generate Report",
@@ -105,13 +114,13 @@ export default function DashboardSection({ isManager }) {
         route: "/report",
       },
     ],
-    [todaySalesCount, totalStaffCount, todayOrderCount]
+    [todaySalesCount, totalStaffCount, todayOrderCount],
   );
 
   /* ================= STAFF CARDS ================= */
-   const staffCards = useMemo(
+  const staffCards = useMemo(
     () => [
-       {
+      {
         title: "Today's Menu",
         value: "View Items",
         subtitle: "Breakfast / Lunch / Dinner",
@@ -131,7 +140,7 @@ export default function DashboardSection({ isManager }) {
         glow: "bg-indigo-200",
         route: "/attendance",
       },
-     
+
       {
         title: "My Profile",
         value: "Update Profile",
@@ -153,60 +162,65 @@ export default function DashboardSection({ isManager }) {
         route: "/inventory",
       },
     ],
-    [presentCount, lateCount, absentCount]
+    [presentCount, lateCount, absentCount],
   );
-
 
   const cards = isManager ? managerCards : staffCards;
 
   return (
     <section className="px-6 py-6 min-h-[calc(100vh-300px)] flex flex-col">
-      <div className="mb-5 flex items-center justify-between max-w-6xl w-full mx-auto">
-        <h2 className="text-2xl font-bold text-[#4A1D23]">
-          {isManager ? "Manager Dashboard" : "Staff Dashboard"}
-        </h2>
+      {load || loading ? (
+        <div className="flex items-center justify-center py-30">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+        </div>
+      ) : (
+        <>
+          <div className="mb-5 flex items-center justify-between max-w-6xl w-full mx-auto">
+            <h2 className="text-2xl font-bold text-[#4A1D23]">
+              {isManager ? "Manager Dashboard" : "Staff Dashboard"}
+            </h2>
 
-        <p className="text-sm text-gray-500">
-          Click any card to open details
-        </p>
-      </div>
+            <p className="text-sm text-gray-500">
+              Click any card to open details
+            </p>
+          </div>
 
-      <div className="w-full max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-15">
-        {cards.map((item) => (
-          <button
-            key={item.title}
-            onClick={() => navigate(item.route)}
-            className={`group relative overflow-hidden rounded-3xl border border-white/60 bg-gradient-to-br ${item.bg} p-6 text-left shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl min-h-[160px]`}
-          >
-            {/* top right glow */}
-            <div
-              className={`absolute -top-6 -right-6 h-28 w-28 rounded-full blur-2xl opacity-60 ${item.glow}`}
-            />
+          <div className="w-full max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-15">
+            {cards.map((item) => (
+              <button
+                key={item.title}
+                onClick={() => navigate(item.route)}
+                className={`group relative overflow-hidden rounded-3xl border border-white/60 bg-gradient-to-br ${item.bg} p-6 text-left shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl min-h-[160px]`}
+              >
+                {/* top right glow */}
+                <div
+                  className={`absolute -top-6 -right-6 h-28 w-28 rounded-full blur-2xl opacity-60 ${item.glow}`}
+                />
 
-            {/* icon */}
-            <div className="absolute top-4 right-4 rounded-2xl bg-white/80 p-3 shadow-md backdrop-blur-md group-hover:scale-110 transition">
-              <item.icon className={`h-6 w-6 ${item.color}`} />
-            </div>
+                {/* icon */}
+                <div className="absolute top-4 right-4 rounded-2xl bg-white/80 p-3 shadow-md backdrop-blur-md group-hover:scale-110 transition">
+                  <item.icon className={`h-6 w-6 ${item.color}`} />
+                </div>
 
-            {/* pattern */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.8),transparent_40%)]" />
+                {/* pattern */}
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.8),transparent_40%)]" />
 
-            <div className="relative z-10">
-              <p className="text-base font-semibold text-gray-500">
-                {item.title}
-              </p>
+                <div className="relative z-10">
+                  <p className="text-base font-semibold text-gray-500">
+                    {item.title}
+                  </p>
 
-              <h3 className={`mt-6 text-3xl font-bold ${item.color}`}>
-                {item.value}
-              </h3>
+                  <h3 className={`mt-6 text-3xl font-bold ${item.color}`}>
+                    {item.value}
+                  </h3>
 
-              <p className="mt-2 text-sm text-gray-500">
-                {item.subtitle}
-              </p>
-            </div>
-          </button>
-        ))}
-      </div>
+                  <p className="mt-2 text-sm text-gray-500">{item.subtitle}</p>
+                </div>
+              </button>
+            ))}
+          </div>
+        </>
+      )}
     </section>
   );
 }

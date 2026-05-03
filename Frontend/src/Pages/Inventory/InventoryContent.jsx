@@ -30,6 +30,8 @@ const InventoryContent = () => {
     setActiveTab("Add Item");
   }else if(location.pathname.includes("stock-usage")){
     setActiveTab("Stock Usage");
+  }else {
+    setActiveTab(pillList[0]);
   }
 
   const displayedData = products;

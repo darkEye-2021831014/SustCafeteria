@@ -9,7 +9,7 @@ const HeaderPill = ({
   linkMode = true,
 }) => {
   const bg = isActive ? "bg-white text-black" : "bg-none hover:bg-white/50";
-
+  console.log("Rendering HeaderPill:", { name, isActive, linkMode });
   const getPath = (n) => {
     switch (n) {
       case "Home":
