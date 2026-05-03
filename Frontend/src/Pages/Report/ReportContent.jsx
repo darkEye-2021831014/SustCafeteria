@@ -53,7 +53,7 @@ const ReportContent = () => {
         active={activeTab}
         onTabClick={onTabClick}
       />
-      <div className="px-15 py-5">
+      <div className="px-15 py-5 max-h-[90vh] overflow-y-auto">
         {loading ? (
           <div className="text-center py-10 text-gray-500 text-lg">
             Data is Loading ...

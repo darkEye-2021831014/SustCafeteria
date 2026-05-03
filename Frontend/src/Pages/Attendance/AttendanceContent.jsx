@@ -78,7 +78,7 @@ const AttendanceContent = () => {
   };
 
   return (
-    <div className="px-15 py-5">
+    <div className="px-15 py-5 max-h-[90vh] overflow-y-auto">
       <PageHeader title="Staff Attendance" />
 
       {!canMarkAttendance && (
@@ -98,7 +98,7 @@ const AttendanceContent = () => {
           />
         ))}
       </div>
-      <div className="mt-15 p-20 rounded-xl shadow-[0_4px_15px_rgba(0,0,0,0.25)]">
+      <div className="mt-15 p-20 rounded-xl shadow-[0_4px_15px_rgba(0,0,0,0.25)] ">
         {loading ? (
           <div className="text-center py-10 text-gray-500 text-lg">
             Loading attendance...
