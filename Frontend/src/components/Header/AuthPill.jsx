@@ -8,9 +8,7 @@ const AuthPill = ({ signedIn = false, isActive = false }) => {
 
   const bg = isActive ? "bg-white" : "bg-none hover:bg-white/50";
 
-  const imageSrc = user?.image
-    ? `${ENV.BASE_URL}/${user.image}`
-    : profilePicture;
+  const imageSrc = user?.image ? user.image : profilePicture;
 
   if (!signedIn) {
     return (

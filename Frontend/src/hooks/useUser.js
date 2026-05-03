@@ -40,6 +40,31 @@ export const useUpdateProfile = () => {
   });
 };
 
+export const useAddUser = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (payload) => {
+      const res = await userService.addUser(payload);
+      return res.data;
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries(["all-user"]);
+    },
+  });
+};
+
+export const useGetAllUser = () => {
+  return useQuery({
+    queryKey: ["all-user"],
+    queryFn: async () => {
+      const res = await userService.getAllUsers();
+      return res.data;
+    },
+    retry: false,
+    staleTime: 0,
+  });
+}
+
 export const useUpdateImage = () => {
   const queryClient = useQueryClient();
   return useMutation({

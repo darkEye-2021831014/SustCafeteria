@@ -7,4 +7,6 @@ export const userService = {
     updateUser: (payload) => apiClient.patch(`${ENDPOINTS.USER}/login`, payload),
     updateUserImage: (payload) => apiClient.put(`${ENDPOINTS.USER}/login`, payload),
     logoutUser: () => apiClient.post(`${ENDPOINTS.USER}/logout`),
+    addUser: (payload) => apiClient.post(`${ENDPOINTS.USER}`, payload),
+    getAllUsers: () => apiClient.get(`${ENDPOINTS.USER}`),
 };

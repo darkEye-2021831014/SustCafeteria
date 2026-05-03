@@ -18,11 +18,12 @@ const StaffDetailsModal = ({ isOpen, onClose, staff }) => {
   if (!staff) return null;
 
   const API_BASE = ENV.BASE_URL;
-  const imageSrc = staff.image
-    ? staff.image.startsWith("http")
-      ? staff.image
-      : `${API_BASE}/${staff.image}`
-    : null;
+  // const imageSrc = staff.image
+  //   ? staff.image.startsWith("http")
+  //     ? staff.image
+  //     : `${API_BASE}/${staff.image}`
+  //   : null;
+  const imageSrc = staff?.image || null;
 
   const handleSaveRole = async () => {
     if (!selectedRole) {
@@ -74,13 +75,17 @@ const StaffDetailsModal = ({ isOpen, onClose, staff }) => {
             <h2 className="mt-6 text-3xl font-bold">
               {staff.name || "Unknown Staff"}
             </h2>
-            <p className="mt-2 text-white/90 text-lg">{staff.role || "No Role"}</p>
+            <p className="mt-2 text-white/90 text-lg">
+              {staff.role || "No Role"}
+            </p>
           </div>
         </div>
 
         {/* RIGHT SIDE */}
         <div className="bg-white h-full p-8 flex flex-col">
-          <h3 className="text-2xl font-bold text-[#650b13] mb-6">Staff Details</h3>
+          <h3 className="text-2xl font-bold text-[#650b13] mb-6">
+            Staff Details
+          </h3>
 
           <div className="space-y-4 text-[16px] text-gray-800">
             <div className="grid grid-cols-[130px_1fr]">
@@ -113,7 +118,9 @@ const StaffDetailsModal = ({ isOpen, onClose, staff }) => {
                   <option value="chef">chef</option>
                   <option value="assistant chef">assistant chef</option>
                   <option value="porota maker">porota maker</option>
-                  <option value="assistant porota maker">assistant porota maker</option>
+                  <option value="assistant porota maker">
+                    assistant porota maker
+                  </option>
                   <option value="waiter">waiter</option>
                   <option value="dish washer">dish washer</option>
                 </select>
@@ -133,9 +140,7 @@ const StaffDetailsModal = ({ isOpen, onClose, staff }) => {
             </div>
           </div>
 
-          {errorMsg && (
-            <p className="text-red-500 text-sm mt-4">{errorMsg}</p>
-          )}
+          {errorMsg && <p className="text-red-500 text-sm mt-4">{errorMsg}</p>}
 
           <div className="mt-auto flex justify-end gap-3">
             <button

@@ -3,30 +3,27 @@ import fs from "fs"
 import path from "path"
 
 export const createUser = async (req, res) => {
-    const body = req.body;
-
-    //Handle image (from memory)
-    if (req.file) {
-        const ext = path.extname(req.file.originalname);
-        const fileName = Date.now() + ext;
-
-        const uploadDir = path.join("uploads");
-        const filePath = path.join(uploadDir, fileName);
-
-        await fs.promises.writeFile(filePath, req.file.buffer);
-        body.image = filePath;
-    }
-
-    const { name, email, password, role, contact, join_date, address, image } = body;
+    const {
+        name,
+        email,
+        password,
+        role,
+        contact,
+        join_date,
+        address,
+        image
+    } = req.body;
 
     // Check required fields
     const requiredFields = { name, email, password, role, contact, join_date, address, image };
     const missingFields = Object.entries(requiredFields)
-        .filter(([key, value]) => !value)
+        .filter(([_, value]) => !value)
         .map(([key]) => key);
 
     if (missingFields.length > 0) {
-        return res.status(400).json({ msg: `Missing fields: ${missingFields.join(", ")}` });
+        return res.status(400).json({
+            msg: `Missing fields: ${missingFields.join(", ")}`
+        });
     }
 
     try {
@@ -38,8 +35,9 @@ export const createUser = async (req, res) => {
             contact,
             join_date,
             address,
-            image
+            image // now directly a URL string
         });
+
         res.status(201).json({ msg: "User created", id: userId });
     } catch (err) {
         res.status(500).json({ msg: err.message });
@@ -136,17 +134,40 @@ export const deleteAllUsers = async (req, res) => {
 export const updateUserInfo = async (req, res) => {
     try {
         const userId = req.user.id;
-        const { oldPassword, newPassword, name, contact, address } = req.body;
 
-        if (!oldPassword && !newPassword && !name && !contact && !address) {
+        const {
+            oldPassword,
+            newPassword,
+            name,
+            contact,
+            address,
+            image
+        } = req.body;
+
+        if (
+            !oldPassword &&
+            !newPassword &&
+            !name &&
+            !contact &&
+            !address &&
+            !image
+        ) {
             return res.status(400).json({ msg: "No fields provided to update" });
         }
 
-        const updates = { oldPassword, newPassword, name, contact, address };
+        const updates = {
+            oldPassword,
+            newPassword,
+            name,
+            contact,
+            address,
+            image
+        };
 
-        await User.updateUserById(userId, updates);
+        await User.updateUserService(userId, updates);
 
         const user = await User.getUserById(userId);
+
         res.status(200).json(user);
     } catch (err) {
         if (err.message.includes("Old password")) {
@@ -205,26 +226,16 @@ export const updateUserRole = async (req, res) => {
         res.status(500).json({ msg: err.message });
     }
 }
-
 export const updateUserImage = async (req, res) => {
     try {
         const userId = req.user.id;
+        const { image } = req.body;
 
-        if (!req.file) {
-            return res.status(400).json({ msg: "No image provided" });
+        if (!image) {
+            return res.status(400).json({ msg: "No image URL provided" });
         }
 
-        const ext = path.extname(req.file.originalname);
-        const fileName = Date.now() + ext;
-
-        const uploadDir = path.join("uploads");
-        const filePath = path.join(uploadDir, fileName);
-
-        await fs.promises.writeFile(filePath, req.file.buffer);
-
-        const imagePath = filePath;
-
-        await User.updateUserImageById(userId, imagePath);
+        await User.updateUserImageById(userId, image);
 
         const user = await User.getUserById(userId);
 

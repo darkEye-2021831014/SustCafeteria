@@ -4,6 +4,8 @@ import Form from "../../components/Form/Form";
 import Modal from "../../components/Modal/Modal";
 import DeleteAll from "../../components/Modal/DeleteAll";
 import { StaffContext } from "../../contexts/StaffContext/StaffContext";
+import { useAddUser } from "../../hooks/useUser";
+import { uploadImage } from "../../services/uploadImage";
 
 const StaffModalManager = ({
   isOpen,
@@ -17,15 +19,18 @@ const StaffModalManager = ({
   cancelColor,
 }) => {
   const fields = getStaffFields(selectedStaff, activeTab);
-  const { setStaffsData, addStaff, deleteStaff, deleteAll } = useContext(StaffContext);
+  const { setStaffsData, addStaff, deleteStaff, deleteAll } =
+    useContext(StaffContext);
   const [imageFile, setImageFile] = useState(null);
   const [preview, setPreview] = useState(null);
+
+  const addNewUser = useAddUser();
 
   const modalClass = isRemoveAll
     ? "w-[630px] h-[320px]  py-[35px] bg-[#F2F2F7]"
     : activeTab === "Release Staff"
-  ? "bg-white w-[550px] h-[660px] p-[50px]" 
-    : "bg-white w-[550px] h-[700px] px-[50px] py-[20px]";
+      ? "bg-white w-[550px] h-[660px] p-[50px]"
+      : "bg-white w-[550px] h-[700px] px-[50px] py-[20px]";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,10 +44,18 @@ const StaffModalManager = ({
       // Add staff
       if (activeTab === "Register Staff") {
         const formData = new FormData(e.target);
+
+        const payload = Object.fromEntries(formData.entries());
         if (imageFile) {
-          formData.append("image", imageFile);
+          try {
+            const imageUrl = await uploadImage(imageFile, "StaffImage");
+            payload.image = imageUrl;
+          } catch (err) {
+            alert("Image upload failed");
+            return;
+          }
         }
-        await addStaff(formData);
+        await addNewUser.mutateAsync(payload);
       }
 
       setPreview(null);
