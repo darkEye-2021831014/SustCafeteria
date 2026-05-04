@@ -27,14 +27,14 @@ const AddInventoryModal = ({
 
   const fields = getInventoryFields(selectedProduct, isAdmin, activeTab);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData.entries());
     console.log("Form Data:", data);
     try {
       if (!selectedProduct && isAdmin) {
-        createItem({
+        await createItem({
           ...data,
           minimum_stock: Number(data.minimumStock),
           current_stock: Number(data.currentStock),
@@ -44,24 +44,25 @@ const AddInventoryModal = ({
         isAdmin &&
         location.pathname.includes("remove-item")
       ) {
-        deleteItem(selectedProduct.id);
+        await deleteItem(selectedProduct.id);
       } else if (
         selectedProduct &&
         !isAdmin &&
         location.pathname.includes("stock-usage")
       ) {
-        updateUsage({
+        await updateUsage({
           stock_item_id: selectedProduct.id,
           quantity_used: Number(data.usedStock),
           usage_type: data.usageType,
           note: data.usageDescription,
         });
       } else if (selectedProduct && !isAdmin) {
-        updateQuantity(selectedProduct.id, Number(data.currentStock));
+        await updateQuantity(selectedProduct.id, Number(data.currentStock));
       }
       onClose();
     } catch (err) {
       console.error(err);
+      alert(err?.message || "Action failed");
     }
   };
 

@@ -78,7 +78,7 @@ const InventoryProvider = ({ children }) => {
 
   // Update Quantity
   const updateQuantity = async (id, quantity) => {
-    await fetch(`${ENV.BASE_URL}/inventory/${id}/quantity`, {
+    const res = await fetch(`${ENV.BASE_URL}/inventory/${id}/quantity`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -86,6 +86,11 @@ const InventoryProvider = ({ children }) => {
       body: JSON.stringify({ quantity }),
       credentials: "include",
     });
+
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data?.message || "Failed to update stock quantity");
+    }
 
     refreshData();
   };
@@ -106,7 +111,7 @@ const InventoryProvider = ({ children }) => {
   // Usage Update
   const updateUsage = async (usageData) => {
     console.log("Updating usage with data:", usageData);
-    await fetch(`${ENV.BASE_URL}/usage/create`, {
+    const res = await fetch(`${ENV.BASE_URL}/usage/create`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -114,6 +119,11 @@ const InventoryProvider = ({ children }) => {
       body: JSON.stringify(usageData),
       credentials: "include",
     });
+
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data?.message || "Failed to update usage");
+    }
 
     refreshData();
   };

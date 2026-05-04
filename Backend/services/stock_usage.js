@@ -22,9 +22,14 @@ export const createUsageService = async ({
       throw new Error("Item not found");
     }
 
-    const currentStock = rows[0].current_stock;
+    const qty = Number(quantity_used);
+    if (!Number.isFinite(qty) || qty <= 0) {
+      throw new Error("quantity_used must be a positive number");
+    }
 
-    if (currentStock < quantity_used) {
+    const currentStock = Number(rows[0].current_stock);
+
+    if (currentStock < qty) {
       throw new Error("Not enough stock");
     }
 
@@ -33,7 +38,7 @@ export const createUsageService = async ({
       `INSERT INTO usage_items
       (stock_item_id, quantity_used, usage_type, note, date, created_by)
       VALUES (?, ?, ?, ?, CURDATE(), ?)`,
-      [stock_item_id, quantity_used, usage_type, note, created_by]
+      [stock_item_id, qty, usage_type, note, created_by]
     );
 
     //update stock
@@ -41,7 +46,7 @@ export const createUsageService = async ({
       `UPDATE stock_item
        SET current_stock = current_stock - ?
        WHERE id = ?`,
-      [quantity_used, stock_item_id]
+      [qty, stock_item_id]
     );
 
     await connection.commit();
