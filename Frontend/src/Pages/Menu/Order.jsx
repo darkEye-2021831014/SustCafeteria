@@ -4,14 +4,18 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { useOrderContext } from "../../contexts/OrderContext/OrderContext";
 import OrderReceipt from "./OrderReceipt";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import * as useOrder from "../../hooks/order";
+import { useReactToPrint } from "react-to-print";
+
+/* ---------------- Bottom Sheet ---------------- */
 
 const BottomSheet = ({
   showReceipt,
   setShowReceipt,
   onConfirm,
   cashReceived,
+  receiptRef,
 }) => {
   return (
     <div
@@ -25,6 +29,7 @@ const BottomSheet = ({
       />
 
       <div
+        ref={receiptRef}
         className={`relative transition-transform duration-500 ${
           showReceipt ? "translate-y-0" : "translate-y-full"
         }`}
@@ -39,14 +44,45 @@ const BottomSheet = ({
   );
 };
 
+/* ---------------- Order Component ---------------- */
+
 const Order = ({ className }) => {
   const createOrder = useOrder.createOrder();
   const { orderItemList, totalCost, removeAllItems } = useOrderContext();
 
-  // keep as STRING (important)
   const [cashReceived, setCashReceived] = useState("");
-
   const [showReceipt, setShowReceipt] = useState(false);
+
+  const receiptRef = useRef(null);
+
+  /* ---------------- PRINT ---------------- */
+  const handlePrint = useReactToPrint({
+    contentRef: receiptRef,
+    documentTitle: "Order Receipt",
+    pageStyle: `
+      @page {
+        size: A4;
+        margin: 20mm;
+      }
+
+      @media print {
+        .no-print {
+          display: none !important;
+        }
+
+        body {
+          -webkit-print-color-adjust: exact;
+        }
+      }
+    `,
+    onAfterPrint: () => {
+      setShowReceipt(false);
+      removeAllItems();
+      setCashReceived("");
+    },
+  });
+
+  /* ---------------- UI Actions ---------------- */
 
   const handleConfirm = () => setShowReceipt(true);
 
@@ -62,26 +98,28 @@ const Order = ({ className }) => {
 
     createOrder.mutate(payload, {
       onSuccess: () => {
-        setShowReceipt(false);
-        removeAllItems();
-        setCashReceived("");
+        // wait for receipt render then print
+        setTimeout(() => {
+          handlePrint();
+        }, 100);
       },
       onError: () => alert("Failed to create order"),
     });
   };
 
-  // safe numeric conversion
   const cash = cashReceived === "" ? 0 : Number(cashReceived);
 
   return (
     <div
       className={`flex flex-col bg-[#650b13]/2 px-7.5 py-2.5 flex-1 justify-start gap-3 ${className}`}
     >
+      {/* Receipt Modal */}
       <BottomSheet
         showReceipt={showReceipt}
         setShowReceipt={setShowReceipt}
         onConfirm={confirmFinal}
         cashReceived={cash}
+        receiptRef={receiptRef}
       />
 
       {/* Header */}
@@ -112,7 +150,7 @@ const Order = ({ className }) => {
         Total Cost: {totalCost.toFixed(2)} ৳
       </div>
 
-      {/* Cash Received */}
+      {/* Cash Input */}
       <div className="bg-white rounded-md px-3 py-2.5 shadow flex justify-between items-center font-bold">
         <span className="text-gray-700">Cash Received</span>
 
@@ -125,8 +163,6 @@ const Order = ({ className }) => {
             value={cashReceived}
             onChange={(e) => {
               const val = e.target.value;
-
-              // allow: "", "12", "12.", "12.5"
               if (/^\d*\.?\d*$/.test(val)) {
                 setCashReceived(val);
               }
