@@ -107,7 +107,7 @@ const PaymentInfo = ({ cashReceived }) => {
 
 const ActionButtons = ({ onCancel, onConfirm }) => {
   return (
-    <div className="mt-8 flex justify-center gap-12">
+    <div className="mt-8 flex justify-center gap-12 no-print">
       <TextIconButton
         className="bg-red-700 rounded-full shadow hover:bg-red-500"
         text="Cancel Order"

@@ -8,8 +8,6 @@ import { useState, useRef } from "react";
 import * as useOrder from "../../hooks/order";
 import { useReactToPrint } from "react-to-print";
 
-/* ---------------- Bottom Sheet ---------------- */
-
 const BottomSheet = ({
   showReceipt,
   setShowReceipt,
