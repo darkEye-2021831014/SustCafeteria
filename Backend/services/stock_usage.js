@@ -12,7 +12,7 @@ export const createUsageService = async ({
   try {
     await connection.beginTransaction();
 
-    // 1️⃣check stock
+    //check stock
     const [rows] = await connection.query(
       "SELECT current_stock FROM stock_item WHERE id = ?",
       [stock_item_id]
@@ -22,13 +22,13 @@ export const createUsageService = async ({
       throw new Error("Item not found");
     }
 
-    const currentStock = rows[0].quantity;
+    const currentStock = rows[0].current_stock;
 
     if (currentStock < quantity_used) {
       throw new Error("Not enough stock");
     }
 
-    // 2️⃣ insert usage
+    //insert usage
     await connection.query(
       `INSERT INTO usage_items
       (stock_item_id, quantity_used, usage_type, note, date, created_by)
@@ -36,7 +36,7 @@ export const createUsageService = async ({
       [stock_item_id, quantity_used, usage_type, note, created_by]
     );
 
-    // 3️⃣ update stock
+    //update stock
     await connection.query(
       `UPDATE stock_item
        SET current_stock = current_stock - ?
@@ -84,7 +84,6 @@ export const getUsageHistory = async ({
 
   const params = [];
 
-  // 🔥 Date Range filter
   if (startDate && endDate) {
     query += " AND u.date BETWEEN ? AND ?";
     params.push(startDate, endDate);
