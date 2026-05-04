@@ -18,10 +18,11 @@ const AttendanceContent = () => {
     canMarkAttendance,
     attendanceWindowText,
   } = useContext(AttendanceContext);
+ 
 
-  // ✅ fallback so UI never becomes empty incorrectly
-  const safeList = filteredStaff.length > 0 ? filteredStaff : mergedList;
-  console.log(safeList);
+  // fallback so UI never becomes empty incorrectly
+  const safeList = filteredStaff.length >= 0 ? filteredStaff : mergedList;
+
 
   const summary = [
     {
@@ -80,6 +81,7 @@ const AttendanceContent = () => {
       );
     },
   };
+  console.log("safelist", safeList);
 
   return (
     <div className="px-15 py-5 max-h-[90vh] overflow-y-auto">

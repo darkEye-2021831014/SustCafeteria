@@ -88,7 +88,7 @@ const AttendanceProvider = ({ children }) => {
       body: JSON.stringify({ user_id, status, time, date }),
     })
       .then(() => {
-        // 🔥 refresh after marking
+        
         loadAttendance();
       })
       .catch((err) => console.log("Mark attendance error:", err));
@@ -103,15 +103,19 @@ const AttendanceProvider = ({ children }) => {
       : attendance
           .filter((u) => u.status === filter)
           .filter((u) => u.role?.toLowerCase() !== "manager");
+  console.log("Filtered Staff:", filteredStaff);
 
   // =========================
   // COUNTS
   // =========================
-  const lateCount = attendance.filter((u) => u.status === "Late").length;
+  
+  const lateCount = filteredStaff.filter((u) => u.status === "Late").length;
 
-  const absentCount = attendance.filter((u) => u.status === "Absent").length;
+  const absentCount = filteredStaff.filter((u) => u.status === "Absent").length;
 
-  const presentCount = attendance.filter((u) => u.status === "Present").length;
+
+  const presentCount = filteredStaff.filter((u) => u.status === "Present").length;
+
 
   return (
     <AttendanceContext.Provider
