@@ -86,13 +86,14 @@ const StaffContent = () => {
                     onClick: () => setIsModalOpen(true),
                   }
                 : {
-                    text: "Remove All Staffs",
-                    icon: <RiDeleteBin6Line />,
-                    className: "px-6 py-4 bg-[#DB2D30] text-white rounded-full font-bold text-xl",
-                    onClick: () => {
-                      setSelectedStaff(null);
-                      setIsModalOpen(true);
-                    },
+                  //   text: "Remove All Staffs",
+                  //   icon: <RiDeleteBin6Line />,
+                  //   className: "px-6 py-4 bg-[#DB2D30] text-white rounded-full font-bold text-xl",
+                  //   onClick: () => {
+                  //     setSelectedStaff(null);
+                  //     setIsModalOpen(true);
+                  //   },
+                  // 
                   })}
             />
           </div>

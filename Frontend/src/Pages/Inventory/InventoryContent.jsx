@@ -91,14 +91,14 @@ const InventoryContent = () => {
                       onClick: () => setIsModalOpen(true),
                     }
                   : {
-                      text: "Remove All Items",
-                      icon: <RiDeleteBin6Line />,
-                      className:
-                        "px-6 py-4 bg-[#DB2D30] text-white rounded-full font-bold text-xl",
-                      onClick: () => {
-                        setSelectedProduct(null);
-                        setIsModalOpen(true);
-                      },
+                      // text: "Remove All Items",
+                      // icon: <RiDeleteBin6Line />,
+                      // className:
+                      //   "px-6 py-4 bg-[#DB2D30] text-white rounded-full font-bold text-xl",
+                      // onClick: () => {
+                      //   setSelectedProduct(null);
+                      //   setIsModalOpen(true);
+                      // },
                     })}
               />
             </div>
