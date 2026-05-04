@@ -165,6 +165,7 @@ export const deleteItem = async (req, res) => {
     try {
 
         const { id } = req.params;
+        
         await Stock.removeStockItem(id);
 
         res.json({

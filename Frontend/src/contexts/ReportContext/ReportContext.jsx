@@ -45,7 +45,6 @@ const ReportProvider = ({ children }) => {
     }
 
     if (!url) return;
-    console.log("Fetching report from URL:", url);
 
     fetch(url, {
       credentials: "include",

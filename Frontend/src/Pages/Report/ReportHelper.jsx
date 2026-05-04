@@ -23,8 +23,9 @@ export const getColumns = (reportType) => {
     return [
       { key: "product" },
       { key: "total_quantity" },
-      { key: "total_sales" },
       { key: "unit_price" },
+      { key: "total_sales" },
+      
       
       ];
   } else if (reportType === "Attendance Report") {

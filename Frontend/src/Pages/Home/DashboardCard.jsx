@@ -73,6 +73,16 @@ export default function DashboardSection({ isManager }) {
   /* ================= MANAGER CARDS ================= */
   const managerCards = useMemo(
     () => [
+       {
+        title: "Generate Report",
+        value: "Report Analysis",
+        subtitle: "Sales / Inventory / Attendance",
+        icon: FileBarChart,
+        color: "text-violet-600",
+        bg: "from-violet-50 to-white",
+        glow: "bg-violet-200",
+        route: "/report",
+      },
       {
         title: "Today's Sales",
         value: `${todaySalesCount} Items`,
@@ -82,16 +92,6 @@ export default function DashboardSection({ isManager }) {
         bg: "from-emerald-50 to-white",
         glow: "bg-emerald-200",
         route: "/report/sales-report",
-      },
-      {
-        title: "Total Staffs",
-        value: `${totalStaffCount} Members`,
-        subtitle: "Registered staffs",
-        icon: Users,
-        color: "text-blue-600",
-        bg: "from-blue-50 to-white",
-        glow: "bg-blue-200",
-        route: "/staff",
       },
       {
         title: "Today's Orders",
@@ -104,15 +104,17 @@ export default function DashboardSection({ isManager }) {
         route: "/report/sales-report",
       },
       {
-        title: "Generate Report",
-        value: "Report Analysis",
-        subtitle: "Sales / Inventory / Attendance",
-        icon: FileBarChart,
-        color: "text-violet-600",
-        bg: "from-violet-50 to-white",
-        glow: "bg-violet-200",
-        route: "/report",
+        title: "Total Staffs",
+        value: `${totalStaffCount} Members`,
+        subtitle: "Registered staffs",
+        icon: Users,
+        color: "text-blue-600",
+        bg: "from-blue-50 to-white",
+        glow: "bg-blue-200",
+        route: "/staff",
       },
+      
+      
     ],
     [todaySalesCount, totalStaffCount, todayOrderCount],
   );

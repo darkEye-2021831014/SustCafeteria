@@ -99,7 +99,7 @@ const ReportContent = () => {
             </div>
             <PDFPrint
               targetRef={componentRef}
-              title="Attendance Report"
+              title={activeTab}
               buttonText="Generate Report"
               className="mt-5 justify-end flex"
             />
