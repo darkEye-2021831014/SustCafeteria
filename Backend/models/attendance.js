@@ -1,24 +1,19 @@
 import { db } from "../config/db.js";
 
-//  CREATE TABLE
+
 export const createAttendanceTable = async () => {
   try {
-    // create table
     await db.query(`
       CREATE TABLE IF NOT EXISTS attendance (
-
         id INT AUTO_INCREMENT PRIMARY KEY,
 
         user_id INT NOT NULL,
 
         status VARCHAR(20),
-
         time TIME,
-
         date DATE,
 
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP 
         ON UPDATE CURRENT_TIMESTAMP,
 
@@ -28,19 +23,13 @@ export const createAttendanceTable = async () => {
         ON DELETE CASCADE
       )
     `);
-    await db.query(`
-      ALTER TABLE attendance 
-      ADD UNIQUE KEY unique_user_date (user_id, date)
-    `).catch(() => {
-      console.log("Unique key already exists (skip)");
-    });
 
+    console.log("Attendance table ready");
   } catch (err) {
     console.log("Attendance setup error:", err);
   }
 };
 
-//  ADD ATTENDANCE (ONLY ONCE PER DAY)
 export const addAttendance = async (data) => {
   let { user_id, status, time, date } = data;
 
@@ -48,25 +37,23 @@ export const addAttendance = async (data) => {
     date = new Date().toISOString().split("T")[0];
   }
 
-  const [existing] = await db.query(
-    `SELECT id FROM attendance WHERE user_id = ? AND date = ?`,
-    [user_id, date]
-  );
+  try {
+    const [result] = await db.query(
+      `INSERT INTO attendance (user_id, status, time, date)
+       VALUES (?, ?, ?, ?)`,
+      [user_id, status, time, date]
+    );
 
-  if (existing.length > 0) {
-    throw new Error("Attendance already marked today");
+    return result.insertId;
+  } catch (err) {
+    if (err.code === "ER_DUP_ENTRY") {
+      throw new Error("Attendance already marked today");
+    }
+    throw err;
   }
-
-  const [result] = await db.query(
-    `INSERT INTO attendance (user_id, status, time, date)
-     VALUES (?, ?, ?, ?)`,
-    [user_id, status, time, date]
-  );
-
-  return result.insertId;
 };
 
-// get all attendance for a date, with optional status filter
+
 export const getAllAttendance = async (date, status) => {
   let query = `
     SELECT 
@@ -74,9 +61,11 @@ export const getAllAttendance = async (date, status) => {
       users.name,
       users.role,
       users.image,
+
       a.status,
       a.time,
       a.date
+
     FROM users
     LEFT JOIN attendance a
       ON users.id = a.user_id
@@ -85,22 +74,23 @@ export const getAllAttendance = async (date, status) => {
 
   let params = [date];
 
+
   if (status) {
-    query += ` WHERE a.status = ?`;
+    query += ` AND a.status = ?`;
     params.push(status);
   }
 
   query += ` ORDER BY users.name`;
 
   const [rows] = await db.query(query, params);
-
   return rows;
 };
+
 
 export const getAttendanceReport = async (startDate, endDate) => {
   let query = `
     SELECT
-      users.id,
+      users.id AS user_id,
       users.name,
       users.role AS position,
 
@@ -114,14 +104,17 @@ export const getAttendanceReport = async (startDate, endDate) => {
   `;
 
   let params = [];
+
   if (startDate && endDate) {
     query += ` AND a.date BETWEEN ? AND ?`;
     params.push(startDate, endDate);
   }
 
-  query += ` GROUP BY users.id, users.name, users.role`;
+  query += `
+    GROUP BY users.id, users.name, users.role
+    ORDER BY users.name
+  `;
 
   const [rows] = await db.query(query, params);
-
   return rows;
 };

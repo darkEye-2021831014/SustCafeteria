@@ -19,6 +19,10 @@ const AttendanceContent = () => {
     attendanceWindowText,
   } = useContext(AttendanceContext);
 
+  // ✅ fallback so UI never becomes empty incorrectly
+  const safeList = filteredStaff.length > 0 ? filteredStaff : mergedList;
+  console.log(safeList);
+
   const summary = [
     {
       title: "Total Staff",
@@ -98,19 +102,21 @@ const AttendanceContent = () => {
           />
         ))}
       </div>
+
       <div className="mt-15 p-20 rounded-xl shadow-[0_4px_15px_rgba(0,0,0,0.25)] ">
         {loading ? (
           <div className="text-center py-10 text-gray-500 text-lg">
             Loading attendance...
           </div>
-        ) : filteredStaff.length > 0 ? (
+        ) : safeList.length > 0 ? (
           <div>
             <TableHeader
               title="Total Staff List"
               reportingTime={reportingTime}
             />
+
             <Table
-              items={filteredStaff}
+              items={safeList}
               columns={attendanceColumns}
               tHeaders={attendanceColumns.map((c) => c.label)}
               statusStyle={{
@@ -123,11 +129,12 @@ const AttendanceContent = () => {
           </div>
         ) : (
           <div className="text-center text-[#F54758] text-[32px] font-semibold">
-            No attendance found for this status
+            No staff data found
           </div>
         )}
       </div>
     </div>
   );
 };
+
 export default AttendanceContent;
