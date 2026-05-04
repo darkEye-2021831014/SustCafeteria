@@ -35,7 +35,7 @@ const PDFPrint = ({
       <TextIconButton
         text={buttonText}
         onClick={handlePrint}
-        icon={<PiDownloadSimpleBold/>}
+        icon={<PiDownloadSimpleBold />}
         className="px-4 py-2 bg-[#6294ff] text-white rounded-full text-lg"
       />
     </div>
