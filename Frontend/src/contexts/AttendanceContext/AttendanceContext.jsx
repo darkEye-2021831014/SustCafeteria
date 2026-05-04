@@ -1,81 +1,53 @@
 import { createContext, useEffect, useState } from "react";
 import { ENV } from "../../config/env";
-import { useGetAllUser } from "../../hooks/useUser";
 
 export const AttendanceContext = createContext();
 
 const AttendanceProvider = ({ children }) => {
-  const [users, setUsers] = useState([]);
   const [attendance, setAttendance] = useState([]);
   const [filter, setFilter] = useState("ALL");
-  const [isAfter8, setIsAfter8] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  const [attendanceLoading, setAttendanceLoading] = useState(true);
-
-  // ✅ use hook
-  const {
-    data: userData,
-    isLoading: userLoading,
-    isError: userError,
-  } = useGetAllUser();
-
-  // Attendance click window
   const [canMarkAttendance, setCanMarkAttendance] = useState(false);
   const [attendanceWindowText, setAttendanceWindowText] = useState("");
 
-  // ✅ Handle users from hook
-  useEffect(() => {
-    if (userError) {
-      console.log("Failed to fetch users");
-      setUsers([]);
-      return;
-    }
-
-    if (userData) {
-      setUsers(Array.isArray(userData.users) ? userData.users : []);
-    }
-  }, [userData, userError]);
-
-  // Load attendance
+  // =========================
+  // LOAD ATTENDANCE ONLY
+  // =========================
   const loadAttendance = () => {
     const today = new Date().toISOString().split("T")[0];
-    setAttendanceLoading(true);
+
+    setLoading(true);
 
     fetch(`${ENV.BASE_URL}/attendance/all?date=${today}`, {
       credentials: "include",
     })
       .then((res) => res.json())
       .then((data) => {
-        const list = Array.isArray(data)
-          ? data
-          : Array.isArray(data.attendance)
-            ? data.attendance
-            : [];
-        setAttendance(list);
+        setAttendance(Array.isArray(data) ? data : []);
       })
-      .catch(console.log)
-      .finally(() => setAttendanceLoading(false));
+      .catch((err) => console.log("Attendance fetch error:", err))
+      .finally(() => setLoading(false));
   };
 
   useEffect(() => {
     loadAttendance();
   }, []);
 
-  // Time logic
+  // =========================
+  // TIME WINDOW LOGIC
+  // =========================
   useEffect(() => {
     const checkTime = () => {
       const now = new Date();
       const hour = now.getHours();
       const minute = now.getMinutes();
 
-      const after = hour > 8 || (hour === 8 && minute >= 1);
-      setIsAfter8(after);
-
       const nowMinutes = hour * 60 + minute;
-      const startMinutes = 7 * 60;
-      const endMinutes = 16 * 60;
+      const start = 7 * 60; // 07:00
+      const end = 16 * 60; // 16:00
 
-      const inWindow = nowMinutes >= startMinutes && nowMinutes <= endMinutes;
+      const inWindow = nowMinutes >= start && nowMinutes <= end;
 
       setCanMarkAttendance(inWindow);
 
@@ -91,7 +63,9 @@ const AttendanceProvider = ({ children }) => {
     return () => clearInterval(interval);
   }, []);
 
-  // Mark attendance
+  // =========================
+  // MARK ATTENDANCE
+  // =========================
   const markAttendance = (user_id) => {
     if (!canMarkAttendance) return;
 
@@ -103,7 +77,7 @@ const AttendanceProvider = ({ children }) => {
       .toString()
       .padStart(2, "0")}:00`;
 
-    const today = now.toISOString().split("T")[0];
+    const date = now.toISOString().split("T")[0];
 
     const status = hour > 8 || (hour === 8 && minute >= 1) ? "Late" : "Present";
 
@@ -111,79 +85,53 @@ const AttendanceProvider = ({ children }) => {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ user_id, status, time, date: today }),
+      body: JSON.stringify({ user_id, status, time, date }),
     })
-      .then((res) => res.json())
       .then(() => {
-        setAttendance((prev) => {
-          const index = prev.findIndex(
-            (a) => Number(a.user_id) === Number(user_id),
-          );
-
-          if (index > -1) {
-            const updated = [...prev];
-            updated[index] = { user_id, status, time, date: today };
-            return updated;
-          }
-
-          return [...prev, { user_id, status, time, date: today }];
-        });
+        // 🔥 refresh after marking
+        loadAttendance();
       })
-      .catch(console.log);
+      .catch((err) => console.log("Mark attendance error:", err));
   };
 
-  // Merge users + attendance
-  const mergedList = users.map((u) => {
-    const uid = u.user_id || u.id;
-
-    const a = attendance.find((x) => Number(x.user_id) === Number(uid));
-
-    if (a?.status) return { ...u, status: a.status, time: a.time || "" };
-
-    if ((!a || !a.status) && isAfter8) {
-      return { ...u, status: "Absent", time: "" };
-    }
-
-    return { ...u, status: "", time: "" };
-  });
-
+  // =========================
+  // FILTERED LIST
+  // =========================
   const filteredStaff =
     filter === "ALL"
-      ? mergedList.filter((s) => s.role?.toLowerCase() !== "manager")
-      : mergedList
-          .filter((s) => s.status === filter)
-          .filter((s) => s.role?.toLowerCase() !== "manager");
+      ? attendance.filter((u) => u.role?.toLowerCase() !== "manager")
+      : attendance
+          .filter((u) => u.status === filter)
+          .filter((u) => u.role?.toLowerCase() !== "manager");
 
-  const lateCount = mergedList.filter(
-    (u) => u.status === "Late" && u.role?.toLowerCase() !== "manager",
-  ).length;
+  // =========================
+  // COUNTS
+  // =========================
+  const lateCount = attendance.filter((u) => u.status === "Late").length;
 
-  const absentCount = mergedList.filter(
-    (u) => u.status === "Absent" && u.role?.toLowerCase() !== "manager",
-  ).length;
+  const absentCount = attendance.filter((u) => u.status === "Absent").length;
 
-  const presentCount = mergedList.filter(
-    (u) => u.status === "Present" && u.role?.toLowerCase() !== "manager",
-  ).length;
-
-  // ✅ final loading (combined safely)
-  const loading = userLoading || attendanceLoading;
+  const presentCount = attendance.filter((u) => u.status === "Present").length;
 
   return (
     <AttendanceContext.Provider
       value={{
         loading,
-        mergedList,
+        attendance,
+        mergedList: attendance,
         filteredStaff,
+
         filter,
         setFilter,
+
         markAttendance,
-        isAfter8,
+
+        canMarkAttendance,
+        attendanceWindowText,
+
         lateCount,
         absentCount,
         presentCount,
-        canMarkAttendance,
-        attendanceWindowText,
       }}
     >
       {children}
