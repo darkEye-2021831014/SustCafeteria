@@ -1,0 +1,68 @@
+services:
+  db:
+    image: mariadb:11
+    container_name: mysql_db
+    restart: unless-stopped
+
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: sust_cafeteria
+      MARIADB_USER: user
+      MARIADB_PASSWORD: pass
+
+    ports:
+      - "3306:3306"
+
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+    healthcheck:
+      test: ["CMD", "mariadb-admin", "ping", "-h", "localhost", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    image: voideye/sustcafe-backend
+    container_name: backend
+    restart: unless-stopped
+
+    ports:
+      - "8000:8000"
+
+    environment:
+      PORT: 8000
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: user
+      DB_PASSWORD: pass
+      DB_NAME: sust_cafeteria
+      JWT_SECRET: secret_key
+      HOST_URL: http://localhost:8000
+      CLIENT_URL: http://localhost:5173
+
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    image: voideye/sustcafe-frontend
+    container_name: frontend
+    restart: unless-stopped
+
+    ports:
+      - "5173:5173"
+
+    environment:
+      VITE_API_BASE_URL: http://localhost:8000
+      VITE_IMAGE_UPLOAD_URL: https://api.cloudinary.com/v1_1/dyufllkvw/image/upload
+
+    depends_on:
+      - backend
+  adminer:
+    image: adminer
+    ports:
+      - "8080:8080"
+
+volumes:
+  mysql_data:
