@@ -4,7 +4,9 @@ A full-stack web-based cafeteria management system designed for the operational 
 
 ## Live Demo
 
-Frontend: https://tinyurl.com/sust-cafeteria
+Website: https://tinyurl.com/sust-cafeteria
+Prototype: https://tinyurl.com/sustcafeterianew  
+Presentation: https://tinyurl.com/sust-cafeteria-presentation
 
 ---
 
@@ -92,15 +94,17 @@ Frontend: https://tinyurl.com/sust-cafeteria
 
 # Live Deployment
 
-| Service  | URL                                |
-| -------- | ---------------------------------- |
-| Frontend | https://tinyurl.com/sust-cafeteria |
-| Backend  | Hosted on Render                   |
-| Database | Hosted on TiDB Cloud               |
+| Service      | URL                                             |
+| ------------ | ----------------------------------------------- |
+| Prototype    | https://tinyurl.com/sustcafeterianew            |
+| Presentation | https://tinyurl.com/sust-cafeteria-presentation |
+| Frontend     | https://tinyurl.com/sust-cafeteria              |
+| Backend      | Hosted on Render                                |
+| Database     | Hosted on TiDB Cloud                            |
 
 ---
 
-# Project Structure
+# Project Structure Overview
 
 ```txt
 SustCafeteria/
