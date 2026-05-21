@@ -4,9 +4,17 @@ A full-stack web-based cafeteria management system designed for the operational 
 
 ## Live Demo
 
-Website: https://tinyurl.com/sust-cafeteria
-Prototype: https://tinyurl.com/sustcafeterianew  
-Presentation: https://tinyurl.com/sust-cafeteria-presentation
+#### Website
+
+https://tinyurl.com/sust-cafeteria
+
+#### Prototype
+
+https://tinyurl.com/sustcafeterianew
+
+#### Presentation
+
+https://tinyurl.com/sust-cafeteria-presentation
 
 ---
 
