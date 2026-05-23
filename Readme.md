@@ -96,6 +96,7 @@ https://tinyurl.com/sust-cafeteria-presentation
 - Vercel (Frontend Hosting)
 - Render (Backend Hosting)
 - Docker
+- Nginx
 - Adminer
 
 ---
@@ -198,6 +199,7 @@ services:
   db:
     image: mariadb:11
     container_name: mysql_db
+
     restart: unless-stopped
 
     environment:
@@ -218,13 +220,12 @@ services:
       timeout: 5s
       retries: 5
 
-  backend:
+  backend1:
     image: voideye/sustcafe-backend
-    container_name: backend
-    restart: unless-stopped
 
-    ports:
-      - "8000:8000"
+    container_name: backend1
+
+    restart: unless-stopped
 
     environment:
       PORT: 8000
@@ -234,8 +235,52 @@ services:
       DB_PASSWORD: pass
       DB_NAME: sust_cafeteria
       JWT_SECRET: secret_key
-      HOST_URL: http://localhost:8000
-      CLIENT_URL: http://localhost:5173
+      HOST_URL: http://localhost
+      CLIENT_URL: http://localhost
+
+    depends_on:
+      db:
+        condition: service_healthy
+
+  backend2:
+    image: voideye/sustcafe-backend
+
+    container_name: backend2
+
+    restart: unless-stopped
+
+    environment:
+      PORT: 8000
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: user
+      DB_PASSWORD: pass
+      DB_NAME: sust_cafeteria
+      JWT_SECRET: secret_key
+      HOST_URL: http://localhost
+      CLIENT_URL: http://localhost
+
+    depends_on:
+      db:
+        condition: service_healthy
+
+  backend3:
+    image: voideye/sustcafe-backend
+
+    container_name: backend3
+
+    restart: unless-stopped
+
+    environment:
+      PORT: 8000
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: user
+      DB_PASSWORD: pass
+      DB_NAME: sust_cafeteria
+      JWT_SECRET: secret_key
+      HOST_URL: http://localhost
+      CLIENT_URL: http://localhost
 
     depends_on:
       db:
@@ -243,33 +288,28 @@ services:
 
   frontend:
     image: voideye/sustcafe-frontend
+
     container_name: frontend
+
     restart: unless-stopped
 
     ports:
-      - "5173:3000"
-
-    environment:
-      VITE_API_BASE_URL: http://localhost:8000
-      VITE_IMAGE_UPLOAD_URL: https://api.cloudinary.com/v1_1/dyufllkvw/image/upload
+      - "80:80"
 
     depends_on:
-      - backend
+      - backend1
+      - backend2
+      - backend3
 
-  phpmyadmin:
-    image: phpmyadmin:latest
-    container_name: phpmyadmin
+  adminer:
+    image: adminer
+
+    container_name: adminer
+
     restart: unless-stopped
 
     ports:
-      - "8080:80"
-
-    environment:
-      PMA_HOST: db
-      PMA_PORT: 3306
-
-    depends_on:
-      - db
+      - "8080:8080"
 
 volumes:
   mysql_data:
@@ -361,6 +401,14 @@ Username: user
 Password: pass
 ```
 
+Create An admin entry in users table:
+
+```txt
+pass: $2b$10$xr//nlP/XFKrXHyDDGlUdeoDtiGzoGs58WTu6VvTb.izll2UQ/Paa
+pass_in_text: darkvoid
+role: manager
+```
+
 ---
 
 # Security Features
@@ -369,6 +417,7 @@ Password: pass
 - Password hashing using bcrypt
 - Protected routes
 - Role-based authorization
+- Nginx for reverse proxy & load balancing
 - Environment variable configuration
 
 ---
